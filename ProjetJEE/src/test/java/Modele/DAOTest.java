@@ -45,6 +45,12 @@ public class DAOTest {
     public void tearDown() throws SQLException {
         myConnection.close();
     }
+    
+    @Test
+    public void CustomerTest() throws SQLException {
+        Customer c = myDAO.Customer("apple@example.com");
+        assertEquals("apple",c.getName());
+    }
 
     private DataSource getDataSource() {
         org.hsqldb.jdbc.JDBCDataSource ds = new org.hsqldb.jdbc.JDBCDataSource();
