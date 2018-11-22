@@ -29,12 +29,12 @@ public class DAO {
             try (ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {
                     int id = rs.getInt("CUSTOMER_ID");
-                    String name = rs.getString("Name");
-                    String adress = rs.getString("adressLine1");
-                    String city = rs.getString("city");
-                    String state = rs.getString("State");
-                    String phone = rs.getString("phone");
-                    String fax = rs.getString("fax");
+                    String name = rs.getString("NAME");
+                    String adress = rs.getString("ADDRESSLINE1");
+                    String city = rs.getString("CITY");
+                    String state = rs.getString("STATE");
+                    String phone = rs.getString("PHONE");
+                    String fax = rs.getString("FAX");
                     int credit = rs.getInt("CREDIT_LIMIT");
                     c = new Customer(id,name,adress,city,state,phone,fax,email,credit);
                 }

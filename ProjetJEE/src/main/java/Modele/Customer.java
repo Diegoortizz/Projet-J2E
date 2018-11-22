@@ -10,77 +10,93 @@ package Modele;
  * @author Matthias
  */
 public class Customer {
+
     // TODO : ajouter les autres propriétés
-	private int customerId;
-	private String name;
-	private String addressLine1;
-        private String city;
-        private String State;
-        private String phone;
-        private String fax;
-        private String Email;
-        private int Credit_Limit;
+    private int customerId;
+    private String name;
+    private String addressLine1;
+    private String city;
+    private String State;
+    private String phone;
+    private String fax;
+    private String Email;
+    private int Credit_Limit;
 
-	public Customer(int customerId, String name, String addressLine1,String city, String State, String phone, String fax, String Email, int Credit) {
-		this.customerId = customerId;
-		this.name = name;
-		this.addressLine1 = addressLine1;
-                this.city=city;
-                this.State=State;
-                this.phone=phone;
-                this.fax=fax;
-                this.Email=Email;
-                this.Credit_Limit=Credit;
-	}
+    public Customer(int customerId, String name, String addressLine1, String city, String State, String phone, String fax, String Email, int Credit) {
+        this.customerId = customerId;
+        this.name = name;
+        this.addressLine1 = addressLine1;
+        this.city = city;
+        this.State = State;
+        this.phone = phone;
+        this.fax = fax;
+        this.Email = Email;
+        this.Credit_Limit = Credit;
+    }
 
-	/**
-	 * Get the value of customerId
-	 *
-	 * @return the value of customerId
-	 */
-	public int getCustomerId() {
-		return customerId;
-	}
+    /**
+     * Get the value of customerId
+     *
+     * @return the value of customerId
+     */
+    public int getCustomerId() {
+        return customerId;
+    }
 
-	/**
-	 * Get the value of name
-	 *
-	 * @return the value of name
-	 */
-	public String getName() {
-		return name;
-	}
+    /**
+     * Get the value of name
+     *
+     * @return the value of name
+     */
+    public String getName() {
+        return name;
+    }
 
-	/**
-	 * Get the value of addressLine1
-	 *
-	 * @return the value of addressLine1
-	 */
-	public String getAddressLine1() {
-		return addressLine1;
-	}
-        
-        public String getCity() {
-		return city;
-	}
-        
-        public String getState() {
-		return State;
-	}
-        
-        public String getPhone() {
-		return phone;
-	}
-        
-        public String getFax() {
-		return fax;
-	}
-        
-        public String getEmail() {
-		return Email;
-	}
-        
-        public int getCreditLimit() {
-		return Credit_Limit;
-	}
+    /**
+     * Get the value of addressLine1
+     *
+     * @return the value of addressLine1
+     */
+    public String getAddressLine1() {
+        return addressLine1;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getState() {
+        return State;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getFax() {
+        return fax;
+    }
+
+    public String getEmail() {
+        return Email;
+    }
+
+    public int getCreditLimit() {
+        return Credit_Limit;
+    }
+
+    @Override
+    public String toString() {
+        String s = "-------------------------------------------";
+        return s + "\nCustomer_id = " + this.getCustomerId() + "\n"
+                + "Name = " + this.getName() + "\n"
+                + "Adresse = " + this.getAddressLine1() + "\n"
+                + "City = " + this.getCity() + "\n"
+                + "State = " + this.getState() + "\n"
+                + "Phone = " + this.getPhone() + "\n"
+                + "Fax = " + this.getFax() + "\n"
+                + "Email = " + this.getEmail() + "\n"
+                + "Credit limit = " + this.getCreditLimit()
+                + "\n" + s;
+    }
 }

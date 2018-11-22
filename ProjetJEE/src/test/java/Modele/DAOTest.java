@@ -31,6 +31,7 @@ public class DAOTest {
         
         // On initialise la base avec le contenu d'un fichier de test
         String sqlFilePath = DAOTest.class.getResource("TestData.sql").getFile();
+        System.out.println(sqlFilePath);
 	SqlFile sqlFile = new SqlFile(new File(sqlFilePath));
 	sqlFile.setConnection(myConnection);
 	sqlFile.execute();
@@ -49,6 +50,7 @@ public class DAOTest {
     @Test
     public void CustomerTest() throws SQLException {
         Customer c = myDAO.Customer("apple@example.com");
+        System.out.println(c);
         assertEquals("apple",c.getName());
     }
 
