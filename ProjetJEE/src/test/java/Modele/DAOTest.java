@@ -34,7 +34,7 @@ public class DAOTest {
 	SqlFile sqlFile = new SqlFile(new File(sqlFilePath));
 	sqlFile.setConnection(myConnection);
 	sqlFile.execute();
-	sqlFile.closeReader();	
+	sqlFile.closeReader();
         
         // On crée l'objet à tester
 	myDAO = new DAO(myDataSource);
