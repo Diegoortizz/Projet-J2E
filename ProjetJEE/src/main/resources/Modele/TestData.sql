@@ -72,5 +72,30 @@ CREATE PURCHASE_ORDER(
     SHIPPING_DATE DATE,
     FREIGHT_COMPANY VARCHAR(30));
 
+/*Ajout de quelques exemples des les tables pour les tests*/
+INSERT INTO CUSTOMER VALUES(10,'N',95100,'Apple','1. Apple Park Way','Apple Park','Cupertino','CA',305-555-0001,305-555-0011,'apple@example.com',500);
+INSERT INTO CUSTOMER VALUES(20,'P',76321,'Electronic Arts','36. Park Avenue','Building D','Redwood City','CA',305-555-0002,305-555-0012,'EA@example.com',100);
+INSERT INTO CUSTOMER VALUES(30,'N',76321,'IBM','69. Hathaway Drive','Suite 58','Armonk','NY',305-555-0003,305-555-0013,'IDM@example.com',900);
+
+INSERT INTO DISCOUNT_CODE VALUES('N',15);
+INSERT INTO DISCOUNT_CODE VALUES('P',8);
+
+INSERT INTO MANUFACTURER VALUES(666,'Lennox International Inc.','36. Beach Road','NONE','Richardson','TX',48963,306-555-0001,306-555-0011,'lennox@example.com','Todd Bluedorn');
+INSERT INTO MANUFACTURER VALUES(999,'Skyworks Solutions Inc.','46. Sylvan Alley','Flor 22','Woburn','MA',52159,306-555-0002,306-555-0012,'skyworks@example.com','Bob Smith');
+
+INSERT INTO MICRO_MARKET VALUES(76321,255.59,689.856,478.479);
+INSERT INTO MICRO_MARKET VALUES(94043,157.869,385.821,147.538);
+
+
+
+
+
+
+
+
+
+INSERT INTO  
+
+
 COMMIT;
  
