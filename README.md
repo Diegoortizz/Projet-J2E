@@ -2,9 +2,9 @@
 
 Participants :
 
-ORTIZ Diégo
-CRY Pierre
-AMBROISE Matthias
+ORTIZ Diégo (Diegoortizz)
+CRY Pierre (crypi && pedago)
+AMBROISE Matthias (Matt8198)
 
 
 Projet JEE
