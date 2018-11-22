@@ -47,7 +47,11 @@ public class DAOTest {
     }
 
     private DataSource getDataSource() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        org.hsqldb.jdbc.JDBCDataSource ds = new org.hsqldb.jdbc.JDBCDataSource();
+	ds.setDatabase("jdbc:hsqldb:mem:testcase;shutdown=true");
+	ds.setUser("sa");
+	ds.setPassword("sa");
+	return ds;
     }
 
 }
