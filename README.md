@@ -3,7 +3,7 @@
 Participants :
 
 ORTIZ Diégo (Diegoortizz)
-CRY Pierre (crypi && pedago)
+CRY Pierre (crypi && pedago && Atractive)
 AMBROISE Matthias (Matt8198)
 
 
