@@ -20,9 +20,32 @@ public class DAO {
     }
 
     //Méthodes
+    public Customer Customer(String email) throws SQLException {
+        Customer c = null;
+        String sql = "SELECT * FROM Customer WHERE email = ?";
+        try (Connection myConnection = myDataSource.getConnection();
+                PreparedStatement statement = myConnection.prepareStatement(sql)) {
+            statement.setString(1, email); // On fixe le 1° paramètre de la requête
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    int id = rs.getInt("CUSTOMER_ID");
+                    String name = rs.getString("Name");
+                    String adress = rs.getString("adressLine1");
+                    String city = rs.getString("city");
+                    String state = rs.getString("State");
+                    String phone = rs.getString("phone");
+                    String fax = rs.getString("fax");
+                    int credit = rs.getInt("CREDIT_LIMIT");
+                    c = new Customer(id,name,adress,city,state,phone,fax,email,credit);
+                }
+            }
+        }
+        return c;
+    }
+    
     public String nameOfCustomer(int id) throws SQLException {
         String result = null;
-        String sql = "SELECT Name FROM Customer WHERE ID = ?";
+        String sql = "SELECT Name FROM Customer WHERE CUSTOMER_ID = ?";
         try (Connection myConnection = myDataSource.getConnection();
                 PreparedStatement statement = myConnection.prepareStatement(sql)) {
             statement.setInt(1, id); // On fixe le 1° paramètre de la requête
@@ -34,7 +57,24 @@ public class DAO {
         }
         return result;
     }
+    
+    
 
+    public List<String> allEmails() throws SQLException {
+        List<String> result = new LinkedList<>();
+        String sql = "SELECT EMAIL FROM Customer";
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                String email = rs.getString("EMAIL");
+                
+                result.add(email);
+            }
+        }
+        return result;
+    }
+    
     public List<Integer> listCustomerID() throws SQLException {
         List<Integer> list = new LinkedList();
         String sql = "SELECT Customer_ID FROM Customer AS Liste";
@@ -69,7 +109,7 @@ public class DAO {
     public Product findProduct(int productId) throws SQLException {
         Product result = null;
 
-        String sql = "SELECT * FROM Product WHERE ID = ?";
+        String sql = "SELECT * FROM PRODUCT WHERE PRODUCT_ID = ?";
         try (Connection myConnection = myDataSource.getConnection();
                 PreparedStatement statement = myConnection.prepareStatement(sql)) {
             statement.setInt(1, productId); // On fixe le 1° paramètre de la requête
@@ -79,31 +119,69 @@ public class DAO {
                     // il y a au plus un enregistrement)
                     // On récupère les champs de l'enregistrement courant
                     result = new Product(productId,
-                            resultSet.getString("Name"),
-                            resultSet.getFloat("Price"));
+                            resultSet.getString("Description"));
                 }
             }
         }
         return result;
     }
-
-    public void insertProduct(Product product) throws SQLException {
+    
+    
+    
+    public int updateName(String name, int id) throws Exception {
 
         // Une requête SQL paramétrée
-        String sql = "INSERT INTO PRODUCT VALUES(?, ?, ?)";
+        String sql = "UPDATE CUSTOMER SET NAME=? WHERE CUSTOMER_ID=?";
         try (Connection connection = myDataSource.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
             // Définir la valeur du paramètre
-            stmt.setInt(1, product.getId());
-            stmt.setString(2, product.getName());
-            stmt.setFloat(3, product.getPrice());
+            stmt.setString(1, name);
+            stmt.setInt(2, id);
+
+            return stmt.executeUpdate();
+
+        } catch (SQLException ex) {
+            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
+            throw new Exception(ex.getMessage());
+        }
+    }
+    //Faut que le man_id soit dans MANUFACTURER et que le code soit dans PRODUCT_CODE
+    public void insertProduct(int id, int man_id, String code, float Purchase, int quantity, float markup, boolean available, String Description) throws SQLException {
+        // Une requête SQL paramétrée
+        String sql = "INSERT INTO PRODUCT VALUES(?, ?, ?,?,?,?,?,?)";
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            // Définir la valeur du paramètre
+            stmt.setInt(1, id);
+            stmt.setInt(2, man_id);
+            stmt.setString(3, code);
+            stmt.setFloat(4, Purchase);
+            stmt.setInt(5, quantity);
+            stmt.setFloat(6, markup);
+            stmt.setBoolean(7,available);
+            stmt.setString(8,Description);
 
             stmt.executeUpdate();
-
         }
-
     }
 
+    public int deleteProduct(int id) throws Exception {
+
+        // Une requête SQL paramétrée
+        String sql = "DELETE FROM PRODUCT WHERE PRODUCT_ID= ?";
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            // Définir la valeur du paramètre
+            stmt.setInt(1, id);
+
+            return stmt.executeUpdate();
+
+        } catch (SQLException ex) {
+            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
+            throw new Exception(ex.getMessage());
+        }
+    }
+    
     public int deleteDiscount_Code(String Code) throws Exception {
 
         // Une requête SQL paramétrée
@@ -156,4 +234,5 @@ public class DAO {
             throw new Exception(ex.getMessage());
         }
     }
+    
 }
