@@ -51,7 +51,7 @@ public class DAOTest {
     public void CustomerTest() throws SQLException {
         Customer c = myDAO.Customer("apple@example.com");
         System.out.println(c);
-        assertEquals("apple",c.getName());
+        assertEquals("Apple",c.getName());
     }
 
     private DataSource getDataSource() {
