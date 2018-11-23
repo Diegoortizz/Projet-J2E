@@ -12,6 +12,11 @@
         <title>JSP Page</title>
     </head>
     <body>
+        <p>
+            Pour tester :  <br>
+            login : apple@example.com <br>
+                mdp   : x
+        </p>
         <form method="POST">
             <label> Login : <input name="name"></label>
             <label> Mot de passe : <input name="password"></label>
