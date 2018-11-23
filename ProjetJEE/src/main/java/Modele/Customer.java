@@ -16,22 +16,22 @@ public class Customer {
     private String name;
     private String addressLine1;
     private String city;
-    private String State;
+    private String state;
     private String phone;
     private String fax;
-    private String Email;
-    private int Credit_Limit;
+    private String email;
+    private int creditLimit;
 
     public Customer(int customerId, String name, String addressLine1, String city, String State, String phone, String fax, String Email, int Credit) {
         this.customerId = customerId;
         this.name = name;
         this.addressLine1 = addressLine1;
         this.city = city;
-        this.State = State;
+        this.state = State;
         this.phone = phone;
         this.fax = fax;
-        this.Email = Email;
-        this.Credit_Limit = Credit;
+        this.email = Email;
+        this.creditLimit = Credit;
     }
 
     /**
@@ -66,7 +66,7 @@ public class Customer {
     }
 
     public String getState() {
-        return State;
+        return state;
     }
 
     public String getPhone() {
@@ -78,11 +78,11 @@ public class Customer {
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public int getCreditLimit() {
-        return Credit_Limit;
+        return creditLimit;
     }
 
     @Override
