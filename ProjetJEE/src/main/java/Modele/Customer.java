@@ -5,6 +5,11 @@
  */
 package Modele;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  *
  * @author Matthias
@@ -83,6 +88,22 @@ public class Customer {
 
     public int getCreditLimit() {
         return creditLimit;
+    }
+
+    public Map<String, String> getAllAttributs() {
+        Map<String, String> HM = new HashMap<String, String>();
+        HM.put("customerid", Integer.toString(this.getCustomerId()));
+        HM.put("name", this.getName());
+        HM.put("adress", this.getAddressLine1());
+        HM.put("city", this.getCity());
+        HM.put("state", this.getState());
+        HM.put("phone", this.getPhone());
+        HM.put("fax", this.getFax());
+        HM.put("email", this.getEmail());
+        HM.put("creditlimit", Integer.toString(this.getCreditLimit()));
+
+        return HM;
+
     }
 
     @Override
