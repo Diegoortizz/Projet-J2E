@@ -1,7 +1,6 @@
 package Modele;
 
 
-import Modele.DAO;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
@@ -11,9 +10,7 @@ import javax.sql.DataSource;
 import org.hsqldb.cmdline.SqlFile;
 import org.hsqldb.cmdline.SqlToolError;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -103,25 +100,25 @@ public class DAOTest {
         assertEquals(2,n);
     }
     
-    /*@Test
-    public void NumberDiscountTest() throws SQLException {
-        int n = myDAO.numberDiscount();
-        assertEquals(2,n);
-    }
-    
-    @Test
-    public void insertProductTest() throws SQLException{
-        myDAO.insertProduct(45, 666, "SW", 5.5, 20, 5.5, true, "Description en cours");
-        
-        assertEquals(myDAO.numberProduct(),3);
-    }
-    
-    @Test
-    public void deleteProductTest() throws SQLException{
-        myDAO.insertProduct(45, 666, "SW", 5.5, 20, 5.5, true, "Description en cours");
-        myDAO.deleteProduct(45);
-        assertEquals(myDAO.numberProduct(),2);
-    }*/
+//    @Test
+//    public void NumberDiscountTest() throws SQLException {
+//        int n = myDAO.numberDiscount();
+//        assertEquals(2,n);
+//    }
+//    
+//    @Test
+//    public void insertProductTest() throws SQLException{
+//        myDAO.insertProduct(45, 666, "SW", 5.5, 20, 5.5, true, "Description en cours");
+//        
+//        assertEquals(myDAO.numberProduct(),3);
+//    }
+//    
+//    @Test
+//    public void deleteProductTest() throws SQLException{
+//        myDAO.insertProduct(45, 666, "SW", 5.5, 20, 5.5, true, "Description en cours");
+//        myDAO.deleteProduct(45);
+//        assertEquals(myDAO.numberProduct(),2);
+//    }
     
     @Test
     public void AllCodesTest() throws SQLException {
