@@ -1,10 +1,10 @@
 package Modele;
 
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
@@ -36,13 +36,13 @@ public class DAO {
                     String phone = rs.getString("PHONE");
                     String fax = rs.getString("FAX");
                     int credit = rs.getInt("CREDIT_LIMIT");
-                    c = new Customer(id,name,adress,city,state,phone,fax,email,credit);
+                    c = new Customer(id, name, adress, city, state, phone, fax, email, credit);
                 }
             }
         }
         return c;
     }
-    
+
     public String nameOfCustomer(int id) throws SQLException {
         String result = null;
         String sql = "SELECT Name FROM Customer WHERE CUSTOMER_ID = ?";
@@ -57,8 +57,42 @@ public class DAO {
         }
         return result;
     }
-    
-    
+
+    public int numberCustomer() throws SQLException {
+        int result = 0;
+        // Une requête SQL paramétrée
+        String sql = "SELECT COUNT(*) AS Number FROM Customer";
+        try (Connection connection = myDataSource.getConnection();
+                Statement stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next()) { // Tant qu'il y a des enregistrements
+                result = rs.getInt("NUMBER");
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
+            throw new SQLException(ex.getMessage());
+        }
+        return result;
+    }
+
+    public int updateName(String name, int id) throws SQLException {
+
+        // Une requête SQL paramétrée
+        String sql = "UPDATE CUSTOMER SET NAME=? WHERE CUSTOMER_ID=?";
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            // Définir la valeur du paramètre
+            stmt.setString(1, name);
+            stmt.setInt(2, id);
+
+            return stmt.executeUpdate();
+
+        } catch (SQLException ex) {
+            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
+            throw new SQLException(ex.getMessage());
+        }
+    }
 
     public List<String> allEmails() throws SQLException {
         List<String> result = new LinkedList<>();
@@ -68,13 +102,13 @@ public class DAO {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 String email = rs.getString("EMAIL");
-                
+
                 result.add(email);
             }
         }
         return result;
     }
-    
+
     public List<Integer> listCustomerID() throws SQLException {
         List<Integer> list = new LinkedList();
         String sql = "SELECT Customer_ID FROM Customer AS Liste";
@@ -88,20 +122,21 @@ public class DAO {
         return list;
     }
 
-    public List<Discount> allCodes() throws SQLException {
-
-        List<Discount> result = new LinkedList<>();
-
-        String sql = "SELECT * FROM DISCOUNT_CODE ORDER BY DISCOUNT_CODE";
+    //Requetes pour les produits
+    public int numberProduct() throws SQLException {
+        int result = 0;
+        // Une requête SQL paramétrée
+        String sql = "SELECT COUNT(*) AS Number FROM Product";
         try (Connection connection = myDataSource.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql)) {
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                String id = rs.getString("DISCOUNT_CODE");
-                float rate = rs.getFloat("RATE");
-                Discount c = new Discount(id, rate);
-                result.add(c);
+                Statement stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next()) { // Tant qu'il y a des enregistrements
+                result = rs.getInt("NUMBER");
             }
+
+        } catch (SQLException ex) {
+            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
+            throw new SQLException(ex.getMessage());
         }
         return result;
     }
@@ -125,28 +160,9 @@ public class DAO {
         }
         return result;
     }
-    
-    
-    
-    public int updateName(String name, int id) throws Exception {
 
-        // Une requête SQL paramétrée
-        String sql = "UPDATE CUSTOMER SET NAME=? WHERE CUSTOMER_ID=?";
-        try (Connection connection = myDataSource.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql)) {
-            // Définir la valeur du paramètre
-            stmt.setString(1, name);
-            stmt.setInt(2, id);
-
-            return stmt.executeUpdate();
-
-        } catch (SQLException ex) {
-            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
-            throw new Exception(ex.getMessage());
-        }
-    }
     //Faut que le man_id soit dans MANUFACTURER et que le code soit dans PRODUCT_CODE
-    public void insertProduct(int id, int man_id, String code, float Purchase, int quantity, float markup, boolean available, String Description) throws SQLException {
+    public void insertProduct(int id, int man_id, String code, double Purchase, int quantity, double markup, boolean available, String Description) throws SQLException {
         // Une requête SQL paramétrée
         String sql = "INSERT INTO PRODUCT VALUES(?, ?, ?,?,?,?,?,?)";
         try (Connection connection = myDataSource.getConnection();
@@ -155,11 +171,11 @@ public class DAO {
             stmt.setInt(1, id);
             stmt.setInt(2, man_id);
             stmt.setString(3, code);
-            stmt.setFloat(4, Purchase);
+            stmt.setDouble(4, Purchase);
             stmt.setInt(5, quantity);
-            stmt.setFloat(6, markup);
-            stmt.setBoolean(7,available);
-            stmt.setString(8,Description);
+            stmt.setDouble(6, markup);
+            stmt.setBoolean(7, available);
+            stmt.setString(8, Description);
 
             stmt.executeUpdate();
         }
@@ -181,7 +197,44 @@ public class DAO {
             throw new Exception(ex.getMessage());
         }
     }
-    
+
+    //Méthodes pour les bons de commandes
+    public int numberDiscount() throws SQLException {
+        int result = 0;
+        // Une requête SQL paramétrée
+        String sql = "SELECT COUNT(*) AS Number FROM Discount_Code";
+        try (Connection connection = myDataSource.getConnection();
+                Statement stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next()) { // Tant qu'il y a des enregistrements
+                result = rs.getInt("NUMBER");
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
+            throw new SQLException(ex.getMessage());
+        }
+        return result;
+    }
+
+    public List<Discount> allCodes() throws SQLException {
+
+        List<Discount> result = new LinkedList<>();
+
+        String sql = "SELECT * FROM DISCOUNT_CODE ORDER BY DISCOUNT_CODE";
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                String id = rs.getString("DISCOUNT_CODE");
+                float rate = rs.getFloat("RATE");
+                Discount c = new Discount(id, rate);
+                result.add(c);
+            }
+        }
+        return result;
+    }
+
     public int deleteDiscount_Code(String Code) throws Exception {
 
         // Une requête SQL paramétrée
@@ -234,5 +287,5 @@ public class DAO {
             throw new Exception(ex.getMessage());
         }
     }
-    
+
 }
