@@ -10,37 +10,39 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="style_main_test.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
         <title>JSP Page</title>
     </head>
     <body>
         <h1>Bienvenue ${sessionScope.name} </h1>
-        <table>
-            <tr>
-                <th>ID</th>
-                <th>Nom</th>
-                <th>Adresse</th>
-                <th>Ville</th>
-                <th>Etat</th>
-                <th>Numero de telephone</th>
-                <th>Numero de fax</th>
-                <th>email</th>
-                <th>Limite de credit</th>
-            </tr>
-            <tr>
-                <td>${sessionScope.customerid}</td>
-                <td>${sessionScope.name}</td>
-                <td>${sessionScope.adress}</td>
-                <td>${sessionScope.city}</td>
-                <td>${sessionScope.state}</td>
-                <td>${sessionScope.phone}</td>
-                <td>${sessionScope.fax}</td>
-                <td>${sessionScope.email}</td>
-                <td>${sessionScope.creditlimit}</td>
-            </tr>
-        </table> 
-        <p>---------------------------------------------------------------------------</p>
+        <!--        <table>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nom</th>
+                        <th>Adresse</th>
+                        <th>Ville</th>
+                        <th>Etat</th>
+                        <th>Numero de telephone</th>
+                        <th>Numero de fax</th>
+                        <th>email</th>
+                        <th>Limite de credit</th>
+                    </tr>
+                    <tr>
+                        <td>${sessionScope.customerid}</td>
+                        <td>${sessionScope.name}</td>
+                        <td>${sessionScope.adress}</td>
+                        <td>${sessionScope.city}</td>
+                        <td>${sessionScope.state}</td>
+                        <td>${sessionScope.phone}</td>
+                        <td>${sessionScope.fax}</td>
+                        <td>${sessionScope.email}</td>
+                        <td>${sessionScope.creditlimit}</td>
+                    </tr>
+                </table> -->
+        <!--<p>---------------------------------------------------------------------------</p>-->
 
         <p>ID            : ${sessionScope.customerid}</p>
         <p>NOM           : ${sessionScope.name}</p>
@@ -52,11 +54,19 @@
         <p>EMAIL         : ${sessionScope.email}</p>
         <p>CREDIT LIMITE : ${sessionScope.creditlimit}</p>
 
-        <p>---------------------------------------------------------------------------</p>   
+        <!--<p>---------------------------------------------------------------------------</p>-->   
 
-        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#contact_dialog">Modifier vos informations</button>
 
-        <!-- the div that represents the modal dialog -->
+        <form method="POST">
+            <input type="SUBMIT" name="action" value="Deconnexion">
+        </form>        
+        <br>
+        <br>
+        <br>
+
+<!--        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#contact_dialog">Modifier vos informations</button>
+
+         the div that represents the modal dialog 
         <div class="modal fade" id="contact_dialog" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -66,7 +76,7 @@
                     </div>
                     <div class="modal-body">
                         <form id="contact_form" action="/onlinejson/test.php" method="POST">
-                            ID : <input type="text" name="id" readonly ><br/>
+                            ID : <input type="text" name="id" value="" readonly ><br/>
                             NOM : <input type="text" name="nomm"><br/>
                             ADRESSE : <input type="text" name="adresse"><br/>
                             VILLE : <input type="text" name="ville"><br/>
@@ -84,7 +94,6 @@
                     </div>
                 </div>
             </div>
-        </div
-
+        </div-->
     </body>
 </html>

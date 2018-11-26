@@ -44,34 +44,58 @@ public class Servlet1 extends HttpServlet {
         if (name != null && password != null) {
             switch (action) {
                 case "Connexion":
-                    HttpSession session = request.getSession();
-                    session.setAttribute("name", name);
-                    if (password.equals("admin") && name.equals("admin")) {
-                        // TODO Diego : Loop through each Customer and display in table
-                    } else {
-                        // TODO Diego : Ne plus utiliser 
-                        System.out.println("HERE | name = " + name);
-                        DAO dao = new DAO(DataSourceFactory.getDataSource());
-                        Customer c = dao.Customer(name);
-
-                        Map<String, String> HM = new HashMap<String, String>();
-
-                        HM = c.getAllAttributs();
-
-                        for (Map.Entry<String, String> entry : HM.entrySet()) {
-                            String key = entry.getKey();
-                            String value = entry.getValue();
-                            session.setAttribute(key, value);
-
-                        }
-                    }
-                    request.getRequestDispatcher("vue_client.jsp").include(request, response);
-
+                    startSession(request, response);
+                case "Deconnexion":
+                    exitSession(request, response);
             }
         } else {
-            request.getRequestDispatcher("login.jsp").include(request, response);
+            exitSession(request, response);
         }
 
+    }
+
+    private void exitSession(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        session.invalidate();
+        showView("login.jsp", request, response);
+    }
+
+    private void startSession(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        String name = request.getParameter("name");
+        String password = request.getParameter("password");
+        session.setAttribute("name", name);
+        if (password.equals("admin") && name.equals("admin")) {
+            // TODO Diego : Loop through each Customer and display in table
+        } else {
+            // TODO Diego : Ne plus utiliser 
+            System.out.println("HERE | name = " + name);
+            DAO dao = new DAO(DataSourceFactory.getDataSource());
+            Customer c = null;
+            try {
+                c = dao.Customer(name);
+            } catch (SQLException ex) {
+                Logger.getLogger(Servlet1.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            Map<String, String> HM = new HashMap<String, String>();
+
+            HM = c.getAllAttributs();
+
+            for (Map.Entry<String, String> entry : HM.entrySet()) {
+                String key = entry.getKey();
+                String value = entry.getValue();
+                session.setAttribute(key, value);
+
+            }
+        }
+        showView("vue_client.jsp", request, response);
+    }
+
+    private void showView(String jsp, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//        getServletConfig().getServletContext().getRequestDispatcher("/views/" + jsp).forward(request, response);
+        getServletConfig().getServletContext().getRequestDispatcher("/" + jsp).forward(request, response);
+//        request.getRequestDispatcher(jsp).include(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

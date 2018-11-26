@@ -1,0 +1,27 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 26 nov. 2018, 21:47:24
+    Author     : Utilisateur
+*/
+
+html, body {
+    background-color: #666666;
+    color: #ffffff;
+    font-family: 'Roboto', sans-serif;
+}
+
+#contact_form {
+    color: black;
+}
+
+p {
+    color: white;
+}
+
+input {
+    color: black;
+}

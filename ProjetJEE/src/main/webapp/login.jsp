@@ -10,16 +10,13 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <link rel="stylesheet" type="text/css" href="style_main_test.css">
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     </head>
     <body>
-        <p>
-            Pour tester :  <br>
-            login : apple@example.com <br>
-                mdp   : x
-        </p>
         <form method="POST">
-            <label> Login : <input name="name"></label>
-            <label> Mot de passe : <input name="password"></label>
+            <label> Login : <input name="name" value="apple@example.com"></label> <br>
+            <label> Mot de passe : <input name="password" value="x"></label>
             <input name="action" value="Connexion" type="SUBMIT">
         </form>  
     </body>
