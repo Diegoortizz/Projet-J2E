@@ -138,6 +138,27 @@ public class DAOTest {
         myDAO.deleteDiscount_Code("F");
         assertEquals(myDAO.numberDiscount(),2);
     }
+    
+    @Test
+    public void prodByClientTest() throws Exception{
+        List<Order> l = myDAO.ProductByClient(10);
+        int p = l.get(0).getProductID();
+        assertEquals(1,p);
+        assertEquals(1,l.size());
+    }
+    
+    @Test 
+    public void costByClientTest() throws Exception{
+        double c = myDAO.costByClient(30);
+        assertEquals(13600*5, c,0.0);
+        
+    }
+    
+    @Test 
+    public void quantityByClientTest() throws Exception{
+        int c = myDAO.quantityByClient(30);
+        assertEquals(c,5);
+    }
 }
 
 

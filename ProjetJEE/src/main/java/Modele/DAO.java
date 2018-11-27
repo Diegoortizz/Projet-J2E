@@ -121,6 +121,59 @@ public class DAO {
         }
         return list;
     }
+    
+    public double costByClient(int id) throws SQLException{
+        double res=0;
+        String sql = "SELECT SUM(PRODUCT.PURCHASE_COST*PURCHASE_ORDER.QUANTITY) AS COUT FROM PURCHASE_ORDER INNER JOIN PRODUCT ON PURCHASE_ORDER.PRODUCT_ID=PRODUCT.PRODUCT_ID and PURCHASE_ORDER.CUSTOMER_ID=?";
+        try (Connection myConnection = myDataSource.getConnection();
+                PreparedStatement statement = myConnection.prepareStatement(sql)) {
+            statement.setInt(1, id);
+            // On fixe le 1° paramètre de la requête
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    res = rs.getDouble("COUT");
+                }
+            }
+        }
+        return res;
+    }
+    
+    public int quantityByClient(int id) throws SQLException{
+        int res=0;
+        String sql = "SELECT SUM(Quantity) AS NUMBER FROM Purchase_Order WHERE Customer_ID=?";
+        try (Connection myConnection = myDataSource.getConnection();
+                PreparedStatement statement = myConnection.prepareStatement(sql)) {
+            statement.setInt(1, id); // On fixe le 1° paramètre de la requête
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    res = rs.getInt("NUMBER");
+                }
+            }
+        }
+        return res;
+    }
+        
+    public List<Order> ProductByClient(int id) throws SQLException{
+        List<Order> list = new LinkedList();
+        String sql = "SELECT * FROM Purchase_Order WHERE Customer_ID=?";
+        try (Connection myConnection = myDataSource.getConnection();
+                PreparedStatement statement = myConnection.prepareStatement(sql)) {
+            statement.setInt(1, id); // On fixe le 1° paramètre de la requête
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    int ordernum= rs.getInt("ORDER_NUM");
+                    int prod_id = rs.getInt("PRODUCT_ID");
+                    int quantity = rs.getInt("Quantity");
+                    float cost = rs.getFloat("SHIPPING_COST");
+                    String sale_d = rs.getString("SALES_DATE");
+                    String shipping_d = rs.getString("SHIPPING_DATE");
+                    Order o = new Order(ordernum,id,prod_id,quantity,cost,sale_d,shipping_d);
+                    list.add(o);
+                }
+            }
+        }
+        return list;
+    }
 
     //Requetes pour les produits
     public int numberProduct() throws SQLException {
@@ -288,4 +341,5 @@ public class DAO {
         }
     }
 
+    
 }
