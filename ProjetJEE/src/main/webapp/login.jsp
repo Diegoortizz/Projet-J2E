@@ -15,7 +15,7 @@
     </head>
     <body>
         <form method="POST">
-            <label> Login : <input name="name" value="apple@example.com"></label> <br>
+            <label> Login : <input name="name" value="jumboeagle@example.com"></label> <br>
             <label> Mot de passe : <input name="password" value="x"></label>
             <input name="action" value="Connexion" type="SUBMIT">
         </form>  
