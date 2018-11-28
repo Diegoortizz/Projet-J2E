@@ -143,6 +143,8 @@ public class DAOTest {
     public void prodByClientTest() throws Exception{
         List<Order> l = myDAO.ProductByClient(10);
         int p = l.get(0).getProductID();
+        String d = l.get(0).getDescription();
+        assertEquals("Accounting Application",d);
         assertEquals(1,p);
         assertEquals(1,l.size());
     }
@@ -152,6 +154,84 @@ public class DAOTest {
         double c = myDAO.costByClient(30);
         assertEquals(13600*5, c,0.0);
         
+    }
+    
+    @Test
+    public void updateAreaTest() throws Exception{
+        Customer c = myDAO.Customer("apple@example.com");
+        String address1 = c.getAddressLine1();
+        String address2 = c.getAddressLine2();
+        String city = c.getCity();
+        String State = c.getState();
+        assertEquals(address1,"1. Apple Park Way");
+        assertEquals(address2,"Apple Park");
+        assertEquals(city,"Cupertino");
+        assertEquals(State,"CA");
+        myDAO.updateArea(10,"Address 1","Address 2","Albi","FR");
+        Customer c2 = myDAO.Customer("apple@example.com");
+        String address1T = c2.getAddressLine1();
+        String address2T = c2.getAddressLine2();
+        String cityT = c2.getCity();
+        String StateT = c2.getState();
+        assertEquals(address1T,"Address 1");
+        assertEquals(address2T,"Address 2");
+        assertEquals(cityT,"Albi");
+        assertEquals(StateT,"FR");
+    }
+    
+    @Test
+    public void updateCustomerTest() throws Exception{
+        Customer c = myDAO.Customer("apple@example.com");
+        String name = c.getName();
+        String dc = c.getDiscoutCode();
+        int zip = c.getZip();
+        String address1 = c.getAddressLine1();
+        String address2 = c.getAddressLine2();
+        String city = c.getCity();
+        String State = c.getState();
+        String Phone = c.getPhone();
+        String Fax = c.getFax();
+        String email = c.getEmail();
+        int credit = c.getCreditLimit();
+        assertEquals(name,"Apple");
+        assertEquals(dc,"N");
+        assertEquals(zip,95100);
+        assertEquals(address1,"1. Apple Park Way");
+        assertEquals(address2,"Apple Park");
+        assertEquals(city,"Cupertino");
+        assertEquals(State,"CA");
+        System.out.println(Phone);
+        assertEquals(Phone,"305-555-0001");
+        
+        
+        assertEquals(Fax,"305-555-0011");
+        assertEquals(email,"apple@example.com");
+        assertEquals(credit,500);
+
+        myDAO.updateCustomer(10, "N", 95100, "Girafe", "adress1", "adress2", "City", "FR", "558-956-5854", "558-956-5855", "girafe@example.com", 500);
+        Customer c2 = myDAO.Customer("girafe@example.com");
+        String nameT = c2.getName();
+        String dcT = c2.getDiscoutCode();
+        int zipT = c2.getZip();
+        String address1T = c2.getAddressLine1();
+        String address2T = c2.getAddressLine2();
+        String cityT = c2.getCity();
+        String StateT = c2.getState();
+        String PhoneT = c2.getPhone();
+        String FaxT = c2.getFax();
+        String emailT = c2.getEmail();
+        int creditT = c2.getCreditLimit();
+        assertEquals(nameT,"Girafe");
+        assertEquals(dcT,"N");
+        assertEquals(zipT,95100);
+        assertEquals(address1T,"adress1");
+        assertEquals(address2T,"adress2");
+        assertEquals(cityT,"City");
+        assertEquals(StateT,"FR");
+        assertEquals(PhoneT,"558-956-5854");
+        assertEquals(FaxT,"558-956-5855");
+        assertEquals(emailT,"girafe@example.com");
+        assertEquals(creditT,500);
     }
     
     @Test 

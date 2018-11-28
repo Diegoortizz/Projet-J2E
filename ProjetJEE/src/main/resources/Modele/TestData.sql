@@ -109,16 +109,16 @@ INSERT INTO MICRO_MARKET(ZIP_CODE, RADIUS, AREA_LENGTH, AREA_WIDTH)
 	VALUES ('95100',157.86,385.821,147.538);
 
  INSERT INTO CUSTOMER(CUSTOMER_ID, DISCOUNT_CODE, ZIP, NAME, ADDRESSLINE1, ADDRESSLINE2, CITY, STATE, PHONE, FAX, EMAIL, CREDIT_LIMIT) 
-	VALUES (10,'N',95100,'Apple','1. Apple Park Way','Apple Park','Cupertino','CA',305-555-0001,305-555-0011,'apple@example.com',500);
+	VALUES (10,'N',95100,'Apple','1. Apple Park Way','Apple Park','Cupertino','CA','305-555-0001','305-555-0011','apple@example.com',500);
 INSERT INTO CUSTOMER(CUSTOMER_ID, DISCOUNT_CODE, ZIP, NAME, ADDRESSLINE1, ADDRESSLINE2, CITY, STATE, PHONE, FAX, EMAIL, CREDIT_LIMIT) 
-	VALUES (20,'P',76321,'Electronic Arts','36. Park Avenue','Building D','Redwood City','CA',305-555-0002,305-555-0012,'EA@example.com',100);
+	VALUES (20,'P',76321,'Electronic Arts','36. Park Avenue','Building D','Redwood City','CA','305-555-0002','305-555-0012','EA@example.com',100);
 INSERT INTO CUSTOMER(CUSTOMER_ID, DISCOUNT_CODE, ZIP, NAME, ADDRESSLINE1, ADDRESSLINE2, CITY, STATE, PHONE, FAX, EMAIL, CREDIT_LIMIT) 
-	VALUES (30,'N',76321,'IBM','69. Hathaway Drive','Suite 58','Armonk','NY',305-555-0003,305-555-0013,'IDM@example.com',900);
+	VALUES (30,'N',76321,'IBM','69. Hathaway Drive','Suite 58','Armonk','NY','305-555-0003','305-555-0013','IDM@example.com',900);
 
 INSERT INTO MANUFACTURER(MANUFACTURER_ID, NAMEM, ADDRESSLINE1, ADDRESSLINE2, CITY, STATEM, ZIP, PHONE, FAX, EMAIL, REP)
-	VALUES (666,'Lennox International Inc.','36. Beach Road','NONE','Richardson','TX',48963,306-555-0001,306-555-0011,'lennox@example.com','Todd Bluedorn');
+	VALUES (666,'Lennox International Inc.','36. Beach Road','NONE','Richardson','TX',48963,'306-555-0001','306-555-0011','lennox@example.com','Todd Bluedorn');
 INSERT INTO MANUFACTURER(MANUFACTURER_ID, NAMEM, ADDRESSLINE1, ADDRESSLINE2, CITY, STATEM, ZIP, PHONE, FAX, EMAIL, REP)
-	VALUES (999,'Skyworks Solutions Inc.','46. Sylvan Alley','Flor 22','Woburn','MA',52159,306-555-0002,306-555-0012,'skyworks@example.com','Bob Smith');
+	VALUES (999,'Skyworks Solutions Inc.','46. Sylvan Alley','Flor 22','Woburn','MA',52159,'306-555-0002','306-555-0012','skyworks@example.com','Bob Smith');
 
 INSERT INTO PRODUCT_CODE(PROD_CODE, DISCOUNT_CODE, DESCRIPTION)
         VALUES ('SW','N','Software');
