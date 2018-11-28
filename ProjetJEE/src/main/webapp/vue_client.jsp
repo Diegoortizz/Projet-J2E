@@ -15,6 +15,8 @@
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
         <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
         <title>JSP Page</title>
+        <script src="js_main.js"></script>
+
     </head>
     <body>
         <h1>Bienvenue ${sessionScope.name} </h1>
@@ -55,45 +57,61 @@
         <p>CREDIT LIMITE : ${sessionScope.creditlimit}</p>
 
         <!--<p>---------------------------------------------------------------------------</p>-->   
+        <!--<button type="button" onclick="loadDoc()">Request data</button>-->
+
+        <p id="demo"></p>
+        <script>
+            function loadDoc() {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        document.getElementById("demo").innerHTML = this.responseText;
+                    }
+                };
+                xhttp.open("GET", "Servlet1.asp?fname=Henry&lname=Ford", true);
+                xhttp.send();
+            }
+        </script>
 
 
-        <form method="POST">
-            <input type="SUBMIT" name="action" value="Deconnexion">
-        </form>        
-        <br>
-        <br>
-        <br>
 
-<!--        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#contact_dialog">Modifier vos informations</button>
-
-         the div that represents the modal dialog 
-        <div class="modal fade" id="contact_dialog" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Enter your name</h4>
+        <!--
+-->                <form method="POST">
+                    <input type="SUBMIT" name="action" value="Deconnexion">
+                </form>        <!--
+                <br>
+                <br>
+                <br>
+        
+                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#contact_dialog" onclick="myFunction()">Modifier vos informations</button>
+        
+                <div class="modal fade" id="contact_dialog" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Enter your name</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form id="contact_form" action="/onlinejson/test.php" method="POST">
+                                    ID : <input type="text" name="id" value="test" readonly ><br/>
+                                    NOM : <input type="text" name="nomm"><br/>
+                                    ADRESSE : <input type="text" name="adresse"><br/>
+                                    VILLE : <input type="text" name="ville"><br/>
+                                    ETAT : <input type="text" name="etat"><br/>
+                                    TELEPHONE : <input type="text" name="tel"><br/>
+                                    FAX : <input type="text" name="fax"><br/>
+                                    MAIL : <input type="text" name="mail"><br/>
+                                    CREDIT LIMITE :<input type="text" name="cl" readonly><br/>
+        
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" id="submitForm" class="btn btn-default">Send</button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="modal-body">
-                        <form id="contact_form" action="/onlinejson/test.php" method="POST">
-                            ID : <input type="text" name="id" value="" readonly ><br/>
-                            NOM : <input type="text" name="nomm"><br/>
-                            ADRESSE : <input type="text" name="adresse"><br/>
-                            VILLE : <input type="text" name="ville"><br/>
-                            ETAT : <input type="text" name="etat"><br/>
-                            TELEPHONE : <input type="text" name="tel"><br/>
-                            FAX : <input type="text" name="fax"><br/>
-                            MAIL : <input type="text" name="mail"><br/>
-                            CREDIT LIMITE :<input type="text" name="cl" readonly><br/>
-
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" id="submitForm" class="btn btn-default">Send</button>
-                    </div>
-                </div>
-            </div>
-        </div-->
+                </div>-->
     </body>
 </html>

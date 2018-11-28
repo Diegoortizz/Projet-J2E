@@ -23,7 +23,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author Utilisateur
  */
-public class Servlet1 extends HttpServlet {
+
+public class LoginServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,6 +41,7 @@ public class Servlet1 extends HttpServlet {
         String action = request.getParameter("action");
         String name = request.getParameter("name");
         String password = request.getParameter("password");
+        System.out.println(action + "   " + name + "   " + password);
 
         if (name != null && password != null) {
             switch (action) {
@@ -75,7 +77,7 @@ public class Servlet1 extends HttpServlet {
             try {
                 c = dao.Customer(name);
             } catch (SQLException ex) {
-                Logger.getLogger(Servlet1.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
 
             Map<String, String> HM = new HashMap<String, String>();
@@ -113,7 +115,7 @@ public class Servlet1 extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(Servlet1.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -131,7 +133,7 @@ public class Servlet1 extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(Servlet1.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
