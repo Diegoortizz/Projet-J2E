@@ -239,6 +239,33 @@ public class DAOTest {
         int c = myDAO.quantityByClient(30);
         assertEquals(c,5);
     }
+    
+    @Test 
+    public void allOrderTest() throws Exception{
+        int c = myDAO.allOrder();
+        assertEquals(c,2);
+    }
+    
+    @Test
+    public void insertOrderTest() throws Exception{
+        int c = myDAO.allOrder();
+        assertEquals(c,2);
+        myDAO.insertOrder(5485, 10, 1, 10, 25.00, "2018-11-29","2018-12-01","UPS");
+        int c2 = myDAO.allOrder();
+        assertEquals(c2,c+1);
+    }
+    
+    @Test
+    public void deleteOrderTest() throws Exception{
+        int c = myDAO.allOrder();
+        assertEquals(c,2);
+        myDAO.insertOrder(5485, 10, 1, 10, 25.00, "2018-11-29","2018-12-01","UPS");
+        int c2 = myDAO.allOrder();
+        assertEquals(c2,c+1);
+        myDAO.deleteOrder(5485);
+        int c3 = myDAO.allOrder();
+        assertEquals(c3,c);
+    }
 }
 
 

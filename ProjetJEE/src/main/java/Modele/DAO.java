@@ -390,5 +390,60 @@ public class DAO {
         }
     }
 
+    //Partie PURCHASE_ORDER
+    //c_id le customer ID doit déjà existé ainsi que le p_id qui est le product_ID
+    public void insertOrder(int ordernum, int c_id, int p_id, int quantity, double shipping, String sale_d, String shipping_d, String Company) throws SQLException {
+        // Une requête SQL paramétrée
+        String sql = "INSERT INTO PURCHASE_ORDER VALUES(?, ?, ?,?,?,?,?,?)";
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            // Définir la valeur du paramètre
+                stmt.setInt(1, ordernum);
+                stmt.setInt(2, c_id);
+                stmt.setInt(3, p_id);
+                stmt.setInt(4, quantity);
+                stmt.setDouble(5, shipping);
+                stmt.setString(6, sale_d);
+                stmt.setString(7, shipping_d);
+                stmt.setString(8, Company);
+
+            stmt.executeUpdate();
+        }
+    }
+
+    public int deleteOrder(int ordernum) throws Exception {
+
+        // Une requête SQL paramétrée
+        String sql = "DELETE FROM PURCHASE_ORDER WHERE ORDER_NUM=?";
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            // Définir la valeur du paramètre
+            stmt.setInt(1, ordernum);
+
+            return stmt.executeUpdate();
+
+        } catch (SQLException ex) {
+            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
+            throw new Exception(ex.getMessage());
+        }
+    }
     
+    public int allOrder() throws SQLException {
+
+        int result = 0;
+
+        String sql = "SELECT COUNT(*) AS NUMBER FROM PURCHASE_ORDER";
+        try (Connection connection = myDataSource.getConnection();
+                Statement stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next()) { // Tant qu'il y a des enregistrements
+                result = rs.getInt("NUMBER");
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
+            throw new SQLException(ex.getMessage());
+        }
+        return result;
+    }
 }
