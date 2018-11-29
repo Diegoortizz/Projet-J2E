@@ -23,7 +23,6 @@ import javax.servlet.http.HttpSession;
  *
  * @author Utilisateur
  */
-
 public class LoginServlet extends HttpServlet {
 
     /**

@@ -29,14 +29,17 @@ public class DAO {
             try (ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {
                     int id = rs.getInt("CUSTOMER_ID");
+                    String dc = rs.getString("DISCOUNT_CODE");
+                    int zip = rs.getInt("ZIP");
                     String name = rs.getString("NAME");
                     String adress = rs.getString("ADDRESSLINE1");
+                    String adress2 = rs.getString("ADDRESSLINE2");
                     String city = rs.getString("CITY");
                     String state = rs.getString("STATE");
                     String phone = rs.getString("PHONE");
                     String fax = rs.getString("FAX");
                     int credit = rs.getInt("CREDIT_LIMIT");
-                    c = new Customer(id, name, adress, city, state, phone, fax, email, credit);
+                    c = new Customer(id, dc, zip, name, adress, adress2, city, state, phone, fax, email, credit);
                 }
             }
         }
@@ -93,6 +96,51 @@ public class DAO {
             throw new SQLException(ex.getMessage());
         }
     }
+    
+    public int updateArea(int id,String address1,String address2, String city, String State) throws SQLException{
+        String sql = "UPDATE CUSTOMER SET ADDRESSLINE1 = ?, ADDRESSLINE2 = ?, CITY = ?, STATE = ? WHERE CUSTOMER_ID=?";
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            // Définir la valeur du paramètre
+            stmt.setString(1, address1);
+            stmt.setString(2, address2);
+            stmt.setString(3, city);
+            stmt.setString(4, State);
+            stmt.setInt(5, id);
+
+            return stmt.executeUpdate();
+
+        } catch (SQLException ex) {
+            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
+            throw new SQLException(ex.getMessage());
+        }
+    }
+    
+    public int updateCustomer(int id,String dc, int zip, String name, String address1,String address2, String city, String State, String Phone, String Fax,String Email, int credit) throws SQLException{
+        String sql = "UPDATE CUSTOMER SET DISCOUNT_CODE=?,ZIP=?,NAME=?, ADDRESSLINE1 = ?, ADDRESSLINE2 = ?, CITY = ?, STATE = ?, PHONE=?,FAX=?,EMAIL=?,CREDIT_LIMIT=? WHERE CUSTOMER_ID=?";
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            // Définir la valeur du paramètre
+            stmt.setString(1,dc);
+            stmt.setInt(2,zip);
+            stmt.setString(3,name);
+            stmt.setString(4, address1);
+            stmt.setString(5, address2);
+            stmt.setString(6, city);
+            stmt.setString(7, State);
+            stmt.setString(8, Phone);
+            stmt.setString(9, Fax);
+            stmt.setString(10, Email);
+            stmt.setInt(11,credit);
+            stmt.setInt(12, id);
+
+            return stmt.executeUpdate();
+
+        } catch (SQLException ex) {
+            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
+            throw new SQLException(ex.getMessage());
+        }
+    }
 
     public List<String> allEmails() throws SQLException {
         List<String> result = new LinkedList<>();
@@ -117,6 +165,60 @@ public class DAO {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 list.add(rs.getInt("Customer_ID"));
+            }
+        }
+        return list;
+    }
+    
+    public double costByClient(int id) throws SQLException{
+        double res=0;
+        String sql = "SELECT SUM(PRODUCT.PURCHASE_COST*PURCHASE_ORDER.QUANTITY) AS COUT FROM PURCHASE_ORDER INNER JOIN PRODUCT ON PURCHASE_ORDER.PRODUCT_ID=PRODUCT.PRODUCT_ID and PURCHASE_ORDER.CUSTOMER_ID=?";
+        try (Connection myConnection = myDataSource.getConnection();
+                PreparedStatement statement = myConnection.prepareStatement(sql)) {
+            statement.setInt(1, id);
+            // On fixe le 1° paramètre de la requête
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    res = rs.getDouble("COUT");
+                }
+            }
+        }
+        return res;
+    }
+    
+    public int quantityByClient(int id) throws SQLException{
+        int res=0;
+        String sql = "SELECT SUM(Quantity) AS NUMBER FROM Purchase_Order WHERE Customer_ID=?";
+        try (Connection myConnection = myDataSource.getConnection();
+                PreparedStatement statement = myConnection.prepareStatement(sql)) {
+            statement.setInt(1, id); // On fixe le 1° paramètre de la requête
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    res = rs.getInt("NUMBER");
+                }
+            }
+        }
+        return res;
+    }
+        
+    public List<Order> ProductByClient(int id) throws SQLException{
+        List<Order> list = new LinkedList();
+        String sql = "SELECT ORDER_NUM,PRODUCT.DESCRIPTION,Purchase_Order.PRODUCT_ID,QUANTITY,SHIPPING_COST,SALES_DATE,SHIPPING_DATE,FREIGHT_COMPANY FROM Purchase_Order INNER JOIN PRODUCT ON Purchase_Order.PRODUCT_ID=PRODUCT.PRODUCT_ID and Customer_ID=?";
+        try (Connection myConnection = myDataSource.getConnection();
+                PreparedStatement statement = myConnection.prepareStatement(sql)) {
+            statement.setInt(1, id); // On fixe le 1° paramètre de la requête
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    int ordernum= rs.getInt("ORDER_NUM");
+                    int prod_id = rs.getInt("PRODUCT_ID");
+                    String desc= rs.getString("Description");
+                    int quantity = rs.getInt("Quantity");
+                    float cost = rs.getFloat("SHIPPING_COST");
+                    String sale_d = rs.getString("SALES_DATE");
+                    String shipping_d = rs.getString("SHIPPING_DATE");
+                    Order o = new Order(ordernum,id,desc,prod_id,quantity,cost,sale_d,shipping_d);
+                    list.add(o);
+                }
             }
         }
         return list;
@@ -288,4 +390,5 @@ public class DAO {
         }
     }
 
+    
 }

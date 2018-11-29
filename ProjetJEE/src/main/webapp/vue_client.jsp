@@ -9,109 +9,114 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script	src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <!-- On charge le moteur de template mustache https://mustache.github.io/ -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.min.js"></script>
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="style_main_test.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
         <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-        <title>JSP Page</title>
-        <script src="js_main.js"></script>
 
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+        <script src="editabletable/jquery.tabledit.js"></script>
+
+
+        <title>JSP Page</title>
+
+        <script>
+            $(document).ready(
+                    function showDataPerso() {
+                        // On fait un appel AJAX pour chercher les codes
+                        $.ajax({
+                            url: "AllPersoInfo",
+                            dataType: "json",
+                            error: showError,
+                            success: // La fonction qui traite les résultats
+                                    function (result) {
+                                        console.log(result.datasPerso.customerid);
+                                        $('input[name="ID"]').val(result.datasPerso.name);
+                                        $('output[name="ID"]').val(result.datasPerso.name);
+                                    }
+                        });
+                    });
+            function showError(xhr, status, message) {
+                alert(JSON.parse(xhr.responseText).message);
+            }
+
+
+        </script>
     </head>
+
     <body>
         <h1>Bienvenue ${sessionScope.name} </h1>
-        <!--        <table>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nom</th>
-                        <th>Adresse</th>
-                        <th>Ville</th>
-                        <th>Etat</th>
-                        <th>Numero de telephone</th>
-                        <th>Numero de fax</th>
-                        <th>email</th>
-                        <th>Limite de credit</th>
-                    </tr>
-                    <tr>
-                        <td>${sessionScope.customerid}</td>
-                        <td>${sessionScope.name}</td>
-                        <td>${sessionScope.adress}</td>
-                        <td>${sessionScope.city}</td>
-                        <td>${sessionScope.state}</td>
-                        <td>${sessionScope.phone}</td>
-                        <td>${sessionScope.fax}</td>
-                        <td>${sessionScope.email}</td>
-                        <td>${sessionScope.creditlimit}</td>
-                    </tr>
-                </table> -->
-        <!--<p>---------------------------------------------------------------------------</p>-->
 
-        <p>ID            : ${sessionScope.customerid}</p>
-        <p>NOM           : ${sessionScope.name}</p>
-        <p>ADRESSE       : ${sessionScope.adress}</p>
-        <p>VILLE         : ${sessionScope.city}</p>
-        <p>ETAT          : ${sessionScope.state}</p>
-        <p>N TELEPHONE   : ${sessionScope.phone}</p>
-        <p>N FAX         : ${sessionScope.fax}</p>
-        <p>EMAIL         : ${sessionScope.email}</p>
-        <p>CREDIT LIMITE : ${sessionScope.creditlimit}</p>
 
-        <!--<p>---------------------------------------------------------------------------</p>-->   
-        <!--<button type="button" onclick="loadDoc()">Request data</button>-->
 
-        <p id="demo"></p>
+        <table class="table table-striped table-bordered" id="example-2">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>First</th>
+                    <th>Last</th>
+                    <th>Nickname</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>Jacob</td>
+                    <td>Thornton</td>
+                    <td>@fat</td>
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td>Larry</td>
+                    <td>the Bird</td>
+                    <td>@twitter</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="table table-striped table-bordered" id="example-3">
+
+        </table>
+
         <script>
-            function loadDoc() {
-                var xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function () {
-                    if (this.readyState == 4 && this.status == 200) {
-                        document.getElementById("demo").innerHTML = this.responseText;
-                    }
-                };
-                xhttp.open("GET", "Servlet1.asp?fname=Henry&lname=Ford", true);
-                xhttp.send();
-            }
+            $('#example-2').Tabledit({
+                columns: {
+                    identifier: [0, 'id'],
+                    editable: [[1, 'Nom'], [2, 'email'], [3, 'Ville'], [4, 'Adresse'], [5, 'Telephone'], [6, 'Fax'], [7, 'State']]
+                }
+            });
+//            $('#example-2').append('<tr><th scope="row">4</th><td>Larry</td><td>the Bird</td><td>@twitter</td></tr>');
+
+            $('#example-3').Tabledit({
+                columns: {
+                    identifier: [0, 'id'],
+                    editable: [[1, 'Nom'], [2, 'email'], [3, 'Ville'], [4, 'Adresse'], [5, 'Telephone'], [6, 'Fax'], [7, 'State']]
+                }
+            });
         </script>
 
 
+        <input type="text" name="ID"> 
+        <output type="text" name="ID"> </output>
 
-        <!--
--->                <form method="POST">
-                    <input type="SUBMIT" name="action" value="Deconnexion">
-                </form>        <!--
-                <br>
-                <br>
-                <br>
-        
-                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#contact_dialog" onclick="myFunction()">Modifier vos informations</button>
-        
-                <div class="modal fade" id="contact_dialog" role="dialog">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title">Enter your name</h4>
-                            </div>
-                            <div class="modal-body">
-                                <form id="contact_form" action="/onlinejson/test.php" method="POST">
-                                    ID : <input type="text" name="id" value="test" readonly ><br/>
-                                    NOM : <input type="text" name="nomm"><br/>
-                                    ADRESSE : <input type="text" name="adresse"><br/>
-                                    VILLE : <input type="text" name="ville"><br/>
-                                    ETAT : <input type="text" name="etat"><br/>
-                                    TELEPHONE : <input type="text" name="tel"><br/>
-                                    FAX : <input type="text" name="fax"><br/>
-                                    MAIL : <input type="text" name="mail"><br/>
-                                    CREDIT LIMITE :<input type="text" name="cl" readonly><br/>
-        
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="button" id="submitForm" class="btn btn-default">Send</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>-->
+
+        <p id="demo"></p>
+        <form method="POST">
+            <input type="SUBMIT" name="action" value="Deconnexion">
+        </form>       
+        <br>
+        <br>
+        <br>
     </body>
 </html>

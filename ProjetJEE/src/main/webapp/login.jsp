@@ -14,25 +14,11 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     </head>
     <body>
-        <!--        <form method="POST">
-                    <label> Login : <input name="name" value="apple@example.com"></label> <br>        
-                    <label> Mot de passe : <input name="password" value="x"></label>
-                    <input name="action" value="Connexion" type="SUBMIT">
-                </form>-->
-        <form method="POST" action="${pageContext.request.contextPath}/user">
-            <div>
-                <label for="name">Login :</label>
-                <input type="text" name="name" id="name" value="apple@example.com">
-            </div>
-
-            <div>
-                <label for="password">Password :</label>
-                <input type="password" name="password" id="password" value="z">
-            </div>
-
-            <input type="hidden" name="action" value="Connexion">
-
-            <button type="SUBMIT">Connexion</button>
-        </form>
+        <form method="POST">
+            <label> Login : <input name="name" value="jumboeagle@example.com"></label> <br>
+            <label> Mot de passe : <input name="password" value="x"></label>
+            <input name="action" value="Connexion" type="SUBMIT">
+        </form>  
     </body>
 </html>
+
