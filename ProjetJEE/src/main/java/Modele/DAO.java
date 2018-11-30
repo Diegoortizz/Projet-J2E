@@ -186,6 +186,21 @@ public class DAO {
         return res;
     }
     
+    //Chiffre d'affaire de chaque client:
+    //SELECT PURCHASE_ORDER.CUSTOMER_ID AS ID,SUM(PRODUCT.PURCHASE_COST*PURCHASE_ORDER.QUANTITY) AS COUT FROM PURCHASE_ORDER INNER JOIN PRODUCT ON PURCHASE_ORDER.PRODUCT_ID=PRODUCT.PRODUCT_ID GROUP BY PURCHASE_ORDER.CUSTOMER_ID;
+    
+    //Chiffre d'affaire pour chaque catégorie de produit :
+    //SELECT PRODUCT_CODE.PROD_CODE AS CODE,SUM(PRODUCT.PURCHASE_COST*PURCHASE_ORDER.QUANTITY) 
+    //FROM PRODUCT_CODE INNER JOIN PRODUCT ON PRODUCT.PRODUCT_CODE=PRODUCT_CODE.PROD_CODE 
+    //    INNER JOIN PURCHASE_ORDER ON PURCHASE_ORDER.PRODUCT_ID=PRODUCT.PRODUCT_ID
+    //        GROUP BY PRODUCT_CODE.PROD_CODE;
+    
+    //Chiffre d'affaire pour chaque état:
+    //SELECT CUSTOMER.STATE ,SUM(PRODUCT.PURCHASE_COST*PURCHASE_ORDER.QUANTITY) 
+    //FROM CUSTOMER INNER JOIN PURCHASE_ORDER ON CUSTOMER.CUSTOMER_ID=PURCHASE_ORDER.CUSTOMER_ID
+    //    INNER JOIN PRODUCT ON PURCHASE_ORDER.PRODUCT_ID=PRODUCT.PRODUCT_ID
+    //        GROUP BY CUSTOMER.STATE;
+    
     public int quantityByClient(int id) throws SQLException{
         int res=0;
         String sql = "SELECT SUM(Quantity) AS NUMBER FROM Purchase_Order WHERE Customer_ID=?";
@@ -203,7 +218,7 @@ public class DAO {
         
     public List<Order> ProductByClient(int id) throws SQLException{
         List<Order> list = new LinkedList();
-        String sql = "SELECT ORDER_NUM,PRODUCT.DESCRIPTION,Purchase_Order.PRODUCT_ID,QUANTITY,SHIPPING_COST,SALES_DATE,SHIPPING_DATE,FREIGHT_COMPANY FROM Purchase_Order INNER JOIN PRODUCT ON Purchase_Order.PRODUCT_ID=PRODUCT.PRODUCT_ID and Customer_ID=?";
+        String sql = "SELECT * FROM Purchase_Order WHERE Customer_ID=?";
         try (Connection myConnection = myDataSource.getConnection();
                 PreparedStatement statement = myConnection.prepareStatement(sql)) {
             statement.setInt(1, id); // On fixe le 1° paramètre de la requête
@@ -211,12 +226,11 @@ public class DAO {
                 while (rs.next()) {
                     int ordernum= rs.getInt("ORDER_NUM");
                     int prod_id = rs.getInt("PRODUCT_ID");
-                    String desc= rs.getString("Description");
                     int quantity = rs.getInt("Quantity");
                     float cost = rs.getFloat("SHIPPING_COST");
                     String sale_d = rs.getString("SALES_DATE");
                     String shipping_d = rs.getString("SHIPPING_DATE");
-                    Order o = new Order(ordernum,id,desc,prod_id,quantity,cost,sale_d,shipping_d);
+                    Order o = new Order(ordernum,id,prod_id,quantity,cost,sale_d,shipping_d);
                     list.add(o);
                 }
             }
@@ -391,8 +405,33 @@ public class DAO {
     }
 
     //Partie PURCHASE_ORDER
+    
+    public Order findOrder(int ordernum) throws SQLException {
+        Order result = null;
+
+        String sql = "SELECT * FROM PURCHASE_ORDER WHERE ORDER_NUM = ?";
+        try (Connection myConnection = myDataSource.getConnection();
+                PreparedStatement statement = myConnection.prepareStatement(sql)) {
+            statement.setInt(1, ordernum); // On fixe le 1° paramètre de la requête
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    // est-ce qu'il y a un résultat ? (pas besoin de "while", 
+                    // il y a au plus un enregistrement)
+                    // On récupère les champs de l'enregistrement courant
+                    int c_id = rs.getInt("CUSTOMER_ID");
+                    int p_id = rs.getInt("PRODUCT_ID");
+                    int q = rs.getInt("QUANTITY");
+                    float sp = rs.getFloat("SHIPPING_COST");
+                    String sd = rs.getString("SALES_DATE");
+                    String sh_d = rs.getString("SHIPPING_DATE");
+                    result = new Order(ordernum,c_id,p_id,q,sp,sd,sh_d);
+                }
+            }
+        }
+        return result;
+    }
     //c_id le customer ID doit déjà existé ainsi que le p_id qui est le product_ID
-    public void insertOrder(int ordernum, int c_id, int p_id, int quantity, double shipping, String sale_d, String shipping_d, String Company) throws SQLException {
+    public void insertOrder(int ordernum, int c_id, int p_id, int quantity, float shipping, String sale_d, String shipping_d, String Company) throws SQLException {
         // Une requête SQL paramétrée
         String sql = "INSERT INTO PURCHASE_ORDER VALUES(?, ?, ?,?,?,?,?,?)";
         try (Connection connection = myDataSource.getConnection();
@@ -402,7 +441,7 @@ public class DAO {
                 stmt.setInt(2, c_id);
                 stmt.setInt(3, p_id);
                 stmt.setInt(4, quantity);
-                stmt.setDouble(5, shipping);
+                stmt.setFloat(5, shipping);
                 stmt.setString(6, sale_d);
                 stmt.setString(7, shipping_d);
                 stmt.setString(8, Company);
@@ -425,6 +464,27 @@ public class DAO {
         } catch (SQLException ex) {
             Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
             throw new Exception(ex.getMessage());
+        }
+    }
+    
+    public int updateOrder(int ordernum,int c_id, int p_id, int quantity,float shipp_cost, String sale_d, String shipp_d) throws SQLException{
+        String sql = "UPDATE PURCHASE_ORDER SET ORDER_NUM=?,PRODUCT_ID=?,QUANTITY=?,SHIPPING_COST=?,SALES_DATE=?,SHIPPING_DATE=? WHERE CUSTOMER_ID=?;";
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            // Définir la valeur du paramètre
+            stmt.setInt(1, ordernum);
+            stmt.setInt(2,p_id);
+            stmt.setInt(3, quantity);
+            stmt.setFloat(4,shipp_cost);
+            stmt.setString(5,sale_d);
+            stmt.setString(6,shipp_d);
+            stmt.setInt(7,c_id);
+
+            return stmt.executeUpdate();
+
+        } catch (SQLException ex) {
+            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
+            throw new SQLException(ex.getMessage());
         }
     }
     

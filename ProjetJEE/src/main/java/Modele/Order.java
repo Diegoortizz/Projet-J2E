@@ -12,17 +12,15 @@ package Modele;
 public class Order {
     private int order_num;
     private int customer_id;
-    private String description;
     private int product_id;
     private int quantity;
     private float shipping_cost;
     private String sales_date;
     private String shipping_date;
     
-    public Order(int order, int c_id, String desc,int p_id, int quantity, float cost,String sale_d, String shipping_d){
+    public Order(int order, int c_id, int p_id, int quantity, float cost,String sale_d, String shipping_d){
         this.order_num=order;
         this.customer_id=c_id;
-        this.description=desc;
         this.product_id=p_id;
         this.quantity=quantity;
         this.shipping_cost=cost;
@@ -38,9 +36,6 @@ public class Order {
         return this.customer_id;
     }
     
-    public String getDescription(){
-        return this.description;
-    }
     
     public int getProductID(){
         return this.product_id;

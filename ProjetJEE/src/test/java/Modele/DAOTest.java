@@ -100,25 +100,25 @@ public class DAOTest {
         assertEquals(2,n);
     }
     
-//    @Test
-//    public void NumberDiscountTest() throws SQLException {
-//        int n = myDAO.numberDiscount();
-//        assertEquals(2,n);
-//    }
-//    
-//    @Test
-//    public void insertProductTest() throws SQLException{
-//        myDAO.insertProduct(45, 666, "SW", 5.5, 20, 5.5, true, "Description en cours");
-//        
-//        assertEquals(myDAO.numberProduct(),3);
-//    }
-//    
-//    @Test
-//    public void deleteProductTest() throws SQLException{
-//        myDAO.insertProduct(45, 666, "SW", 5.5, 20, 5.5, true, "Description en cours");
-//        myDAO.deleteProduct(45);
-//        assertEquals(myDAO.numberProduct(),2);
-//    }
+    @Test
+    public void NumberDiscountTest() throws SQLException {
+        int n = myDAO.numberDiscount();
+        assertEquals(2,n);
+    }
+    
+    @Test
+    public void insertProductTest() throws SQLException{
+        myDAO.insertProduct(45, 666, "SW", 5.5, 20, 5.5, true, "Description en cours");
+        
+        assertEquals(myDAO.numberProduct(),3);
+   }
+   
+    @Test
+    public void deleteProductTest() throws SQLException, Exception{
+        myDAO.insertProduct(45, 666, "SW", 5.5, 20, 5.5, true, "Description en cours");
+        myDAO.deleteProduct(45);
+        assertEquals(myDAO.numberProduct(),2);
+    }
     
     @Test
     public void AllCodesTest() throws SQLException {
@@ -143,8 +143,6 @@ public class DAOTest {
     public void prodByClientTest() throws Exception{
         List<Order> l = myDAO.ProductByClient(10);
         int p = l.get(0).getProductID();
-        String d = l.get(0).getDescription();
-        assertEquals("Accounting Application",d);
         assertEquals(1,p);
         assertEquals(1,l.size());
     }
@@ -247,19 +245,32 @@ public class DAOTest {
     }
     
     @Test
+    public void findOrderTest() throws Exception{
+        Order c = myDAO.findOrder(22112018);
+        assertEquals(c.getCustomerID(),10);
+    }
+    @Test
     public void insertOrderTest() throws Exception{
         int c = myDAO.allOrder();
         assertEquals(c,2);
-        myDAO.insertOrder(5485, 10, 1, 10, 25.00, "2018-11-29","2018-12-01","UPS");
+        myDAO.insertOrder(5485, 10, 1, 10, (float) 25.00, "2018-11-29","2018-12-01","UPS");
         int c2 = myDAO.allOrder();
         assertEquals(c2,c+1);
     }
     
     @Test
+    public void updateOrderTest() throws Exception{
+        Order c = myDAO.findOrder(22112018);
+        myDAO.updateOrder(22112018, 10, 2, 24, (float) 54.00, "2018-11-30", "2018-12-05");
+        Order c2 = myDAO.findOrder(22112018);
+        assertEquals(c.getProductID(),1);
+        assertEquals(c2.getProductID(),2);
+    }
+    @Test
     public void deleteOrderTest() throws Exception{
         int c = myDAO.allOrder();
         assertEquals(c,2);
-        myDAO.insertOrder(5485, 10, 1, 10, 25.00, "2018-11-29","2018-12-01","UPS");
+        myDAO.insertOrder(5485, 10, 1, 10, (float) 25.00, "2018-11-29","2018-12-01","UPS");
         int c2 = myDAO.allOrder();
         assertEquals(c2,c+1);
         myDAO.deleteOrder(5485);
