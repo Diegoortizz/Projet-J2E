@@ -4,9 +4,25 @@
         <servlet-name>Servlet1</servlet-name>
         <servlet-class>Controller.LoginServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>InfoPurchaseOrder</servlet-name>
+        <servlet-class>Controller.InfoPurchaseOrder</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeletePurchaseOrder</servlet-name>
+        <servlet-class>Controller.DeletePurchaseOrder</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Servlet1</servlet-name>
         <url-pattern>/Servlet1</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InfoPurchaseOrder</servlet-name>
+        <url-pattern>/InfoPurchaseOrder</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeletePurchaseOrder</servlet-name>
+        <url-pattern>/DeletePurchaseOrder</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
