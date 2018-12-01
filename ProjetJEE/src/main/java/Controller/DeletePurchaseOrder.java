@@ -2,12 +2,13 @@ package Controller;
 
 import Modele.DAO;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,29 +16,30 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-@WebServlet(name = "InfoPO_InJSON", urlPatterns = {"/allPO"})
-public class InfoPurchaseOrder extends HttpServlet {
+@WebServlet(name = "DeletePO_InJSON", urlPatterns = {"/deletePO"})
+public class DeletePurchaseOrder extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, Exception {
         
         DAO dao = new DAO(DataSourceFactory.getDataSource());
-        int id = 1;
+        String id = request.getParameter("code");
+        String message;
         Properties resultat = new Properties();
         
         try {
-            resultat.put("records", dao.ProductByClient(id));
+            dao.deleteOrder(Integer.parseInt(id));
         } catch (SQLException ex) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            resultat.put("records", Collections.EMPTY_LIST);
-            resultat.put("message", ex.getMessage());
+            message = ex.getMessage();
+            resultat.put("message",message);
         }
         
         try (PrintWriter out = response.getWriter()) {
             response.setContentType("application/json;charset=UTF-8");
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            Gson gson = new Gson();
             out.println(gson.toJson(resultat));
-        }
+	}
         
     }
 
@@ -53,7 +55,11 @@ public class InfoPurchaseOrder extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(DeletePurchaseOrder.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -67,7 +73,11 @@ public class InfoPurchaseOrder extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(DeletePurchaseOrder.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

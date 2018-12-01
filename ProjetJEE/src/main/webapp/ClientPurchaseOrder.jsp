@@ -32,6 +32,21 @@
                         }
                 });
             }
+            
+            function deleteCode(code) {
+                $.ajax({
+                    url: "deletePO",
+                    data: {"code": code},
+                    dataType: "json",
+                    success: 
+                            function (result) {
+                                showCodes();
+                                console.log(result);
+                            },
+                    error: showError
+                });
+                return false;
+            }
 
             function showError(xhr, status, message) {
                 alert(JSON.parse(xhr.responseText).message);
@@ -52,24 +67,26 @@
                 <tr>
                     <th>Numero de commande</th>
                     <th>Numero de client</th>
-                    <th>Description</th>
                     <th>Numero du produit</th>
                     <th>Quantité</th>
                     <th>Prix</th>
                     <th>Date de vente</th>
                     <th>Date de livraison</th>
+                    <th>Action</th>
                 </tr>
                 
                 {{#records}}
                     <tr>
                         <th>{{order_num}}</th>
                         <th>{{customer_id}}</th>
-                        <th>{{description}}</th>
                         <th>{{product_id}}</th>
                         <th>{{quantity}}</th>
                         <th>{{shipping_cost}}</th>
                         <th>{{sales_date}}</th>
                         <th>{{shipping_date}}</th>
+                        <th>
+                            <button onclick="deleteCode('{{order_num}}')">Supprimer</button>
+                        </th>
                     </tr>
                 {{/records}}
             
