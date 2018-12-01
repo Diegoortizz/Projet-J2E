@@ -44,14 +44,6 @@ public class DAOTest {
     public void tearDown() throws SQLException {
         myConnection.close();
     }
-    
-    
-    @Test
-    public void CustomerTest() throws SQLException {
-        Customer c = myDAO.Customer("apple@example.com");
-        System.out.println(c);
-        assertEquals("Apple",c.getName());
-    }
 
     private DataSource getDataSource() {
         org.hsqldb.jdbc.JDBCDataSource ds = new org.hsqldb.jdbc.JDBCDataSource();
@@ -59,6 +51,13 @@ public class DAOTest {
 	ds.setUser("sa");
 	ds.setPassword("sa");
 	return ds;
+    }
+    
+    @Test
+    public void CustomerTest() throws SQLException {
+        Customer c = myDAO.Customer("apple@example.com");
+        System.out.println(c);
+        assertEquals("Apple",c.getName());
     }
     
     @Test
@@ -276,6 +275,30 @@ public class DAOTest {
         myDAO.deleteOrder(5485);
         int c3 = myDAO.allOrder();
         assertEquals(c3,c);
+    }
+    @Test
+    public void CustomerCATest() throws Exception{
+        List<CA> res=myDAO.CustomerCA();
+        assertEquals(res.size(),2);
+        assertEquals(res.get(0).getCout(),5*13600,0.0);
+        assertEquals(res.get(0).getDescription(),"IBM");
+        
+        
+    }
+    @Test
+    public void StateCATest() throws Exception{
+        List<CA> res=myDAO.StateCA();
+        assertEquals(res.size(),2);
+        assertEquals(res.get(1).getCout(),5*13600,0.0);
+        assertEquals(res.get(1).getDescription(),"NY");
+    }
+    
+    @Test
+    public void ProductCATest() throws Exception{
+        List<CA> res=myDAO.ProductCA();
+        assertEquals(res.size(),2);
+        assertEquals(res.get(0).getCout(),5*13600,0.0);
+        assertEquals(res.get(0).getDescription(),"Cables");
     }
 }
 

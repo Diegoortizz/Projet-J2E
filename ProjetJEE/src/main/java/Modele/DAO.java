@@ -185,22 +185,7 @@ public class DAO {
         }
         return res;
     }
-    
-    //Chiffre d'affaire de chaque client:
-    //SELECT PURCHASE_ORDER.CUSTOMER_ID AS ID,SUM(PRODUCT.PURCHASE_COST*PURCHASE_ORDER.QUANTITY) AS COUT FROM PURCHASE_ORDER INNER JOIN PRODUCT ON PURCHASE_ORDER.PRODUCT_ID=PRODUCT.PRODUCT_ID GROUP BY PURCHASE_ORDER.CUSTOMER_ID;
-    
-    //Chiffre d'affaire pour chaque catégorie de produit :
-    //SELECT PRODUCT_CODE.PROD_CODE AS CODE,SUM(PRODUCT.PURCHASE_COST*PURCHASE_ORDER.QUANTITY) 
-    //FROM PRODUCT_CODE INNER JOIN PRODUCT ON PRODUCT.PRODUCT_CODE=PRODUCT_CODE.PROD_CODE 
-    //    INNER JOIN PURCHASE_ORDER ON PURCHASE_ORDER.PRODUCT_ID=PRODUCT.PRODUCT_ID
-    //        GROUP BY PRODUCT_CODE.PROD_CODE;
-    
-    //Chiffre d'affaire pour chaque état:
-    //SELECT CUSTOMER.STATE ,SUM(PRODUCT.PURCHASE_COST*PURCHASE_ORDER.QUANTITY) 
-    //FROM CUSTOMER INNER JOIN PURCHASE_ORDER ON CUSTOMER.CUSTOMER_ID=PURCHASE_ORDER.CUSTOMER_ID
-    //    INNER JOIN PRODUCT ON PURCHASE_ORDER.PRODUCT_ID=PRODUCT.PRODUCT_ID
-    //        GROUP BY CUSTOMER.STATE;
-    
+       
     public int quantityByClient(int id) throws SQLException{
         int res=0;
         String sql = "SELECT SUM(Quantity) AS NUMBER FROM Purchase_Order WHERE Customer_ID=?";
@@ -430,6 +415,7 @@ public class DAO {
         }
         return result;
     }
+    
     //c_id le customer ID doit déjà existé ainsi que le p_id qui est le product_ID
     public void insertOrder(int ordernum, int c_id, int p_id, int quantity, float shipping, String sale_d, String shipping_d, String Company) throws SQLException {
         // Une requête SQL paramétrée
@@ -498,6 +484,81 @@ public class DAO {
                 ResultSet rs = stmt.executeQuery(sql)) {
             if (rs.next()) { // Tant qu'il y a des enregistrements
                 result = rs.getInt("NUMBER");
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
+            throw new SQLException(ex.getMessage());
+        }
+        return result;
+    }
+    
+    
+    //ADMINISTRATEUR
+    
+    
+    //Classer par ordre alphabétique des noms des clients
+    public List<CA> CustomerCA() throws SQLException{
+        List<CA> result = new LinkedList();
+        // Une requête SQL paramétrée
+        String sql = "SELECT CUSTOMER.\"NAME\" AS NAME,SUM(PRODUCT.PURCHASE_COST*PURCHASE_ORDER.QUANTITY) AS COUT \n" +
+"    FROM PURCHASE_ORDER \n" +
+"        INNER JOIN PRODUCT ON PURCHASE_ORDER.PRODUCT_ID=PRODUCT.PRODUCT_ID \n" +
+"            INNER JOIN CUSTOMER ON PURCHASE_ORDER.CUSTOMER_ID=CUSTOMER.CUSTOMER_ID\n" +
+"                GROUP BY CUSTOMER.\"NAME\";\n" +
+"";
+        try (Connection connection = myDataSource.getConnection();
+                Statement stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) { // Tant qu'il y a des enregistrements
+                CA ca = new CA(rs.getString("NAME"),rs.getFloat("COUT"));
+                result.add(ca);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
+            throw new SQLException(ex.getMessage());
+        }
+        return result;
+    }
+    
+    //Classer par ordre alphabétique des etats
+    public List<CA> StateCA() throws SQLException{
+        List<CA> result = new LinkedList();
+        // Une requête SQL paramétrée
+        String sql = "SELECT CUSTOMER.STATE AS STATE,SUM(PRODUCT.PURCHASE_COST*PURCHASE_ORDER.QUANTITY) AS COUT\n" +
+"    FROM CUSTOMER INNER JOIN PURCHASE_ORDER ON CUSTOMER.CUSTOMER_ID=PURCHASE_ORDER.CUSTOMER_ID\n" +
+"        INNER JOIN PRODUCT ON PURCHASE_ORDER.PRODUCT_ID=PRODUCT.PRODUCT_ID\n" +
+"            GROUP BY CUSTOMER.STATE";
+        try (Connection connection = myDataSource.getConnection();
+                Statement stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) { // Tant qu'il y a des enregistrements
+                CA ca = new CA(rs.getString("STATE"),rs.getFloat("COUT"));
+                result.add(ca);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
+            throw new SQLException(ex.getMessage());
+        }
+        return result;
+    }
+    
+    //Classer par ordre alphabétique des description.
+    public List<CA> ProductCA() throws SQLException{
+        List<CA> result = new LinkedList();
+        // Une requête SQL paramétrée
+        String sql = "SELECT PRODUCT_CODE.DESCRIPTION AS DESCRIPTION,SUM(PRODUCT.PURCHASE_COST*PURCHASE_ORDER.QUANTITY) AS COUT\n" +
+"    FROM PRODUCT_CODE INNER JOIN PRODUCT ON PRODUCT.PRODUCT_CODE=PRODUCT_CODE.PROD_CODE \n" +
+"        INNER JOIN PURCHASE_ORDER ON PURCHASE_ORDER.PRODUCT_ID=PRODUCT.PRODUCT_ID\n" +
+"            GROUP BY PRODUCT_CODE.DESCRIPTION";
+        try (Connection connection = myDataSource.getConnection();
+                Statement stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) { // Tant qu'il y a des enregistrements
+                CA ca = new CA(rs.getString("DESCRIPTION"),rs.getFloat("COUT"));
+                result.add(ca);
             }
 
         } catch (SQLException ex) {
