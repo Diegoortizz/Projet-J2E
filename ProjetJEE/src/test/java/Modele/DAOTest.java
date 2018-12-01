@@ -106,6 +106,19 @@ public class DAOTest {
     }
     
     @Test
+    public void findProductTest() throws SQLException{
+        Product p = myDAO.findProduct(1);
+        assertEquals(p.getDescription(),"Accounting Application");
+    }
+    
+    @Test
+    public void allProductTest() throws SQLException{
+        List<Product> p = myDAO.AllProduct();
+        assertEquals(p.size(),2);
+        assertEquals(p.get(0).getDescription(),"Accounting Application");
+    }
+    
+    @Test
     public void insertProductTest() throws SQLException{
         myDAO.insertProduct(45, 666, "SW", 5.5, 20, 5.5, true, "Description en cours");
         

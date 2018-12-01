@@ -241,6 +241,32 @@ public class DAO {
         }
         return result;
     }
+    
+    public List<Product> AllProduct() throws SQLException{
+        List<Product> result = new LinkedList();
+        // Une requête SQL paramétrée
+        String sql = "SELECT * FROM Product";
+        try (Connection connection = myDataSource.getConnection();
+                Statement stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) { // Tant qu'il y a des enregistrements
+                Product p = new Product(rs.getInt("Product_ID"),
+                            rs.getInt("MANUFACTURER_ID"),
+                            rs.getString("PRODUCT_CODE"),
+                            rs.getFloat("PURCHASE_COST"),
+                            rs.getInt("QUANTITY_ON_HAND"),
+                            rs.getFloat("MARKUP"),
+                            rs.getBoolean("AVAILABLE"),
+                            rs.getString("Description"));
+                result.add(p);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
+            throw new SQLException(ex.getMessage());
+        }
+        return result;
+    }
 
     public Product findProduct(int productId) throws SQLException {
         Product result = null;
@@ -249,13 +275,19 @@ public class DAO {
         try (Connection myConnection = myDataSource.getConnection();
                 PreparedStatement statement = myConnection.prepareStatement(sql)) {
             statement.setInt(1, productId); // On fixe le 1° paramètre de la requête
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
                     // est-ce qu'il y a un résultat ? (pas besoin de "while", 
                     // il y a au plus un enregistrement)
                     // On récupère les champs de l'enregistrement courant
                     result = new Product(productId,
-                            resultSet.getString("Description"));
+                            rs.getInt("MANUFACTURER_ID"),
+                            rs.getString("PRODUCT_CODE"),
+                            rs.getFloat("PURCHASE_COST"),
+                            rs.getInt("QUANTITY_ON_HAND"),
+                            rs.getFloat("MARKUP"),
+                            rs.getBoolean("AVAILABLE"),
+                            rs.getString("Description"));
                 }
             }
         }
