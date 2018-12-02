@@ -315,9 +315,9 @@ public class DAOTest {
     }
     
     @Test
-    public void Man_IDByProductTest() throws Exception{
-        int m = myDAO.Man_IDbyProduct(1);
-        assertEquals(m,666);
+    public void ManByProductTest() throws Exception{
+       
+        assertEquals(myDAO.ManbyProduct(1),"Lennox International Inc.");
     }
     
     @Test

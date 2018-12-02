@@ -525,10 +525,13 @@ public class DAO {
         return result;
     }
     
-    public int Man_IDbyProduct(int product) throws SQLException {
-        int result = 0;
+    public String ManbyProduct(int product) throws SQLException {
+        String result = null;
 
-        String sql = "SELECT MANUFACTURER_ID AS ID FROM PRODUCT WHERE PRODUCT_ID = ?";
+        String sql = "SELECT NAME AS NOM \n" +
+"    FROM MANUFACTURER \n" +
+"        INNER JOIN PRODUCT \n" +
+"            ON PRODUCT.MANUFACTURER_ID=MANUFACTURER.MANUFACTURER_ID and PRODUCT.PRODUCT_ID=?";
         try (Connection myConnection = myDataSource.getConnection();
                 PreparedStatement statement = myConnection.prepareStatement(sql)) {
             statement.setInt(1, product); // On fixe le 1° paramètre de la requête
@@ -537,7 +540,7 @@ public class DAO {
                     // est-ce qu'il y a un résultat ? (pas besoin de "while", 
                     // il y a au plus un enregistrement)
                     // On récupère les champs de l'enregistrement courant
-                    result = rs.getInt("ID");
+                    result = rs.getString("NOM");
                 }
             }
         }
