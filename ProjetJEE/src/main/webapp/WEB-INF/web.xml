@@ -12,6 +12,14 @@
         <servlet-name>DeletePurchaseOrder</servlet-name>
         <servlet-class>Controller.DeletePurchaseOrder</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>InfoProduct</servlet-name>
+        <servlet-class>Controller.InfoProduct</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddPurchaseOrderServlet</servlet-name>
+        <servlet-class>Controller.AddPurchaseOrderServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Servlet1</servlet-name>
         <url-pattern>/Servlet1</url-pattern>
@@ -23,6 +31,14 @@
     <servlet-mapping>
         <servlet-name>DeletePurchaseOrder</servlet-name>
         <url-pattern>/DeletePurchaseOrder</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InfoProduct</servlet-name>
+        <url-pattern>/InfoProduct</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddPurchaseOrderServlet</servlet-name>
+        <url-pattern>/AddPurchaseOrderServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

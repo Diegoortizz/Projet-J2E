@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 
 <html>
@@ -20,7 +21,7 @@
 
             function showCodes() {
                 $.ajax({
-                    url: "allPO",
+                    url: "allP",
                     dataType: "json",
                     error: showError,
                     success:
@@ -33,16 +34,16 @@
                 });
             }
             
-            function deleteCode(code) {
+            function addPO() {
                 $.ajax({
-                    url: "deletePO",
-                    data: {"code": code},
+                    url: "addPO",
+                    data: $("#codeForm").serialize(),
                     dataType: "json",
-                    success: 
-                            function (result) {
-                                showCodes();
-                                console.log(result);
-                            },
+                    success:
+                        function (result) {
+                            console.log(result);
+                            showError();
+                        },
                     error: showError
                 });
                 return false;
@@ -57,36 +58,52 @@
     </head>
     
     <body>
-           
-        <div id="aff"></div>
+        
+        <table>
+            <tr>
+                <table>
+                    <h1>Passer votre commande</h1>
+                    <form id="codeForm" onsubmit="event.preventDefault(); addPO();">
+                        <fieldset><legend>Selectionner votre produit et votre quantité</legend>
+                            Numero du produit : <input id="id" name="Numero" type="number"><br/>
+                            Quantité : <input id="nbr" name="Quantité" type="number"><br/>
+                            <input type="submit" value="Ajouter">
+                            <li><a href="ClientPurchaseOrder.jsp">Retourner à vos commandes</a></li>
+                        </fieldset>
+                    </form>
+                </table>
+            </tr>
+            <tr>
+                <div id="aff"></div>                
+            </tr>
+        </table>
 
         <script id="codesTemplate" type="text/template">
             
             <table>
             
                 <tr>
-                    <th>Numero de commande</th>
-                    <th>Numero de client</th>
                     <th>Numero du produit</th>
-                    <th>Quantité</th>
+                    <th>Numero du fournisseur</th>
+                    <th>Code du produit</th>
                     <th>Prix</th>
-                    <th>Date de vente</th>
-                    <th>Date de livraison</th>
-                    <th>Action</th>
+                    <th>Quantité disponible</th>
+                    <th>Balisage</th>
+                    <th>Disponible</th>
+                    <th>Description</th>
+                    <th></th>
                 </tr>
                 
                 {{#records}}
                     <tr>
-                        <th>{{order_num}}</th>
-                        <th>{{customer_id}}</th>
-                        <th>{{product_id}}</th>
-                        <th>{{quantity}}</th>
-                        <th>{{shipping_cost}}</th>
-                        <th>{{sales_date}}</th>
-                        <th>{{shipping_date}}</th>
-                        <th>
-                            <button onclick="deleteCode('{{order_num}}')">Supprimer</button>
-                        </th>
+                        <th>{{Product_ID}}</th>
+                        <th>{{Manufacturer_ID}}</th>
+                        <th>{{Product_Code}}</th>
+                        <th>{{Purchase_Cost}}</th>
+                        <th>{{Quantity_on_hand}}</th>
+                        <th>{{markup}}</th>
+                        <th>{{available}}</th>
+                        <th>{{Description}}</th>
                     </tr>
                 {{/records}}
             
@@ -94,9 +111,8 @@
             
         </script>
                 
-        <li><a href="AddPurchaseOrder.jsp">Passer une nouvelle commande</a></li>
         
+                
     </body>
     
 </html>
-
