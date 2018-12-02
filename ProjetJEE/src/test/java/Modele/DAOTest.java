@@ -313,7 +313,27 @@ public class DAOTest {
         assertEquals(res.get(0).getCout(),5*13600,0.0);
         assertEquals(res.get(0).getDescription(),"Cables");
     }
+    
+    @Test
+    public void Man_IDByProductTest() throws Exception{
+        int m = myDAO.Man_IDbyProduct(1);
+        assertEquals(m,666);
+    }
+    
+    @Test
+    public void PriceProductTest() throws Exception{
+        int p = myDAO.ProductPrice(2);
+        assertEquals(p,13600);
+    }
+    
+    @Test 
+    public void maxProd_ID() throws Exception{
+        int m = myDAO.maxProd_ID();
+        assertEquals(m,2);
 }
+}
+    
+
 
 
 

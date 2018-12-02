@@ -525,7 +525,61 @@ public class DAO {
         return result;
     }
     
+    public int Man_IDbyProduct(int product) throws SQLException {
+        int result = 0;
+
+        String sql = "SELECT MANUFACTURER_ID AS ID FROM PRODUCT WHERE PRODUCT_ID = ?";
+        try (Connection myConnection = myDataSource.getConnection();
+                PreparedStatement statement = myConnection.prepareStatement(sql)) {
+            statement.setInt(1, product); // On fixe le 1° paramètre de la requête
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    // est-ce qu'il y a un résultat ? (pas besoin de "while", 
+                    // il y a au plus un enregistrement)
+                    // On récupère les champs de l'enregistrement courant
+                    result = rs.getInt("ID");
+                }
+            }
+        }
+        return result;
+    }
     
+    public int ProductPrice(int product) throws SQLException {
+        int result = 0;
+
+        String sql = "SELECT PURCHASE_COST AS COST FROM PRODUCT WHERE PRODUCT_ID = ?";
+        try (Connection myConnection = myDataSource.getConnection();
+                PreparedStatement statement = myConnection.prepareStatement(sql)) {
+            statement.setInt(1, product); // On fixe le 1° paramètre de la requête
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    // est-ce qu'il y a un résultat ? (pas besoin de "while", 
+                    // il y a au plus un enregistrement)
+                    // On récupère les champs de l'enregistrement courant
+                    result = rs.getInt("COST");
+                }
+            }
+        }
+        return result;
+    }
+    
+    public int maxProd_ID() throws SQLException {
+        int result = 0;
+
+        String sql = "SELECT MAX(PRODUCT_ID) AS MAXI FROM PURCHASE_ORDER;";
+        try (Connection connection = myDataSource.getConnection();
+                Statement stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next()) { // Tant qu'il y a des enregistrements
+                result = rs.getInt("MAXI");
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
+            throw new SQLException(ex.getMessage());
+        }
+        return result;
+    }
     //ADMINISTRATEUR
     
     
