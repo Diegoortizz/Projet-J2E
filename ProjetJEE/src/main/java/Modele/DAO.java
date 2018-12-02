@@ -566,10 +566,10 @@ public class DAO {
         return result;
     }
     
-    public int maxProd_ID() throws SQLException {
+    public int maxOrderNum() throws SQLException {
         int result = 0;
 
-        String sql = "SELECT MAX(PRODUCT_ID) AS MAXI FROM PURCHASE_ORDER;";
+        String sql = "SELECT MAX(ORDER_NUM) AS MAXI FROM PURCHASE_ORDER";
         try (Connection connection = myDataSource.getConnection();
                 Statement stmt = connection.createStatement();
                 ResultSet rs = stmt.executeQuery(sql)) {

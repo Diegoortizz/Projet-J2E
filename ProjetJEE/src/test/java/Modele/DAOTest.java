@@ -327,9 +327,9 @@ public class DAOTest {
     }
     
     @Test 
-    public void maxProd_ID() throws Exception{
-        int m = myDAO.maxProd_ID();
-        assertEquals(m,2);
+    public void maxOrdernumTest() throws Exception{
+        int m = myDAO.maxOrderNum();
+        assertEquals(m,22112018);
 }
 }
     
