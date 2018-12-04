@@ -23,13 +23,13 @@ public class AddPurchaseOrderServlet extends HttpServlet {
         
         DAO dao = new DAO(DataSourceFactory.getDataSource());
 	int product_id = Integer.parseInt(request.getParameter("id"));
-	int quantite = Integer.parseInt(request.getParameter("nbr"));
+        /*int quantite = Integer.parseInt(request.getParameter("nbr"));*/
 	String message;
         
         try {
             String mann = dao.ManbyProduct(product_id);
-            int prix = dao.ProductPrice(product_id)*quantite;
-            dao.insertOrder(555, 1, product_id, quantite, (float) prix, "2018-11-29","2018-12-01",mann);
+            int prix = dao.ProductPrice(product_id);
+            dao.insertOrder(product_id, 1, product_id, 5, (float) prix, "2018-11-29","2018-12-01",mann);
             message = "Purchase Order ajouté";
         } catch (NumberFormatException | SQLException ex) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

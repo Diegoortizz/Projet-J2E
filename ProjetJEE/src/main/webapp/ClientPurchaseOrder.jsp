@@ -14,11 +14,11 @@
             
             $(document).ready(
                 function () {
-                    showCodes();
+                    showCodesPO();
                 }
             );
 
-            function showCodes() {
+            function showCodesPO() {
                 $.ajax({
                     url: "allPO",
                     dataType: "json",
@@ -26,11 +26,39 @@
                     success:
                         function (result) {
                             console.log(result);
-                            var template = $('#codesTemplate').html();
+                            var template = $('#codesTemplate1').html();
                             var processedTemplate = Mustache.to_html(template, result);
-                            $('#aff').html(processedTemplate);
+                            $('#affPO').html(processedTemplate);
                         }
                 });
+            }
+            
+            function showCodesP() {
+                $.ajax({
+                    url: "allP",
+                    dataType: "json",
+                    error: showError,
+                    success:
+                        function (result) {
+                            var template = $('#codesTemplate2').html();
+                            var processedTemplate = Mustache.to_html(template, result);
+                            $('#affP').html(processedTemplate);
+                        }
+                });
+            }
+            
+            function addPO(id) {
+                $.ajax({
+                    url: "addPO",
+                    data: {"id":id},
+                    dataType: "json",
+                    success:
+                        function (result) {
+                            showCodesPO();
+                        },
+                    error: showError
+                });
+                return false;
             }
             
             function deleteCode(code) {
@@ -40,8 +68,7 @@
                     dataType: "json",
                     success: 
                             function (result) {
-                                showCodes();
-                                console.log(result);
+                                showCodesPO();
                             },
                     error: showError
                 });
@@ -49,7 +76,8 @@
             }
 
             function showError(xhr, status, message) {
-                alert(JSON.parse(xhr.responseText).message);
+                /*alert(JSON.parse(xhr.responseText).message);*/
+                console.log("ok");
             }
             
         </script>
@@ -58,9 +86,12 @@
     
     <body>
            
-        <div id="aff"></div>
+        <div id="affPO"></div>
+        <a href='#' onclick='showCodesP()'>Passer une nouvelle commande</a>
+        <div id="affP"></div>
+        
 
-        <script id="codesTemplate" type="text/template">
+        <script id="codesTemplate1" type="text/template">
             
             <table>
             
@@ -77,13 +108,13 @@
                 
                 {{#records}}
                     <tr>
-                        <th>{{order_num}}</th>
-                        <th>{{customer_id}}</th>
-                        <th>{{product_id}}</th>
-                        <th>{{quantity}}</th>
-                        <th>{{shipping_cost}}</th>
-                        <th>{{sales_date}}</th>
-                        <th>{{shipping_date}}</th>
+                        <td>{{order_num}}</td>
+                        <td>{{customer_id}}</td>
+                        <td>{{product_id}}</td>
+                        <td>{{quantity}}</td>
+                        <td>{{shipping_cost}}</td>
+                        <td>{{sales_date}}</td>
+                        <td>{{shipping_date}}</td>
                         <th>
                             <button onclick="deleteCode('{{order_num}}')">Supprimer</button>
                         </th>
@@ -93,9 +124,44 @@
             </table>
             
         </script>
-                
-        <li><a href="AddPurchaseOrder.jsp">Passer une nouvelle commande</a></li>
         
+        <script id="codesTemplate2" type="text/template">
+            
+            <table>
+            
+                <tr>
+                    <th>Numero du produit</th>
+                    <th>Numero du fournisseur</th>
+                    <th>Code du produit</th>
+                    <th>Prix</th>
+                    <th>Quantité disponible</th>
+                    <th>Balisage</th>
+                    <th>Disponible</th>
+                    <th>Description</th>
+                    <th>Action</th>
+                    <th></th>
+                </tr>
+                
+                {{#records}}
+                    <tr>
+                        <td>{{Product_ID}}</td>
+                        <td>{{Manufacturer_ID}}</td>
+                        <td>{{Product_Code}}</td>
+                        <td>{{Purchase_Cost}}</td>
+                        <td>{{Quantity_on_hand}}</td>
+                        <td>{{markup}}</td>
+                        <td>{{available}}</td>
+                        <td>{{Description}}</td>
+                        <th>
+                            <button onclick="addPO('{{Product_ID}}')">Commander</button>
+                        </th>
+                    </tr>
+                {{/records}}
+            
+            </table>
+            
+        </script>
+
     </body>
     
 </html>
