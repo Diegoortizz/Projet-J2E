@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import javax.sql.DataSource;
 import org.hsqldb.cmdline.SqlFile;
 import org.hsqldb.cmdline.SqlToolError;
@@ -291,32 +292,28 @@ public class DAOTest {
     }
     @Test
     public void CustomerCATest() throws Exception{
-        List<CA> res=myDAO.CustomerCA();
+        Map<String, Double>  res=myDAO.CustomerCA();
         assertEquals(res.size(),2);
-        assertEquals(res.get(0).getCout(),5*13600,0.0);
-        assertEquals(res.get(0).getDescription(),"IBM");
+        assertEquals(res.get("IBM"),5*13600,0.0);
         
         
     }
     @Test
     public void StateCATest() throws Exception{
-        List<CA> res=myDAO.StateCA();
+        Map<String, Double> res=myDAO.StateCA();
         assertEquals(res.size(),2);
-        assertEquals(res.get(1).getCout(),5*13600,0.0);
-        assertEquals(res.get(1).getDescription(),"NY");
+        assertEquals(res.get("NY"),5*13600,0.0);
     }
     
     @Test
     public void ProductCATest() throws Exception{
-        List<CA> res=myDAO.ProductCA();
+        Map<String, Double>  res=myDAO.ProductCA();
         assertEquals(res.size(),2);
-        assertEquals(res.get(0).getCout(),5*13600,0.0);
-        assertEquals(res.get(0).getDescription(),"Cables");
+        assertEquals(res.get("Cables"),5*13600,0.0);
     }
     
     @Test
     public void ManByProductTest() throws Exception{
-       
         assertEquals(myDAO.ManbyProduct(1),"Lennox International Inc.");
     }
     

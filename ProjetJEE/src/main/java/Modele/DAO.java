@@ -5,8 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
@@ -587,21 +589,21 @@ public class DAO {
     
     
     //Classer par ordre alphabétique des noms des clients
-    public List<CA> CustomerCA() throws SQLException{
-        List<CA> result = new LinkedList();
+    public Map<String, Double> CustomerCA() throws SQLException{
+        Map<String, Double> result = new HashMap<>();
         // Une requête SQL paramétrée
         String sql = "SELECT CUSTOMER.\"NAME\" AS NAME,SUM(PRODUCT.PURCHASE_COST*PURCHASE_ORDER.QUANTITY) AS COUT \n" +
 "    FROM PURCHASE_ORDER \n" +
 "        INNER JOIN PRODUCT ON PURCHASE_ORDER.PRODUCT_ID=PRODUCT.PRODUCT_ID \n" +
 "            INNER JOIN CUSTOMER ON PURCHASE_ORDER.CUSTOMER_ID=CUSTOMER.CUSTOMER_ID\n" +
-"                GROUP BY CUSTOMER.\"NAME\";\n" +
+"                GROUP BY CUSTOMER.\"NAME\" \n" +
 "";
         try (Connection connection = myDataSource.getConnection();
                 Statement stmt = connection.createStatement();
                 ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) { // Tant qu'il y a des enregistrements
-                CA ca = new CA(rs.getString("NAME"),rs.getFloat("COUT"));
-                result.add(ca);
+                
+                result.put(rs.getString("NAME"),rs.getDouble("COUT"));
             }
 
         } catch (SQLException ex) {
@@ -612,8 +614,8 @@ public class DAO {
     }
     
     //Classer par ordre alphabétique des etats
-    public List<CA> StateCA() throws SQLException{
-        List<CA> result = new LinkedList();
+    public Map<String, Double> StateCA() throws SQLException{
+        Map<String, Double> result = new HashMap();
         // Une requête SQL paramétrée
         String sql = "SELECT CUSTOMER.STATE AS STATE,SUM(PRODUCT.PURCHASE_COST*PURCHASE_ORDER.QUANTITY) AS COUT\n" +
 "    FROM CUSTOMER INNER JOIN PURCHASE_ORDER ON CUSTOMER.CUSTOMER_ID=PURCHASE_ORDER.CUSTOMER_ID\n" +
@@ -623,8 +625,8 @@ public class DAO {
                 Statement stmt = connection.createStatement();
                 ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) { // Tant qu'il y a des enregistrements
-                CA ca = new CA(rs.getString("STATE"),rs.getFloat("COUT"));
-                result.add(ca);
+                
+                result.put(rs.getString("STATE"),rs.getDouble("COUT"));
             }
 
         } catch (SQLException ex) {
@@ -635,8 +637,8 @@ public class DAO {
     }
     
     //Classer par ordre alphabétique des description.
-    public List<CA> ProductCA() throws SQLException{
-        List<CA> result = new LinkedList();
+    public Map<String, Double> ProductCA() throws SQLException{
+        Map<String, Double> result = new HashMap();
         // Une requête SQL paramétrée
         String sql = "SELECT PRODUCT_CODE.DESCRIPTION AS DESCRIPTION,SUM(PRODUCT.PURCHASE_COST*PURCHASE_ORDER.QUANTITY) AS COUT\n" +
 "    FROM PRODUCT_CODE INNER JOIN PRODUCT ON PRODUCT.PRODUCT_CODE=PRODUCT_CODE.PROD_CODE \n" +
@@ -646,8 +648,8 @@ public class DAO {
                 Statement stmt = connection.createStatement();
                 ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) { // Tant qu'il y a des enregistrements
-                CA ca = new CA(rs.getString("DESCRIPTION"),rs.getFloat("COUT"));
-                result.add(ca);
+        
+                result.put(rs.getString("DESCRIPTION"),rs.getDouble("COUT"));
             }
 
         } catch (SQLException ex) {

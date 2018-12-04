@@ -20,6 +20,10 @@
         <servlet-name>AddPurchaseOrderServlet</servlet-name>
         <servlet-class>Controller.AddPurchaseOrderServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SalesByCustomer</servlet-name>
+        <servlet-class>Controller.SalesByCustomer</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Servlet1</servlet-name>
         <url-pattern>/Servlet1</url-pattern>
@@ -39,6 +43,10 @@
     <servlet-mapping>
         <servlet-name>AddPurchaseOrderServlet</servlet-name>
         <url-pattern>/AddPurchaseOrderServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SalesByCustomer</servlet-name>
+        <url-pattern>/SalesByCustomer</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
