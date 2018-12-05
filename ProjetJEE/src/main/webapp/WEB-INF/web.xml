@@ -24,6 +24,10 @@
         <servlet-name>SalesByCustomer</servlet-name>
         <servlet-class>Controller.SalesByCustomer</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SalesByState</servlet-name>
+        <servlet-class>Controller.SalesByState</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Servlet1</servlet-name>
         <url-pattern>/Servlet1</url-pattern>
@@ -47,6 +51,10 @@
     <servlet-mapping>
         <servlet-name>SalesByCustomer</servlet-name>
         <url-pattern>/SalesByCustomer</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SalesByState</servlet-name>
+        <url-pattern>/SalesByState</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
