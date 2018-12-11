@@ -24,9 +24,19 @@
         </dependency>
         <dependency>
             <groupId>org.apache.derby</groupId>
+            <artifactId>derby</artifactId>
+            <version>10.14.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.derby</groupId>
             <artifactId>derbyclient</artifactId>
             <version>10.14.1.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derbytools</artifactId>
+            <version>10.14.1.0</version>
+        </dependency>	
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -52,22 +62,15 @@
             <version>7.0</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>org.apache.derby</groupId>
-            <artifactId>derbyclient</artifactId>
-            <version>10.14.1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.derby</groupId>
-            <artifactId>derby</artifactId>
-            <version>10.14.1.0</version>
-        </dependency>
+        
         <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.8.5</version>
         </dependency>
+        
+        
     </dependencies>
 
     <build>
