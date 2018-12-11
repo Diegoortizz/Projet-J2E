@@ -69,28 +69,39 @@ public class LoginServlet extends HttpServlet {
         if (password.equals("admin") && name.equals("admin")) {
             // TODO Diego : Loop through each Customer and display in table
         } else {
-            // TODO Diego : Ne plus utiliser 
-            System.out.println("HERE | name = " + name);
+            System.out.println("name = " + name + " | password = " + password);
             DAO dao = new DAO(DataSourceFactory.getDataSource());
             Customer c = null;
             try {
                 c = dao.Customer(name);
+                String login = c.getEmail();
+                String motdepasse = Integer.toString(c.getCustomerId());
             } catch (SQLException ex) {
                 Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            Map<String, String> HM = new HashMap<String, String>();
+            String login = c.getEmail();
+            String motdepasse = Integer.toString(c.getCustomerId());
+            System.out.println(login + " " + motdepasse);
+            if ((name == null ? login == null : name.equals(login)) && (password == null ? motdepasse == null : password.equals(motdepasse))) {
+                Map<String, String> HM = new HashMap<String, String>();
+                HM = c.getAllAttributs();
 
-            HM = c.getAllAttributs();
+                for (Map.Entry<String, String> entry : HM.entrySet()) {
+                    String key = entry.getKey();
+                    String value = entry.getValue();
+                    session.setAttribute(key, value);
 
-            for (Map.Entry<String, String> entry : HM.entrySet()) {
-                String key = entry.getKey();
-                String value = entry.getValue();
-                session.setAttribute(key, value);
+                }
+                request.setAttribute("correct", true);
+                showView("vue_client.jsp", request, response);
 
+            } else {
+                request.setAttribute("correct", false);
             }
+
         }
-        showView("vue_client.jsp", request, response);
+
     }
 
     private void showView(String jsp, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

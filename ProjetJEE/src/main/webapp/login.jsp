@@ -15,10 +15,15 @@
     </head>
     <body>
         <form method="POST">
-            <label> Login : <input name="name" value="jumboeagle@example.com"></label> <br>
-            <label> Mot de passe : <input name="password" value="x"></label>
+            <label> Login : <input name="name" required="required"></label> <br>
+            <label> Mot de passe : <input name="password" required="required"></label>
             <input name="action" value="Connexion" type="SUBMIT">
         </form>  
-    </body>
+
+    <c:if  test="${not correct}">
+        <div style="color:red;"> Mot de passe ou login incorrect </div>
+    </c:if>
+
+</body>
 </html>
 
