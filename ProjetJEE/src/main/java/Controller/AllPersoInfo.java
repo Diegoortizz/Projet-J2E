@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Controller;
 
 import Modele.DAO;
@@ -21,35 +16,22 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpSession;
 
-/**
- *
- * @author Utilisateur
- */
+
 @WebServlet(name = "AllPersoInfo", urlPatterns = {"/AllPersoInfo"})
 public class AllPersoInfo extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         DAO dao = new DAO(DataSourceFactory.getDataSource());
-
-        System.out.println("IN THE SERVLET");
         Properties resultat = new Properties();
-        HttpSession session = request.getSession(false);
-        String nomnom = (String) session.getAttribute("email");
-        System.out.println("NOMNOM ------>" + " " + nomnom);
         Map<String, String> HM = new HashMap<>();
+        
+        HttpSession session = request.getSession(false);
+        String email = (String) session.getAttribute("email");
+        
         try {
-            HM = dao.Customer(nomnom).getAllAttributs();
-            System.out.println(dao.Customer(nomnom));
+            HM = dao.Customer(email).getAllAttributs();
             resultat.put("datasPerso", HM);
         } catch (SQLException ex) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -58,13 +40,8 @@ public class AllPersoInfo extends HttpServlet {
         }
 
         try (PrintWriter out = response.getWriter()) {
-            // On spécifie que la servlet va générer du JSON
             response.setContentType("application/json;charset=UTF-8");
-            // Générer du JSON
-            // Gson gson = new Gson();
-            // setPrettyPrinting pour que le JSON généré soit plus lisible
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
             out.println(gson.toJson(resultat));
         }
 

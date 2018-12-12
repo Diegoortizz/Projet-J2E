@@ -1,10 +1,5 @@
-<%-- 
-    Document   : login
-    Created on : 23 nov. 2018, 22:10:12
-    Author     : Utilisateur
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -15,15 +10,15 @@
     </head>
     <body>
         <form method="POST">
-            <label> Login : <input name="name" required="required" value="jumboeagle@example.com"></label> <br>
-            <label> Mot de passe : <input name="password" required="required" value="1"></label>
-            <input name="action" value="Connexion" type="SUBMIT">
+            <label> Login : <input name="log" required="required" value="jumboeagle@example.com"></label> <br>
+            <label> Mot de passe : <input name="mdp" required="required" value="1"></label>
+            <input name="action" value="GoToCI" type="SUBMIT">
+            <input name="action" value="GoToPOI" type="SUBMIT">
         </form>  
 
-    <c:if  test="${not correct}">
-        <div style="color:red;"> Mot de passe ou login incorrect </div>
-    </c:if>
-
-</body>
+        <c:if  test="${not correct}">
+            <div style="color:red;"> Mot de passe ou login incorrect </div>
+        </c:if>
+    </body>
 </html>
 

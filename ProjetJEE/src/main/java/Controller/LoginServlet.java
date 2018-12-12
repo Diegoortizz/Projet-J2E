@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Controller;
 
 import Modele.Customer;
@@ -20,37 +15,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-/**
- *
- * @author Utilisateur
- */
+
 public class LoginServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
 
+        String log = request.getParameter("log");
+        String mdp = request.getParameter("mdp");
         String action = request.getParameter("action");
-        String name = request.getParameter("name");
-        String password = request.getParameter("password");
-        System.out.println(action + "   " + name + "   " + password);
 
         if (action != null) {
-            switch (action) {
-                case "Connexion":
-                    startSession(request, response);
-                    break;
-                case "Deconnexion":
-                    exitSession(request, response);
-                    break;
+            if ("Deconnexion".equals(action)) {
+                exitSession(request, response);
+            } else {
+                startSession(request, response, action);
             }
         } else {
             showView("login.jsp", request, response);
@@ -64,38 +43,48 @@ public class LoginServlet extends HttpServlet {
         showView("login.jsp", request, response);
     }
 
-    private void startSession(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void startSession(HttpServletRequest request, HttpServletResponse response, String action) throws ServletException, IOException {
+        
         HttpSession session = request.getSession(false);
-        String name = request.getParameter("name");
-        String password = request.getParameter("password");
-        session.setAttribute("email", name);
-        session.setAttribute("password", password);
+        
+        String log = request.getParameter("log");
+        String mdp = request.getParameter("mdp");
 
-        if (password.equals("admin") && name.equals("admin")) {
+        if (log.equals("admin") && mdp.equals("admin")) {
+            
             // TODO Diego : Loop through each Customer and display in table
+            
         } else {
+            
             DAO dao = new DAO(DataSourceFactory.getDataSource());
+            
             Customer c = null;
             try {
-                c = dao.Customer(name);
-
+                c = dao.Customer(log);
             } catch (SQLException ex) {
                 Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            String login = c.getEmail();
-            String motdepasse = Integer.toString(c.getCustomerId());
-            if ((name == null ? login == null : name.equals(login)) && (password == null ? motdepasse == null : password.equals(motdepasse))) {
-                Map<String, String> HM = new HashMap<String, String>();
-                HM = c.getAllAttributs();
-                for (Map.Entry<String, String> entry : HM.entrySet()) {
-                    String key = entry.getKey();
-                    String value = entry.getValue();
-//                    session.setAttribute(key, value);
-                }
+            String email = c.getEmail();
+            String id = Integer.toString(c.getCustomerId());
+            
+            if ((log == null ? email == null : log.equals(email)) && (mdp == null ? id == null : mdp.equals(id))) {
+                
                 request.setAttribute("correct", true);
-//                System.out.println("HEREHEREHERE" + " " + (String) session.getAttribute("email"));
-                showView("vue_client.jsp", request, response);
+                switch (action) {
+                    
+                    case "GoToCI":
+                                            
+                        session.setAttribute("name", c.getName());
+                        session.setAttribute("email", c.getEmail());
+                        showView("vue_client.jsp", request, response);
+                        
+                    case "GoToPOI":
+                        
+                        session.setAttribute("id", c.getCustomerId());
+                        showView("ClientPurchaseOrder.jsp", request, response);
+                        
+            }
 
             } else {
                 request.setAttribute("correct", false);
@@ -106,9 +95,7 @@ public class LoginServlet extends HttpServlet {
     }
 
     private void showView(String jsp, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        getServletConfig().getServletContext().getRequestDispatcher("/views/" + jsp).forward(request, response);
         getServletConfig().getServletContext().getRequestDispatcher("/" + jsp).forward(request, response);
-//        request.getRequestDispatcher(jsp).include(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
