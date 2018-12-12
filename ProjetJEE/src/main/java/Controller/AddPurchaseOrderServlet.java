@@ -22,22 +22,17 @@ public class AddPurchaseOrderServlet extends HttpServlet {
             throws ServletException, IOException {
         
         DAO dao = new DAO(DataSourceFactory.getDataSource());
-	int product_id = Integer.parseInt(request.getParameter("id"));
-        /*int quantite = Integer.parseInt(request.getParameter("nbr"));*/
-	String message;
+        Properties resultat = new Properties();
+        
+	int Product_ID = Integer.parseInt(request.getParameter("Product_ID"));
+        int id = Integer.parseInt(request.getParameter("id"));
         
         try {
-            String mann = dao.ManbyProduct(product_id);
-            int prix = dao.ProductPrice(product_id);
-            dao.insertOrder(product_id, 1, product_id, 5, (float) prix, "2018-11-29","2018-12-01",mann);
-            message = "Purchase Order ajouté";
+            dao.insertOrder(dao.maxOrderNum()+1, id, Product_ID, 1, (float) dao.ProductPrice(Product_ID), "2018-11-29","2018-12-01",dao.ManbyProduct(Product_ID));
         } catch (NumberFormatException | SQLException ex) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            message = ex.getMessage();
+            resultat.put("message", ex.getMessage());
 	}
-		
-	Properties resultat = new Properties();
-	resultat.put("message", message);
 
 	try (PrintWriter out = response.getWriter()) {
             response.setContentType("application/json;charset=UTF-8");

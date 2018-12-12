@@ -23,13 +23,13 @@ public class AllPersoInfo extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        HttpSession session = request.getSession(false);
+        String email = (String) session.getAttribute("email");
+
         DAO dao = new DAO(DataSourceFactory.getDataSource());
         Properties resultat = new Properties();
         Map<String, String> HM = new HashMap<>();
-        
-        HttpSession session = request.getSession(false);
-        String email = (String) session.getAttribute("email");
-        
+
         try {
             HM = dao.Customer(email).getAllAttributs();
             resultat.put("datasPerso", HM);

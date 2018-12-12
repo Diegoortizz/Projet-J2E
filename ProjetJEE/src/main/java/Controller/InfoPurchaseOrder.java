@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 
 @WebServlet(name = "InfoPO_InJSON", urlPatterns = {"/allPO"})
@@ -21,11 +22,14 @@ public class InfoPurchaseOrder extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        HttpSession session = request.getSession(false);
+        String email = (String) session.getAttribute("email");
+        
         DAO dao = new DAO(DataSourceFactory.getDataSource());
-        int id = 1;
         Properties resultat = new Properties();
         
         try {
+            int id = dao.Customer(email).getCustomerId();
             resultat.put("records", dao.ProductByClient(id));
         } catch (SQLException ex) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

@@ -23,16 +23,15 @@ public class DeletePurchaseOrder extends HttpServlet {
             throws ServletException, IOException, Exception {
         
         DAO dao = new DAO(DataSourceFactory.getDataSource());
-        String id = request.getParameter("code");
-        String message;
         Properties resultat = new Properties();
+        
+        String id = request.getParameter("order_num");
         
         try {
             dao.deleteOrder(Integer.parseInt(id));
         } catch (SQLException ex) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            message = ex.getMessage();
-            resultat.put("message",message);
+            resultat.put("message",ex.getMessage());
         }
         
         try (PrintWriter out = response.getWriter()) {

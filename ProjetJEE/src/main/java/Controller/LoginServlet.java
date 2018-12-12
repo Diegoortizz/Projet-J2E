@@ -82,6 +82,8 @@ public class LoginServlet extends HttpServlet {
                     case "GoToPOI":
                         
                         session.setAttribute("id", c.getCustomerId());
+                        session.setAttribute("name", c.getName());
+                        session.setAttribute("email", c.getEmail());
                         showView("ClientPurchaseOrder.jsp", request, response);
                         
             }

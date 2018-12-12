@@ -25,7 +25,6 @@
                     error: showError,
                     success:
                         function (result) {
-                            console.log(result);
                             var template = $('#codesTemplate1').html();
                             var processedTemplate = Mustache.to_html(template, result);
                             $('#affPO').html(processedTemplate);
@@ -47,13 +46,13 @@
                 });
             }
             
-            function addPO(id) {
+            function addPO(Product_ID) {
                 $.ajax({
                     url: "addPO",
-                    data: {"id":id},
+                    data: {"Product_ID":Product_ID,"id":'${sessionScope.id}'},
                     dataType: "json",
                     success:
-                        function (result) {
+                        function () {
                             showCodesPO();
                         },
                     error: showError
@@ -61,23 +60,22 @@
                 return false;
             }
             
-            function deleteCode(code) {
+            function deleteCode(order_num) {
                 $.ajax({
                     url: "deletePO",
-                    data: {"code": code},
+                    data: {"order_num":order_num},
                     dataType: "json",
                     success: 
-                            function (result) {
-                                showCodesPO();
-                            },
+                        function () {
+                            showCodesPO();
+                        },
                     error: showError
                 });
                 return false;
             }
 
             function showError(xhr, status, message) {
-                /*alert(JSON.parse(xhr.responseText).message);*/
-                console.log("ok");
+                alert(JSON.parse(xhr.responseText).message);
             }
             
         </script>
@@ -85,6 +83,8 @@
     </head>
     
     <body>
+        
+        <h1>Voici vos commandes, ${sessionScope.name}</h1>
            
         <div id="affPO"></div>
         <a href='#' onclick='showCodesP()'>Passer une nouvelle commande</a>

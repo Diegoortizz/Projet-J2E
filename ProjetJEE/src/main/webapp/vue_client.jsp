@@ -69,7 +69,7 @@
 
     <body>
         
-        <h1>Bienvenue ${sessionScope.name} </h1>
+        <h1>Bienvenue ${sessionScope.name}</h1>
         
         <div id="customerD"></div>
         
