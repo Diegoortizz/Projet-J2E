@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
 public class LoginServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -24,12 +23,16 @@ public class LoginServlet extends HttpServlet {
         String log = request.getParameter("log");
         String mdp = request.getParameter("mdp");
         String action = request.getParameter("action");
-
+        System.out.println("ACTION " + action);
         if (action != null) {
-            if ("Deconnexion".equals(action)) {
-                exitSession(request, response);
-            } else {
-                startSession(request, response, action);
+            switch (action) {
+                case "GoToCI":
+                case "GoToPOI":
+                    startSession(request, response, action);
+                    break;
+                case "Deconnexion":
+                    exitSession(request, response);
+                    break;
             }
         } else {
             showView("login.jsp", request, response);
@@ -44,20 +47,19 @@ public class LoginServlet extends HttpServlet {
     }
 
     private void startSession(HttpServletRequest request, HttpServletResponse response, String action) throws ServletException, IOException {
-        
+
         HttpSession session = request.getSession(false);
-        
+
         String log = request.getParameter("log");
         String mdp = request.getParameter("mdp");
 
         if (log.equals("admin") && mdp.equals("admin")) {
-            
+
             // TODO Diego : Loop through each Customer and display in table
-            
         } else {
-            
+
             DAO dao = new DAO(DataSourceFactory.getDataSource());
-            
+
             Customer c = null;
             try {
                 c = dao.Customer(log);
@@ -67,26 +69,20 @@ public class LoginServlet extends HttpServlet {
 
             String email = c.getEmail();
             String id = Integer.toString(c.getCustomerId());
-            
+            session.setAttribute("id", c.getCustomerId());
+            session.setAttribute("name", c.getName());
+            session.setAttribute("email", c.getEmail());
+
             if ((log == null ? email == null : log.equals(email)) && (mdp == null ? id == null : mdp.equals(id))) {
-                
+
                 request.setAttribute("correct", true);
                 switch (action) {
-                    
                     case "GoToCI":
-                                            
-                        session.setAttribute("name", c.getName());
-                        session.setAttribute("email", c.getEmail());
                         showView("vue_client.jsp", request, response);
-                        
+
                     case "GoToPOI":
-                        
-                        session.setAttribute("id", c.getCustomerId());
-                        session.setAttribute("name", c.getName());
-                        session.setAttribute("email", c.getEmail());
                         showView("ClientPurchaseOrder.jsp", request, response);
-                        
-            }
+                }
 
             } else {
                 request.setAttribute("correct", false);
