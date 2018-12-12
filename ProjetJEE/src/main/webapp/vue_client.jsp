@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        
+
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
@@ -16,7 +16,7 @@
                         showCustomersInState();
                     }
             );
-    
+
             function showCustomersInState() {
                 $.ajax({
                     url: "AllPersoInfo",
@@ -31,7 +31,7 @@
                     error: showError
                 });
             }
-            
+
             function showError(xhr, status, message) {
                 alert(JSON.parse(xhr.responseText).message);
             }
@@ -64,41 +64,42 @@
                 color: white;
             }
         </style>
-        
+
     </head>
 
     <body>
-        
+
         <h1>Bienvenue ${sessionScope.name}</h1>
-        
+        <h1>Bienvenue ${sessionScope.email}</h1>
+
         <div id="customerD"></div>
-        
+
         </br>
-        
+
         <form method="POST">
             <input type="SUBMIT" name="action" value="Deconnexion">
         </form>       
 
         <script id="customerTemplate" type="text/template">
-            
+
             <table align="center" id="customerTemplate">
-                <tr>
-                    <th>id</th>
-                    <th>nom</th>
-                    <th>ville</th>
-                </tr>
-                
-                {{#records}}
-                <tr>
-                    <td>{{customerid}}</td>
-                    <td>{{name}}</td>
-                    <td>{{city}}</td>
-                </tr>
-                {{/records}} 
+            <tr>
+            <th>id</th>
+            <th>nom</th>
+            <th>ville</th>
+            </tr>
+
+            {{#records}}
+            <tr>
+            <td>{{customerid}}</td>
+            <td>{{name}}</td>
+            <td>{{city}}</td>
+            </tr>
+            {{/records}} 
             </table>
-            
+
         </script>
 
     </body>
-    
+
 </html>

@@ -16,13 +16,12 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpSession;
 
-
 @WebServlet(name = "AllPersoInfo", urlPatterns = {"/AllPersoInfo"})
 public class AllPersoInfo extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         HttpSession session = request.getSession(false);
         String email = (String) session.getAttribute("email");
 

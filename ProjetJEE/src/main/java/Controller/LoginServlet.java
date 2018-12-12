@@ -79,11 +79,11 @@ public class LoginServlet extends HttpServlet {
                 switch (action) {
                     case "GoToCI":
                         showView("vue_client.jsp", request, response);
-
+                        break;
                     case "GoToPOI":
                         showView("ClientPurchaseOrder.jsp", request, response);
+                        break;
                 }
-
             } else {
                 request.setAttribute("correct", false);
             }
