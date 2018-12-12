@@ -15,8 +15,8 @@
     </head>
     <body>
         <form method="POST">
-            <label> Login : <input name="name" required="required"></label> <br>
-            <label> Mot de passe : <input name="password" required="required"></label>
+            <label> Login : <input name="name" required="required" value="jumboeagle@example.com"></label> <br>
+            <label> Mot de passe : <input name="password" required="required" value="1"></label>
             <input name="action" value="Connexion" type="SUBMIT">
         </form>  
 

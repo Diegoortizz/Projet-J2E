@@ -9,6 +9,7 @@ import Modele.Customer;
 import Modele.DAO;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -42,15 +43,17 @@ public class LoginServlet extends HttpServlet {
         String password = request.getParameter("password");
         System.out.println(action + "   " + name + "   " + password);
 
-        if (name != null && password != null) {
+        if (action != null) {
             switch (action) {
                 case "Connexion":
                     startSession(request, response);
+                    break;
                 case "Deconnexion":
                     exitSession(request, response);
+                    break;
             }
         } else {
-            exitSession(request, response);
+            showView("login.jsp", request, response);
         }
 
     }
@@ -62,38 +65,36 @@ public class LoginServlet extends HttpServlet {
     }
 
     private void startSession(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
         String name = request.getParameter("name");
         String password = request.getParameter("password");
-        session.setAttribute("name", name);
+        session.setAttribute("email", name);
+        session.setAttribute("password", password);
+
         if (password.equals("admin") && name.equals("admin")) {
             // TODO Diego : Loop through each Customer and display in table
         } else {
-            System.out.println("name = " + name + " | password = " + password);
             DAO dao = new DAO(DataSourceFactory.getDataSource());
             Customer c = null;
             try {
                 c = dao.Customer(name);
-                String login = c.getEmail();
-                String motdepasse = Integer.toString(c.getCustomerId());
+
             } catch (SQLException ex) {
                 Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
 
             String login = c.getEmail();
             String motdepasse = Integer.toString(c.getCustomerId());
-            System.out.println(login + " " + motdepasse);
             if ((name == null ? login == null : name.equals(login)) && (password == null ? motdepasse == null : password.equals(motdepasse))) {
                 Map<String, String> HM = new HashMap<String, String>();
                 HM = c.getAllAttributs();
-
                 for (Map.Entry<String, String> entry : HM.entrySet()) {
                     String key = entry.getKey();
                     String value = entry.getValue();
-                    session.setAttribute(key, value);
-
+//                    session.setAttribute(key, value);
                 }
                 request.setAttribute("correct", true);
+//                System.out.println("HEREHEREHERE" + " " + (String) session.getAttribute("email"));
                 showView("vue_client.jsp", request, response);
 
             } else {

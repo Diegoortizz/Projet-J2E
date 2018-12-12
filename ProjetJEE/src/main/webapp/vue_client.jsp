@@ -28,29 +28,14 @@
         <script>
             $(document).ready(
                     function () {
-//                        showDataPerso();
                         showCustomersInState();
                     }
             );
 
-
             function showError(xhr, status, message) {
                 alert(JSON.parse(xhr.responseText).message);
             }
-            function showDataPerso() {
-                // On fait un appel AJAX pour chercher les codes
-                $.ajax({
-                    url: "AllPersoInfo",
-                    dataType: "json",
-                    error: showError,
-                    success: // La fonction qui traite les résultats
-                            function (result) {
-                                console.log(result.datasPerso.customerid);
-                                $('input[name="ID"]').val(result.datasPerso.name);
-                                $('output[name="ID"]').val(result.datasPerso.name);
-                            }
-                });
-            }
+
             function showCustomersInState() {
                 $.ajax({
                     url: "AllPersoInfo",
@@ -58,7 +43,7 @@
                     success: // La fonction qui traite les résultats
                             function (result) {
                                 var template = $('#customerTemplate').html();
-                                console.log("diego", result.datasPerso);
+//                                console.log("diego", result.datasPerso);
                                 var processedTemplate = Mustache.to_html(template, {records: result.datasPerso});
                                 console.log(processedTemplate);
                                 $('#customerD').html(processedTemplate);

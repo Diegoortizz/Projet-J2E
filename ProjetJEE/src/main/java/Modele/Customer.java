@@ -123,18 +123,18 @@ public class Customer {
 
     }
 
-    @Override
-    public String toString() {
-        String s = "-------------------------------------------";
-        return s + "\nCustomer_id = " + this.getCustomerId() + "\n"
-                + "Name = " + this.getName() + "\n"
-                + "Adresse = " + this.getAddressLine1() + "\n"
-                + "City = " + this.getCity() + "\n"
-                + "State = " + this.getState() + "\n"
-                + "Phone = " + this.getPhone() + "\n"
-                + "Fax = " + this.getFax() + "\n"
-                + "Email = " + this.getEmail() + "\n"
-                + "Credit limit = " + this.getCreditLimit()
-                + "\n" + s;
-    }
+//    @Override
+//    public String toString() {
+//        String s = "-------------------------------------------";
+//        return s + "\nCustomer_id = " + this.getCustomerId() + "\n"
+//                + "Name = " + this.getName() + "\n"
+//                + "Adresse = " + this.getAddressLine1() + "\n"
+//                + "City = " + this.getCity() + "\n"
+//                + "State = " + this.getState() + "\n"
+//                + "Phone = " + this.getPhone() + "\n"
+//                + "Fax = " + this.getFax() + "\n"
+//                + "Email = " + this.getEmail() + "\n"
+//                + "Credit limit = " + this.getCreditLimit()
+//                + "\n" + s;
+//    }
 }

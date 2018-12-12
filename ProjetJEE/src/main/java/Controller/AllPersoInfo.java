@@ -41,12 +41,11 @@ public class AllPersoInfo extends HttpServlet {
             throws ServletException, IOException {
         DAO dao = new DAO(DataSourceFactory.getDataSource());
 
+        System.out.println("IN THE SERVLET");
         Properties resultat = new Properties();
-//        HttpSession session = request.getSession(false);
-//
-//        String name = (String) session.getAttribute("name");
-//        System.out.println(name);
-        String nomnom = "jumboeagle@example.com";
+        HttpSession session = request.getSession(false);
+        String nomnom = (String) session.getAttribute("email");
+        System.out.println("NOMNOM ------>" + " " + nomnom);
         Map<String, String> HM = new HashMap<>();
         try {
             HM = dao.Customer(nomnom).getAllAttributs();
