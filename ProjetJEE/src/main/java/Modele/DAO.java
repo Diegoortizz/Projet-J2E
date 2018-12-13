@@ -486,19 +486,14 @@ public class DAO {
         }
     }
 
-    public int updateOrder(int ordernum, int c_id, int p_id, int quantity, float shipp_cost, String sale_d, String shipp_d) throws SQLException {
-        String sql = "UPDATE PURCHASE_ORDER SET ORDER_NUM=?,PRODUCT_ID=?,QUANTITY=?,SHIPPING_COST=?,SALES_DATE=?,SHIPPING_DATE=? WHERE CUSTOMER_ID=?;";
+    public int updateOrder(int product_id,int quantity) throws SQLException {
+        String sql = "UPDATE PURCHASE_ORDER SET QUANTITY=? WHERE ORDER_NUM=?";
         try (Connection connection = myDataSource.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
             // Définir la valeur du paramètre
-            stmt.setInt(1, ordernum);
-            stmt.setInt(2, p_id);
-            stmt.setInt(3, quantity);
-            stmt.setFloat(4, shipp_cost);
-            stmt.setString(5, sale_d);
-            stmt.setString(6, shipp_d);
-            stmt.setInt(7, c_id);
-
+            
+            stmt.setInt(1, quantity);
+            stmt.setInt(2, product_id);
             return stmt.executeUpdate();
 
         } catch (SQLException ex) {

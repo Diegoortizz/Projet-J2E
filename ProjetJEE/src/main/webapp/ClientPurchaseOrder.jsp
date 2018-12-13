@@ -10,6 +10,33 @@
         <script	src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.min.js"></script>
         
+        <style>
+            #StyleTable {
+                font-family: 'Roboto', sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+            }
+
+            #StyleTable td, #StyleTable th {
+                text-align: center; 
+                vertical-align: middle;
+                border: 1px solid #ddd;
+                padding: 8px;
+            }
+
+            #StyleTable tr:nth-child(even){background-color: #f2f2f2;}
+
+            #StyleTable tr:hover {background-color: #ddd;}
+
+            #StyleTable th {
+                padding-top: 12px;
+                padding-bottom: 12px;
+                text-align: left;
+                background-color: #4CAF50;
+                color: white;
+            }
+        </style>
+        
         <script>
             
             $(document).ready(
@@ -73,6 +100,20 @@
                 });
                 return false;
             }
+            
+            function modifCode(order_num) {
+                $.ajax({
+                    url: "modifPO",
+                    data: {"order_num":order_num,"quantite":quantite},
+                    dataType: "json",
+                    success: 
+                        function () {
+                            showCodesPO();
+                        },
+                    error: showError
+                });
+                return false;
+            }
 
             function showError(xhr, status, message) {
                 alert(JSON.parse(xhr.responseText).message);
@@ -93,7 +134,7 @@
 
         <script id="codesTemplate1" type="text/template">
             
-            <table>
+            <table id="StyleTable">
             
                 <tr>
                     <th>Numero de commande</th>
@@ -117,6 +158,10 @@
                         <td>{{shipping_date}}</td>
                         <th>
                             <button onclick="deleteCode('{{order_num}}')">Supprimer</button>
+                            <form id="codeForm" onsubmit="event.preventDefault(); modifCode('{{order_num}}');">
+                                Quantité : <input id="quantite" name="quantite" type="number"><br/>
+                                <input type="submit" value="Modifier">
+                            </form>
                         </th>
                     </tr>
                 {{/records}}
@@ -127,7 +172,7 @@
         
         <script id="codesTemplate2" type="text/template">
             
-            <table>
+            <table id="StyleTable">
             
                 <tr>
                     <th>Numero du produit</th>
@@ -139,7 +184,6 @@
                     <th>Disponible</th>
                     <th>Description</th>
                     <th>Action</th>
-                    <th></th>
                 </tr>
                 
                 {{#records}}

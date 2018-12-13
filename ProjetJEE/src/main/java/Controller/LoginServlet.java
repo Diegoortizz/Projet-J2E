@@ -17,8 +17,6 @@ public class LoginServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
 
-        String log = request.getParameter("log");
-        String mdp = request.getParameter("mdp");
         String action = request.getParameter("action");
         System.out.println("ACTION " + action);
         if (action != null) {
@@ -54,8 +52,9 @@ public class LoginServlet extends HttpServlet {
         String mdp = request.getParameter("mdp");
 
         if (log.equals("admin") && mdp.equals("admin")) {
-
-            // TODO Diego : Loop through each Customer and display in table
+            
+            
+            
         } else {
 
             DAO dao = new DAO(DataSourceFactory.getDataSource());

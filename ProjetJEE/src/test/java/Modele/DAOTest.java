@@ -268,14 +268,7 @@ public class DAOTest {
         assertEquals(c2,c+1);
     }
     
-    @Test
-    public void updateOrderTest() throws Exception{
-        Order c = myDAO.findOrder(22112018);
-        myDAO.updateOrder(22112018, 10, 2, 24, (float) 54.00, "2018-11-30", "2018-12-05");
-        Order c2 = myDAO.findOrder(22112018);
-        assertEquals(c.getProductID(),1);
-        assertEquals(c2.getProductID(),2);
-    }
+
     @Test
     public void deleteOrderTest() throws Exception{
         int c = myDAO.allOrder();
