@@ -14,9 +14,9 @@
             $(document).ready(
                     function () {
                         showCustomersInState();
+                        ModifyInfos();
                     }
             );
-
             function showCustomersInState() {
                 $.ajax({
                     url: "AllPersoInfo",
@@ -31,6 +31,38 @@
                     error: showError
                 });
             }
+
+            function ModifyInfos() {
+                $.ajax({
+                    url: "ModifyInfosClient",
+                    data: {"email": "${sessionScope.email}"},
+                    dataType: "json",
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    success: // La fonction qui traite les résultats
+                            function (result) {
+                                console.log("in");
+                            },
+                    error: showError
+                });
+            }
+
+            function ModifyInfos() {
+                $.ajax({
+                    url: "ReadInfosClient",
+                    data: {"id": "${sessionScope.id}", "name": "${sessionScope.name}", "telephone": "${sessionScope.telephone}", "email": "${sessionScope.email}", "adresse": "${sessionScope.adresse}", "state": "${sessionScope.state}", "city": "${sessionScope.city}"},
+                    dataType: "json",
+                    success:
+                            function (result) {
+                                console.log("salut :)");
+                            },
+                    error: showError
+                });
+                return false;
+            }
+
+
 
             function showError(xhr, status, message) {
                 alert(JSON.parse(xhr.responseText).message);
@@ -69,11 +101,8 @@
 
     <body>
 
-        <h1>Bienvenue ${sessionScope.name}</h1>
-        <h1>Bienvenue ${sessionScope.email}</h1>
-
+        <h1> Bienvenue ${sessionScope.name} </h1>
         <div id="customerD"></div>
-
         </br>
 
         <form method="POST">
@@ -81,23 +110,29 @@
         </form>       
 
         <script id="customerTemplate" type="text/template">
-
+            <h2>Customers datas</h2>
             <table align="center" id="customerTemplate">
             <tr>
-            <th>id</th>
-            <th>nom</th>
-            <th>ville</th>
+            <th>ID</th>
+            <th>NOM</th>
+            <th>TELEPHONE</th>
+            <th>EMAIL</th>
+            <th>ADRESSE</th>
+            <th>STATE</th>
+            <th>CITY</th>
             </tr>
-
             {{#records}}
             <tr>
             <td>{{customerid}}</td>
             <td>{{name}}</td>
+            <td>{{phone}}</td>
+            <td>{{email}}</td>
+            <td>{{adress}}</td>
+            <td>{{state}}</td>
             <td>{{city}}</td>
             </tr>
-            {{/records}} 
+            {{/records}}
             </table>
-
         </script>
 
     </body>

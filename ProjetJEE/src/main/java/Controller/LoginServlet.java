@@ -4,9 +4,6 @@ import Modele.Customer;
 import Modele.DAO;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -32,6 +29,9 @@ public class LoginServlet extends HttpServlet {
                     break;
                 case "Deconnexion":
                     exitSession(request, response);
+                    break;
+                case "load_input":
+                    showView("client_side_view.jsp", request, response);
                     break;
             }
         } else {
@@ -72,13 +72,18 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("id", c.getCustomerId());
             session.setAttribute("name", c.getName());
             session.setAttribute("email", c.getEmail());
+            session.setAttribute("adresse", c.getAddressLine1());
+            session.setAttribute("telephone", c.getPhone());
+            session.setAttribute("state", c.getState());
+            session.setAttribute("city", c.getCity());
+            session.setAttribute("credit", c.getCreditLimit());
 
             if ((log == null ? email == null : log.equals(email)) && (mdp == null ? id == null : mdp.equals(id))) {
-
                 request.setAttribute("correct", true);
                 switch (action) {
                     case "GoToCI":
-                        showView("vue_client.jsp", request, response);
+//                        showView("vue_client.jsp", request, response);
+                        showView("client_side_view.jsp", request, response);
                         break;
                     case "GoToPOI":
                         showView("ClientPurchaseOrder.jsp", request, response);
@@ -87,9 +92,7 @@ public class LoginServlet extends HttpServlet {
             } else {
                 request.setAttribute("correct", false);
             }
-
         }
-
     }
 
     private void showView(String jsp, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
