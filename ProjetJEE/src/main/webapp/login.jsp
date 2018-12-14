@@ -12,10 +12,13 @@
         <form method="POST">
             <label> Login : <input name="log" required="required" value="jumboeagle@example.com"></label> <br>
             <label> Mot de passe : <input name="mdp" required="required" value="1"></label>
-            <input name="action" value="GoToCI" type="SUBMIT">
-            <input name="action" value="GoToPOI" type="SUBMIT">
+            <input name="action" value="Connexion" type="SUBMIT">
         </form>  
 
+        
+        
+        
+        
         <c:if  test="${not correct}">
             <div style="color:red;"> Mot de passe ou login incorrect </div>
         </c:if>

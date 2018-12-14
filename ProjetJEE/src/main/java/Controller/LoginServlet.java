@@ -13,59 +13,58 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class LoginServlet extends HttpServlet {
-
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
-
+        
         String action = request.getParameter("action");
         System.out.println("ACTION " + action);
         if (action != null) {
             switch (action) {
-                case "GoToCI":
-                case "GoToPOI":
+                case "Connexion":
                     startSession(request, response, action);
                     break;
                 case "Deconnexion":
                     exitSession(request, response);
                     break;
-                case "load_input":
-                    showView("client_side_view.jsp", request, response);
+                case "Vos commandes":
+                    showView("ClientPurchaseOrder.jsp", request, response);
                     break;
+                case "Vos informations":
+                    showView("client_side_view.jsp", request, response);
             }
         } else {
-            showView("login.jsp", request, response);
+            showView("login_test.jsp", request, response);
         }
-
+        
     }
-
+    
     private void exitSession(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         session.invalidate();
-        showView("login.jsp", request, response);
+        showView("login_test.jsp", request, response);
     }
-
+    
     private void startSession(HttpServletRequest request, HttpServletResponse response, String action) throws ServletException, IOException {
-
+        
         HttpSession session = request.getSession(false);
-
+        
         String log = request.getParameter("log");
         String mdp = request.getParameter("mdp");
-
+        
         if (log.equals("admin") && mdp.equals("admin")) {
-            
-            
+            showView("SalesByCustomerChart.jsp", request, response);
             
         } else {
-
+            
             DAO dao = new DAO(DataSourceFactory.getDataSource());
-
             Customer c = null;
             try {
                 c = dao.Customer(log);
             } catch (SQLException ex) {
                 Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-
+            
             String email = c.getEmail();
             String id = Integer.toString(c.getCustomerId());
             session.setAttribute("id", c.getCustomerId());
@@ -76,24 +75,16 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("state", c.getState());
             session.setAttribute("city", c.getCity());
             session.setAttribute("credit", c.getCreditLimit());
-
+            
             if ((log == null ? email == null : log.equals(email)) && (mdp == null ? id == null : mdp.equals(id))) {
                 request.setAttribute("correct", true);
-                switch (action) {
-                    case "GoToCI":
-//                        showView("vue_client.jsp", request, response);
-                        showView("client_side_view.jsp", request, response);
-                        break;
-                    case "GoToPOI":
-                        showView("ClientPurchaseOrder.jsp", request, response);
-                        break;
-                }
+                showView("client_side_view.jsp", request, response);
             } else {
                 request.setAttribute("correct", false);
             }
         }
     }
-
+    
     private void showView(String jsp, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         getServletConfig().getServletContext().getRequestDispatcher("/" + jsp).forward(request, response);
     }
