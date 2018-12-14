@@ -48,7 +48,7 @@ public class ApplicationListener implements ServletContextListener{
 			result = true;
 		} catch (SQLException ex) {
 			Logger.getLogger("ProjetJEE").log(Level.INFO, "Database does not exist");
-		}
+		} 
 		return result;
 	}
 
