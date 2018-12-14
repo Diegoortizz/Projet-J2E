@@ -282,7 +282,7 @@ public class DAOTest {
     }
     @Test
     public void CustomerCATest() throws Exception{
-        Map<String, Double>  res=myDAO.CustomerCA();
+        Map<String, Double>  res=myDAO.CustomerCA("2018-09-14","2018-11-23");
         assertEquals(res.size(),2);
         assertEquals(res.get("IBM"),5*13600,0.0);
         
@@ -290,14 +290,14 @@ public class DAOTest {
     }
     @Test
     public void StateCATest() throws Exception{
-        Map<String, Double> res=myDAO.StateCA();
+        Map<String, Double> res=myDAO.StateCA("2018-09-14","2018-11-23");
         assertEquals(res.size(),2);
         assertEquals(res.get("NY"),5*13600,0.0);
     }
     
     @Test
     public void ProductCATest() throws Exception{
-        Map<String, Double>  res=myDAO.ProductCA();
+        Map<String, Double>  res=myDAO.ProductCA("2018-09-14","2018-11-23");
         assertEquals(res.size(),2);
         assertEquals(res.get("Cables"),5*13600,0.0);
     }

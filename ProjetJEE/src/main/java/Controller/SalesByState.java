@@ -42,7 +42,7 @@ public class SalesByState extends HttpServlet {
         // Properties est une Map<clé, valeur> pratique pour générer du JSON
         Properties resultat = new Properties();
         try {
-            resultat.put("records", dao.StateCA());
+            resultat.put("records", dao.StateCA("2018-09-14","2018-11-23"));
         } catch (SQLException ex) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             resultat.put("records", Collections.EMPTY_LIST);

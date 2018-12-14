@@ -486,12 +486,12 @@ public class DAO {
         }
     }
 
-    public int updateOrder(int product_id,int quantity) throws SQLException {
+    public int updateOrder(int product_id, int quantity) throws SQLException {
         String sql = "UPDATE PURCHASE_ORDER SET QUANTITY=? WHERE ORDER_NUM=?";
         try (Connection connection = myDataSource.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
             // Définir la valeur du paramètre
-            
+
             stmt.setInt(1, quantity);
             stmt.setInt(2, product_id);
             return stmt.executeUpdate();
@@ -582,74 +582,84 @@ public class DAO {
     //ADMINISTRATEUR
 
     //Classer par ordre alphabétique des noms des clients
-    public Map<String, Double> CustomerCA() throws SQLException {
+    public Map<String, Double> CustomerCA(String beg, String end) throws SQLException {
         Map<String, Double> result = new HashMap<>();
         // Une requête SQL paramétrée
         String sql = "SELECT CUSTOMER.\"NAME\" AS NAME,SUM(PRODUCT.PURCHASE_COST*PURCHASE_ORDER.QUANTITY) AS COUT \n"
-                + "    FROM PURCHASE_ORDER \n"
-                + "        INNER JOIN PRODUCT ON PURCHASE_ORDER.PRODUCT_ID=PRODUCT.PRODUCT_ID \n"
-                + "            INNER JOIN CUSTOMER ON PURCHASE_ORDER.CUSTOMER_ID=CUSTOMER.CUSTOMER_ID\n"
-                + "                GROUP BY CUSTOMER.\"NAME\" \n"
-                + "";
-        try (Connection connection = myDataSource.getConnection();
-                Statement stmt = connection.createStatement();
-                ResultSet rs = stmt.executeQuery(sql)) {
-            while (rs.next()) { // Tant qu'il y a des enregistrements
+                + "                    FROM PURCHASE_ORDER \n"
+                + "                       INNER JOIN PRODUCT ON PURCHASE_ORDER.PRODUCT_ID=PRODUCT.PRODUCT_ID \n"
+                + "                           INNER JOIN CUSTOMER ON PURCHASE_ORDER.CUSTOMER_ID=CUSTOMER.CUSTOMER_ID and PURCHASE_ORDER.SALES_DATE BETWEEN ? and ?\n"
+                + "                                GROUP BY CUSTOMER.\"NAME\"";
+        try (Connection myConnection = myDataSource.getConnection();
+                PreparedStatement statement = myConnection.prepareStatement(sql)) {
+            statement.setString(1, beg);
+            statement.setString(2, end);
 
-                result.put(rs.getString("NAME"), rs.getDouble("COUT"));
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) { // Tant qu'il y a des enregistrements
+
+                    result.put(rs.getString("NAME"), rs.getDouble("COUT"));
+                }
+
+            } catch (SQLException ex) {
+                Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
+                throw new SQLException(ex.getMessage());
             }
-
-        } catch (SQLException ex) {
-            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
-            throw new SQLException(ex.getMessage());
+            return result;
         }
-        return result;
     }
-
-    //Classer par ordre alphabétique des etats
-    public Map<String, Double> StateCA() throws SQLException {
+        //Classer par ordre alphabétique des etats
+    public Map<String, Double> StateCA(String beg, String end) throws SQLException {
         Map<String, Double> result = new HashMap();
         // Une requête SQL paramétrée
         String sql = "SELECT CUSTOMER.STATE AS STATE,SUM(PRODUCT.PURCHASE_COST*PURCHASE_ORDER.QUANTITY) AS COUT\n"
-                + "    FROM CUSTOMER INNER JOIN PURCHASE_ORDER ON CUSTOMER.CUSTOMER_ID=PURCHASE_ORDER.CUSTOMER_ID\n"
-                + "        INNER JOIN PRODUCT ON PURCHASE_ORDER.PRODUCT_ID=PRODUCT.PRODUCT_ID\n"
-                + "            GROUP BY CUSTOMER.STATE";
-        try (Connection connection = myDataSource.getConnection();
-                Statement stmt = connection.createStatement();
-                ResultSet rs = stmt.executeQuery(sql)) {
-            while (rs.next()) { // Tant qu'il y a des enregistrements
+                + "                    FROM CUSTOMER INNER JOIN PURCHASE_ORDER ON CUSTOMER.CUSTOMER_ID=PURCHASE_ORDER.CUSTOMER_ID\n"
+                + "                      INNER JOIN PRODUCT ON PURCHASE_ORDER.PRODUCT_ID=PRODUCT.PRODUCT_ID and PURCHASE_ORDER.SALES_DATE BETWEEN ? and ?\n"
+                + "                          GROUP BY CUSTOMER.STATE;";
+        try (Connection myConnection = myDataSource.getConnection();
+                PreparedStatement statement = myConnection.prepareStatement(sql)) {
+            statement.setString(1, beg);
+            statement.setString(2, end);
 
-                result.put(rs.getString("STATE"), rs.getDouble("COUT"));
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) { // Tant qu'il y a des enregistrements
+
+                    result.put(rs.getString("STATE"), rs.getDouble("COUT"));
+                }
+
+            } catch (SQLException ex) {
+                Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
+                throw new SQLException(ex.getMessage());
             }
-
-        } catch (SQLException ex) {
-            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
-            throw new SQLException(ex.getMessage());
+            return result;
         }
-        return result;
     }
-
-    //Classer par ordre alphabétique des description.
-    public Map<String, Double> ProductCA() throws SQLException {
+        //Classer par ordre alphabétique des description.
+    public Map<String, Double> ProductCA(String beg, String end) throws SQLException {
         Map<String, Double> result = new HashMap();
         // Une requête SQL paramétrée
-        String sql = "SELECT PRODUCT_CODE.DESCRIPTION AS DESCRIPTION,SUM(PRODUCT.PURCHASE_COST*PURCHASE_ORDER.QUANTITY) AS COUT\n"
-                + "    FROM PRODUCT_CODE INNER JOIN PRODUCT ON PRODUCT.PRODUCT_CODE=PRODUCT_CODE.PROD_CODE \n"
-                + "        INNER JOIN PURCHASE_ORDER ON PURCHASE_ORDER.PRODUCT_ID=PRODUCT.PRODUCT_ID\n"
-                + "            GROUP BY PRODUCT_CODE.DESCRIPTION";
-        try (Connection connection = myDataSource.getConnection();
-                Statement stmt = connection.createStatement();
-                ResultSet rs = stmt.executeQuery(sql)) {
-            while (rs.next()) { // Tant qu'il y a des enregistrements
+        String sql = "SELECT PRODUCT_CODE.DESCRIPTION AS DESCRIPTION,SUM(PRODUCT.PURCHASE_COST*PURCHASE_ORDER.QUANTITY) AS COUT  \n"
+                + "    FROM PRODUCT_CODE INNER JOIN PRODUCT ON PRODUCT.PRODUCT_CODE=PRODUCT_CODE.PROD_CODE\n"
+                + "    INNER JOIN PURCHASE_ORDER ON PURCHASE_ORDER.PRODUCT_ID=PRODUCT.PRODUCT_ID and PURCHASE_ORDER.SALES_DATE BETWEEN ? and ?\n"
+                + "    GROUP BY PRODUCT_CODE.DESCRIPTION";
+        try (Connection myConnection = myDataSource.getConnection();
+                PreparedStatement statement = myConnection.prepareStatement(sql)) {
+            statement.setString(1, beg);
+            statement.setString(2, end);
 
-                result.put(rs.getString("DESCRIPTION"), rs.getDouble("COUT"));
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) { // Tant qu'il y a des enregistrements
+
+                    result.put(rs.getString("DESCRIPTION"), rs.getDouble("COUT"));
+                }
+
+            } catch (SQLException ex) {
+                Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
+                throw new SQLException(ex.getMessage());
             }
-
-        } catch (SQLException ex) {
-            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
-            throw new SQLException(ex.getMessage());
+            return result;
         }
-        return result;
+
     }
 
     public int updateCustomerDgo(int id, String name, String address1, String city, String State, String Phone, String Email, int credit) throws SQLException {
