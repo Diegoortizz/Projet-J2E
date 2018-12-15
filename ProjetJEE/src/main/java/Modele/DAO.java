@@ -354,6 +354,36 @@ public class DAO {
         }
     }
 
+    public List<Integer> allMan_ID() throws SQLException {
+        List<Integer> result = new LinkedList<>();
+        String sql = "SELECT MANUFACTURER_ID FROM MANUFACTURER";
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                int id  = rs.getInt("MANUFACTURER_ID");
+
+                result.add(id);
+            }
+        }
+        return result;
+    }
+    
+    public List<String> allProd_Code() throws SQLException {
+        List<String> result = new LinkedList<>();
+        String sql = "SELECT PROD_CODE FROM PRODUCT_CODE";
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                String code  = rs.getString("PROD_CODE");
+
+                result.add(code);
+            }
+        }
+        return result;
+    }
+    
     //Méthodes pour les bons de commandes
     public int numberDiscount() throws SQLException {
         int result = 0;

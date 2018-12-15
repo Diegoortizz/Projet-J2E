@@ -40,26 +40,12 @@ public class SalesByProduct extends HttpServlet {
             throws ServletException, IOException {
 
         DAO dao = new DAO(DataSourceFactory.getDataSource());
-        String action = (String) request.getParameter("action");
-        String guessf = (String) request.getParameter("guessForm");
-        String deb = (String) request.getParameter("deb");
-        String fin = (String) request.getParameter("fin");
-        System.out.println("debut "+deb);
-        System.out.println("fin "+ fin);
-        System.out.println("action " + action);
-        System.out.println("gess" + guessf);
+
         Properties resultat = new Properties();
         try {
-            if (action.equals("Valider")){
-                resultat.put("records", dao.ProductCA(deb, fin));
-            }
-            else{
-                resultat.put("records", dao.ProductCA("2010-07-22", "2018-07-22"));
-            }
-           
+            resultat.put("records", dao.ProductCA("2010-07-22", "2018-07-22"));
+
             // Properties est une Map<clé, valeur> pratique pour générer du JSON
-           
-            
         } catch (SQLException ex) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             resultat.put("records", Collections.EMPTY_LIST);

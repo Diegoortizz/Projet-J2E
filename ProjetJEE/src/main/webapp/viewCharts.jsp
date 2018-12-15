@@ -28,7 +28,6 @@
             $.ajax({
                 url: "salesCustomer",
                 dataType: "json",
-                data: $("#guessForm").serialize(),
                 success: // La fonction qui traite les résultats
                         function (result) {
                             // On reformate le résultat comme un tableau
@@ -68,20 +67,19 @@
             var chart = new google.visualization.GeoChart(document.getElementById('geochart-colors'));
             chart.draw(data, options);
         }
-        ;
 
         // Afficher les ventes par client
         function doAjax2() {
             $.ajax({
                 url: "salesState",
                 dataType: "json",
-                data: $("#guessForm").serialize(),
                 success: // La fonction qui traite les résultats
                         function (result) {
+                            console.log("coucou");
                             // On reformate le résultat comme un tableau
                             var chartData = [];
                             // On met le descriptif des données
-                            chartData.push(["State", "Ventes"]);
+                            chartData.push(["Etats", "Ventes"]);
                             for (var client in result.records) {
                                 chartData.push([client, result.records[client]]);
                             }
@@ -130,7 +128,6 @@
             $.ajax({
                 url: "salesProduct",
                 dataType: "json",
-                data: $("#guessForm").serialize(),
                 success: // La fonction qui traite les résultats
                         function (result) {
                             // On reformate le résultat comme un tableau
@@ -158,9 +155,9 @@
     <h1> Pages admin</h1>
     <form id="guessForm" name="guessForm" method="POST" accept-charset="UTF-8" >
 
-        Date de début : <input type="date" value = "2011-05-05" required name="deb">
+        Date de début : <input type="date" id='deb' name="deb">
 
-       Date de fin : <input type="date" value="2018-05-05" required name="fin">
+       Date de fin : <input type="date" id='fin>' name="fin">
         <input type="SUBMIT" name="action" value="Valider">
     </form>
     <!-- Les graphiques apparaît ici -->

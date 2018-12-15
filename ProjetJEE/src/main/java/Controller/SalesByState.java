@@ -39,10 +39,12 @@ public class SalesByState extends HttpServlet {
             throws ServletException, IOException {
 
         DAO dao = new DAO(DataSourceFactory.getDataSource());
-        // Properties est une Map<clé, valeur> pratique pour générer du JSON
+
         Properties resultat = new Properties();
         try {
-            resultat.put("records", dao.StateCA("2018-09-14","2018-11-23"));
+            resultat.put("records", dao.StateCA("2010-07-22", "2018-07-22"));
+
+            // Properties est une Map<clé, valeur> pratique pour générer du JSON
         } catch (SQLException ex) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             resultat.put("records", Collections.EMPTY_LIST);

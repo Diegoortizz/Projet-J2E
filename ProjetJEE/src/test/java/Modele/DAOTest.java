@@ -334,6 +334,21 @@ public class DAOTest {
         int m = myDAO.maxOrderNum();
         assertEquals(m,22112018);
 }
+    @Test
+    public void allMan_IDTest() throws Exception{
+        List<Integer> ManID=myDAO.allMan_ID();
+        assertEquals(ManID.size(),2);
+        int m =ManID.get(0);
+        assertEquals(m,66);
+    }
+    
+    @Test
+    public void allProd_CodeTest() throws Exception{
+        List<String> Pc=myDAO.allProd_Code();
+        assertEquals(Pc.size(),2);
+        String code =Pc.get(0);
+        assertEquals(code,"SW");
+    }
 }
     
 
