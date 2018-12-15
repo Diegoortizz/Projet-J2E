@@ -5,6 +5,7 @@ import Modele.Customer;
 import Modele.DAO;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -20,6 +21,7 @@ public class LoginServlet extends HttpServlet {
         
         String action = request.getParameter("action");
         System.out.println("ACTION " + action);
+        DAO dao = new DAO(DataSourceFactory.getDataSource());
         if (action != null) {
             switch (action) {
                 case "Connexion":

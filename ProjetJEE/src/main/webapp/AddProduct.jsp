@@ -11,9 +11,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.min.js"></script>
         
         <script>
-            
-            
-            
+                     
             function addP() {
                 $.ajax({
                     url: "addP",
@@ -26,6 +24,10 @@
                     error: showError
                 });
                 return false;
+            }
+            
+            function showError(xhr, status, message) {
+                alert(JSON.parse(xhr.responseText).message);
             }
         
         </script>
@@ -47,7 +49,6 @@
             DESCRIPTION : <input id="DESCRIPTION" name="DESCRIPTION"><br/>
             <input type="submit" value="Ajouter">
         </form>
-        
         
     </body>
     
