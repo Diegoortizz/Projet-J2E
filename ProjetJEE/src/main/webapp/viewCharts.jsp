@@ -77,7 +77,6 @@
                 dataType: "json",
                 success: // La fonction qui traite les résultats
                         function (result) {
-                            console.log("coucou");
                             // On reformate le résultat comme un tableau
                             var chartData = [];
                             // On met le descriptif des données
@@ -151,33 +150,63 @@
         function showError(xhr, status, message) {
             alert("Erreur: " + status + " : " + message);
         }
-        
-        function allCharts(){
+
+        function allCharts() {
             doAjax();
             doAjax2();
             doAjax3();
         }
-        
+
     </script>
+    <style type="text/css">
+        #guessForm {
+            font-family: 'Roboto', sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        body {
+            background: #DCDCDC;
+        }
+
+        th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #4CAF50;
+            color: white; 
+        }
+
+
+    </style>
 </head>
 <body>
-    <h1> Pages admin</h1>
+    <h1> Les statistiques </h1>
     <form id="guessForm" method="POST" accept-charset="UTF-8" >
-
-        <label for="debut"> Date de début : </label> 
+        Date de début : 
         <input type="date" id='debut' value="2010-05-06" name="debut">
-
-        <label for="fin">Date de fin : </label>
+        Date de fin : 
         <input type="date" id='fin' value="2018-05-06" name="fin">
         <button type="button" onclick="allCharts()"> Vérifier </button>
     </form>
-    
-    
+
+
     <!-- Les graphiques apparaît ici -->
-    <h1>Chiffres d'affaires des Clients</h1>
-    <div id="table_div" style="width: 900px; height: 500px;"></div>
-    <h1>Chiffres d'affaires par Etat</h1>
-    <div id="geochart-colors" style="width: 900px; height: 500px;"></div>
-    <h1>Chiffres d'affaires par catégorie de produits</h1>
-    <div id="chart_div" style="width: 900px; height: 500px;"></div>
+    <table border="2">
+        <TR>
+
+            <TH>Chiffres d'affaires des Clients</TH>
+            <th>Chiffres d'affaires par Etat</th>
+            <th>Chiffres d'affaires par catégorie de produits</th>
+        </TR>
+        <tr>
+            <TD><div id="table_div" style="width: 550px; height: 300px;"></div></td>
+            <td><div id="geochart-colors" style="width: 550px; height: 300px;"></div></td>
+            <td><div id="chart_div" style="width: 550px; height: 300px;"></div></td>
+        </tr>
+    </table>
+
+    <form method="POST">
+        <input type="SUBMIT" name="action" value="Vos Produits">
+        <input type="SUBMIT" name="action" value="Deconnexion">
+    </form> 
 </body>

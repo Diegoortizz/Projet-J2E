@@ -39,6 +39,8 @@ public class LoginServlet extends HttpServlet {
                     showView("AddProduct.jsp", request, response);
                 case "Accéder aux statistiques":
                     showView("viewCharts.jsp", request, response);
+                case "Vos Produits":
+                    showView("AdminProduct.jsp", request, response);
             }
         } else {
             showView("login_test.jsp", request, response);
