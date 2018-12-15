@@ -101,10 +101,10 @@
                 return false;
             }
             
-            function modifCode(order_num) {
+            function modifCode() {
                 $.ajax({
                     url: "modifPO",
-                    data: {"order_num":order_num,"quantite":quantite},
+                    data: $("#codeForm").serialize(),
                     dataType: "json",
                     success: 
                         function () {
@@ -128,6 +128,13 @@
         <h1>Voici vos commandes, ${sessionScope.name}</h1>
 
         <div id="affPO"></div>
+        
+        <form id="codeForm" onsubmit="event.preventDefault(); modifCode();">
+            Numero de commande : <input id="order_num" name="order_num">
+            Quantite : <input id="quantity" name="quantity">
+            <input type="submit" value="Modifier">
+        </form>  
+        
         <a href='#' onclick='showCodesP()'>Passer une nouvelle commande</a>
         <div id="affP"></div>
 
@@ -158,19 +165,14 @@
                         <td>{{shipping_date}}</td>
                         <th>
                             <button onclick="deleteCode('{{order_num}}')">Supprimer</button>
-                            <form id="codeForm" onsubmit="event.preventDefault(); modifCode();">
-                                <input id="order_num" name="order_num" type="number">
-                                Quantité : <input id="quantite" name="quantite" type="number"><br/>
-                                <input type="submit" value="Modifier">
-                            </form>
                         </th>
                     </tr>
                 {{/records}}
             
             </table>
-            
+             
         </script>
-        
+
         <script id="codesTemplate2" type="text/template">
             
             <table id="StyleTable">
@@ -199,6 +201,7 @@
                         <td>{{Description}}</td>
                         <th>
                             <button onclick="addPO('{{Product_ID}}')">Commander</button>
+                            
                         </th>
                     </tr>
                 {{/records}}

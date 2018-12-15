@@ -32,6 +32,8 @@ public class LoginServlet extends HttpServlet {
                     break;
                 case "Vos informations":
                     showView("client_side_view.jsp", request, response);
+                case "Ajouter un nouveau produit":
+                    showView("AddProduct.jsp", request, response);
                 case "Accéder aux statistiques":
                     showView("viewCharts.jsp", request, response);
             }

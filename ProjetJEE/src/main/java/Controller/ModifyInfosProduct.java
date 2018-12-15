@@ -1,12 +1,17 @@
 package Controller;
 
+import Modele.DAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 
 
 @WebServlet(name = "ModifyInfosProduct", urlPatterns = {"/ModifyInfosProduct"})
@@ -15,15 +20,19 @@ public class ModifyInfosProduct extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String Product_ID = request.getParameter("Product_ID");
-        String Purchase_Cost = request.getParameter("Purchase_Cost");
-        String Quantity_on_hand = request.getParameter("Quantity_on_hand");
-        String markup = request.getParameter("Quantity_on_hand");
+        DAO dao = new DAO(DataSourceFactory.getDataSource());
+        
+        int Product_ID = Integer.parseInt(request.getParameter("Product_ID"));
+        int Purchase_Cost = Integer.parseInt(request.getParameter("Purchase_Cost"));
+        int Quantity_on_hand = Integer.parseInt(request.getParameter("Quantity_on_hand"));
+        int markup = Integer.parseInt(request.getParameter("Quantity_on_hand"));
         String Description = request.getParameter("Description");
         
-        
-        
-        
+        try {
+            dao.updateProduct(Product_ID, Purchase_Cost, Quantity_on_hand, markup, Description);
+        } catch (SQLException ex) {
+            Logger.getLogger(ModifyInfosProduct.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }
 

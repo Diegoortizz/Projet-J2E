@@ -80,8 +80,9 @@
                 w.document.write("<title>"+"Modifitation du produit "+Product_ID+"</title>");
                 w.document.write("<body>");
                 w.document.write("<h1>Vous pouvez modifier le produit "+Product_ID+"</h1>");
-                w.document.write("<form id='codeForm' onsubmit='event.preventDefault(); UpdateForm()';>");
-                    w.document.write("<input type='hidden' name='Product_ID' value='Product_ID'>");
+                
+                w.document.write("<form id='codeForm' onsubmit='event.preventDefault(); UpdateProduct()';>");
+                    w.document.write("<input type='hidden' name='Product_ID' value=Product_ID>");
                     w.document.write("<p>Prix : "+Purchase_Cost+"</p>");
                         w.document.write("<input type='text' name='Purchase_Cost' id='Purchase_Cost'>");
                     w.document.write("<p>Quantité disponible : "+Quantity_on_hand+"</p>");
@@ -94,13 +95,13 @@
                     w.document.write("<br>");
                     w.document.write("<input type='submit'>");
                 w.document.write("</form>");
+                
                 w.document.write("</body>");
-                w.document.write();
                 w.document.close();  
                 
             }
             
-            function UpdateForm() {
+            function UpdateProduct() {
                 $.ajax({
                     url: "ModifyInfosProduct",
                     data: $("#codeForm").serialize(),
@@ -111,6 +112,8 @@
                     error: showError
                 });
             }
+            
+            
             
             function showError(xhr, status, message) {
                 alert(JSON.parse(xhr.responseText).message);
@@ -128,6 +131,7 @@
         
         <form method="POST">
             <input type="SUBMIT" name="action" value="Accéder aux statistiques">
+            <input type="SUBMIT" name="action" value="Ajouter un nouveau produit">
             <input type="SUBMIT" name="action" value="Deconnexion">
         </form> 
         

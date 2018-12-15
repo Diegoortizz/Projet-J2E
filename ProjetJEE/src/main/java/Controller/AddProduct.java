@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-@WebServlet(name = "ModifPurchaseOrder", urlPatterns = {"/modifPO"})
-public class ModifPurchaseOrder extends HttpServlet {
+@WebServlet(name = "AddProduct", urlPatterns = {"/AddP"})
+public class AddProduct extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -22,13 +22,17 @@ public class ModifPurchaseOrder extends HttpServlet {
         DAO dao = new DAO(DataSourceFactory.getDataSource());
         Properties resultat = new Properties();
         
-        int order_num = Integer.parseInt(request.getParameter("order_num"));
-        int quantity = Integer.parseInt(request.getParameter("quantity"));
+	int PRODUCT_ID = Integer.parseInt(request.getParameter("PRODUCT_ID"));
+        int MANUFACTURER_ID = Integer.parseInt(request.getParameter("MANUFACTURER_ID"));
+        String PRODUCT_CODE = request.getParameter("PRODUCT_CODE");
+        int PURCHASE_COST = Integer.parseInt(request.getParameter("PURCHASE_COST"));
+        int QUANTITY_ON_HAND = Integer.parseInt(request.getParameter("QUANTITY_ON_HAND"));
+        int MARKUP = Integer.parseInt(request.getParameter("MANUFACTURER_ID"));
+        String DESCRIPTION = request.getParameter("DESCRIPTION");
         
-        System.out.println(order_num + " " + quantity);
         
         try {
-            dao.updateOrder(order_num,quantity);
+            dao.insertProduct(PRODUCT_ID, MANUFACTURER_ID, PRODUCT_CODE, PURCHASE_COST, QUANTITY_ON_HAND, MARKUP, true, DESCRIPTION);
         } catch (NumberFormatException | SQLException ex) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             resultat.put("message", ex.getMessage());
