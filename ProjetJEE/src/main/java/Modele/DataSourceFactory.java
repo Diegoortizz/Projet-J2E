@@ -1,29 +1,46 @@
 package Modele;
 
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.sql.DataSource;
 
-
+/**
+ *
+ * @author rbastide
+ */
 public class DataSourceFactory {
-     
-    static {
-        try {
-            Class.forName("org.apache.derby.jdbc.ClientDriver");
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(DataSourceFactory.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    public static DataSource getDataSource() throws SQLException {
-	org.apache.derby.jdbc.ClientDataSource ds = new org.apache.derby.jdbc.ClientDataSource();
-	ds.setDatabaseName("sample");
-	ds.setUser("app");
-	ds.setPassword("app");
-        ds.setServerName("localhost");
-        ds.setPortNumber(1527);
-        return ds;
-    }
-    
+
+	public enum DriverType {
+		embedded, server
+	};
+	
+	// Choic du type de driver : embedded ou serveur
+	private static final DriverType TYPE = DriverType.embedded;
+	/**
+	 * Renvoie la source de données (server ou embbeded)
+	 * @return  la source de données
+	 */
+	public static DataSource getDataSource() {
+		DataSource result;
+
+		switch (TYPE) {
+			case server: // Derby mode serveur, doit être démarré indépendamment
+				org.apache.derby.jdbc.ClientDataSource ds = new org.apache.derby.jdbc.ClientDataSource();
+				ds.setDatabaseName("sample");
+				ds.setUser("app");
+				ds.setPassword("app");
+				// The host on which Network Server is running
+				ds.setServerName("localhost");
+				// port on which Network Server is listening
+				ds.setPortNumber(1527);
+				result = ds;
+				break;
+			default: // Derby mode embedded, démarré automatiquement avec l'application
+				org.apache.derby.jdbc.EmbeddedDataSource es = new org.apache.derby.jdbc.EmbeddedDataSource();
+				es.setCreateDatabase("create");
+				es.setDatabaseName("embedded_sample");
+				result = es;
+		}
+
+		return result;
+	}
+
 }

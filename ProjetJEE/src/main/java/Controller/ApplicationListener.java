@@ -5,6 +5,7 @@
  */
 package Controller;
 
+import Modele.DataSourceFactory;
 import Modele.DAO;
 import Modele.Discount;
 import java.io.OutputStream;

@@ -339,7 +339,7 @@ public class DAOTest {
         List<Integer> ManID=myDAO.allMan_ID();
         assertEquals(ManID.size(),2);
         int m =ManID.get(0);
-        assertEquals(m,66);
+        assertEquals(m,666);
     }
     
     @Test
@@ -347,7 +347,7 @@ public class DAOTest {
         List<String> Pc=myDAO.allProd_Code();
         assertEquals(Pc.size(),2);
         String code =Pc.get(0);
-        assertEquals(code,"SW");
+        assertEquals(code,"CB");
     }
 }
     
