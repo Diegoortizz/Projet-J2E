@@ -27,6 +27,7 @@
         function doAjax() {
             $.ajax({
                 url: "salesCustomer",
+                data: $("#guessForm").serialize(),
                 dataType: "json",
                 success: // La fonction qui traite les résultats
                         function (result) {
@@ -72,6 +73,7 @@
         function doAjax2() {
             $.ajax({
                 url: "salesState",
+                data: $("#guessForm").serialize(),
                 dataType: "json",
                 success: // La fonction qui traite les résultats
                         function (result) {
@@ -127,6 +129,7 @@
         function doAjax3() {
             $.ajax({
                 url: "salesProduct",
+                data: $("#guessForm").serialize(),
                 dataType: "json",
                 success: // La fonction qui traite les résultats
                         function (result) {
@@ -149,17 +152,27 @@
             alert("Erreur: " + status + " : " + message);
         }
         
+        function allCharts(){
+            doAjax();
+            doAjax2();
+            doAjax3();
+        }
+        
     </script>
 </head>
 <body>
     <h1> Pages admin</h1>
-    <form id="guessForm" name="guessForm" method="POST" accept-charset="UTF-8" >
+    <form id="guessForm" method="POST" accept-charset="UTF-8" >
 
-        Date de début : <input type="date" id='deb' name="deb">
+        <label for="debut"> Date de début : </label> 
+        <input type="date" id='debut' value="2010-05-06" name="debut">
 
-       Date de fin : <input type="date" id='fin>' name="fin">
-        <input type="SUBMIT" name="action" value="Valider">
+        <label for="fin">Date de fin : </label>
+        <input type="date" id='fin' value="2018-05-06" name="fin">
+        <button type="button" onclick="allCharts()"> Vérifier </button>
     </form>
+    
+    
     <!-- Les graphiques apparaît ici -->
     <h1>Chiffres d'affaires des Clients</h1>
     <div id="table_div" style="width: 900px; height: 500px;"></div>

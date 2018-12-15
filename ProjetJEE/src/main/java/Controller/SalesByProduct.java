@@ -43,8 +43,11 @@ public class SalesByProduct extends HttpServlet {
         DAO dao = new DAO(DataSourceFactory.getDataSource());
 
         Properties resultat = new Properties();
+        
+        String dateDebut = request.getParameter("debut");
+        String dateFin = request.getParameter("fin");
         try {
-            resultat.put("records", dao.ProductCA("2010-07-22", "2018-07-22"));
+            resultat.put("records", dao.ProductCA(dateDebut, dateFin));
 
             // Properties est une Map<clé, valeur> pratique pour générer du JSON
         } catch (SQLException ex) {

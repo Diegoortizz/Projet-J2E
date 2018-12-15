@@ -41,10 +41,13 @@ public class SalesByCustomer extends HttpServlet {
 
         DAO dao = new DAO(DataSourceFactory.getDataSource());
         
-        // Properties est une Map<clé, valeur> pratique pour générer du JSON
         Properties resultat = new Properties();
+        
+        String dateDebut = request.getParameter("debut");
+        String dateFin = request.getParameter("fin");
         try {
-            resultat.put("records", dao.CustomerCA("2010-09-14","2018-11-23"));
+            resultat.put("records", dao.CustomerCA(dateDebut, dateFin));
+            
         } catch (SQLException ex) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             resultat.put("records", Collections.EMPTY_LIST);

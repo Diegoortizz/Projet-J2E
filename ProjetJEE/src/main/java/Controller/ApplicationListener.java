@@ -32,6 +32,7 @@ public class ApplicationListener implements ServletContextListener{
         if (!databaseExists()){
             initializeDatabase();
         }
+        
     }
 
     @Override
