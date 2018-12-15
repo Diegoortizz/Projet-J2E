@@ -32,6 +32,8 @@ public class LoginServlet extends HttpServlet {
                     break;
                 case "Vos informations":
                     showView("client_side_view.jsp", request, response);
+                case "Accéder aux statistiques":
+                    showView("viewCharts.jsp", request, response);
             }
         } else {
             showView("login_test.jsp", request, response);
@@ -53,7 +55,8 @@ public class LoginServlet extends HttpServlet {
         String mdp = request.getParameter("mdp");
         
         if (log.equals("admin") && mdp.equals("admin")) {
-            showView("SalesByCustomerChart.jsp", request, response);
+            
+            showView("AdminProduct.jsp", request, response);
             
         } else {
             

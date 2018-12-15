@@ -41,23 +41,9 @@
 
             $(document).ready(
                     function () {
-                        showCodesPO();
+                        showCodesP();
                     }
             );
-
-            function showCodesPO() {
-                $.ajax({
-                    url: "allPO",
-                    dataType: "json",
-                    error: showError,
-                    success:
-                            function (result) {
-                                var template = $('#codesTemplate1').html();
-                                var processedTemplate = Mustache.to_html(template, result);
-                                $('#affPO').html(processedTemplate);
-                            }
-                });
-            }
 
             function showCodesP() {
                 $.ajax({
@@ -72,49 +58,60 @@
                             }
                 });
             }
-
-            function addPO(Product_ID) {
+            
+            function deleteP(Product_ID) {
                 $.ajax({
-                    url: "addPO",
-                    data: {"Product_ID": Product_ID, "id": '${sessionScope.id}'},
+                    url: "deleteP",
+                    data: {"Product_ID": Product_ID},
                     dataType: "json",
                     success:
                             function () {
-                                showCodesPO();
+                                showCodesP();
                             },
                     error: showError
                 });
                 return false;
-            }
-
-            function deleteCode(order_num) {
-                $.ajax({
-                    url: "deletePO",
-                    data: {"order_num": order_num},
-                    dataType: "json",
-                    success:
-                            function () {
-                                showCodesPO();
-                            },
-                    error: showError
-                });
-                return false;
+            } 
+            
+            function modifP(Product_ID,Manufacturer_ID,Product_Code,Purchase_Cost,Quantity_on_hand,markup,available,Description) {
+                
+                w = open("",'popup','width=600,height=500,toolbar=no,scrollbars=no,resizable=yes');
+                
+                w.document.write("<title>"+"Modifitation du produit "+Product_ID+"</title>");
+                w.document.write("<body>");
+                w.document.write("<h1>Vous pouvez modifier le produit "+Product_ID+"</h1>");
+                w.document.write("<form id='codeForm' onsubmit='event.preventDefault(); UpdateForm()';>");
+                    w.document.write("<input type='hidden' name='Product_ID' value='Product_ID'>");
+                    w.document.write("<p>Prix : "+Purchase_Cost+"</p>");
+                        w.document.write("<input type='text' name='Purchase_Cost' id='Purchase_Cost'>");
+                    w.document.write("<p>Quantité disponible : "+Quantity_on_hand+"</p>");
+                        w.document.write("<input type='text' name='Quantity_on_hand' id='Quantity_on_hand'>");
+                    w.document.write("<p>Balisage : "+markup+"</p>");
+                        w.document.write("<input type='text' name='markup' id='markup'>");
+                    w.document.write("<p>Description : "+Description+"</p>");
+                        w.document.write("<input type='text' name='Description' id='Description'>");
+                    w.document.write("<br>");
+                    w.document.write("<br>");
+                    w.document.write("<input type='submit'>");
+                w.document.write("</form>");
+                w.document.write("</body>");
+                w.document.write();
+                w.document.close();  
+                
             }
             
-            function modifCode(order_num) {
+            function UpdateForm() {
                 $.ajax({
-                    url: "modifPO",
-                    data: {"order_num":order_num,"quantite":quantite},
-                    dataType: "json",
-                    success: 
-                        function () {
-                            showCodesPO();
-                        },
+                    url: "ModifyInfosProduct",
+                    data: $("#codeForm").serialize(),
+                    success:
+                            function () {
+                                showCodesP();
+                            },
                     error: showError
                 });
-                return false;
             }
-
+            
             function showError(xhr, status, message) {
                 alert(JSON.parse(xhr.responseText).message);
             }
@@ -125,51 +122,14 @@
 
     <body>
 
-        <h1>Voici vos commandes, ${sessionScope.name}</h1>
+        <h1>Voici la liste des produits</h1>
 
-        <div id="affPO"></div>
-        <a href='#' onclick='showCodesP()'>Passer une nouvelle commande</a>
         <div id="affP"></div>
-
-
-        <script id="codesTemplate1" type="text/template">
-            
-            <table id="StyleTable">
-            
-                <tr>
-                    <th>Numero de commande</th>
-                    <th>Numero de client</th>
-                    <th>Numero du produit</th>
-                    <th>Quantité</th>
-                    <th>Prix</th>
-                    <th>Date de vente</th>
-                    <th>Date de livraison</th>
-                    <th>Action</th>
-                </tr>
-                
-                {{#records}}
-                    <tr>
-                        <td>{{order_num}}</td>
-                        <td>{{customer_id}}</td>
-                        <td>{{product_id}}</td>
-                        <td>{{quantity}}</td>
-                        <td>{{shipping_cost}}</td>
-                        <td>{{sales_date}}</td>
-                        <td>{{shipping_date}}</td>
-                        <th>
-                            <button onclick="deleteCode('{{order_num}}')">Supprimer</button>
-                            <form id="codeForm" onsubmit="event.preventDefault(); modifCode();">
-                                <input id="order_num" name="order_num" type="number">
-                                Quantité : <input id="quantite" name="quantite" type="number"><br/>
-                                <input type="submit" value="Modifier">
-                            </form>
-                        </th>
-                    </tr>
-                {{/records}}
-            
-            </table>
-            
-        </script>
+        
+        <form method="POST">
+            <input type="SUBMIT" name="action" value="Accéder aux statistiques">
+            <input type="SUBMIT" name="action" value="Deconnexion">
+        </form> 
         
         <script id="codesTemplate2" type="text/template">
             
@@ -197,9 +157,14 @@
                         <td>{{markup}}</td>
                         <td>{{available}}</td>
                         <td>{{Description}}</td>
-                        <th>
-                            <button onclick="addPO('{{Product_ID}}')">Commander</button>
-                        </th>
+                        <td>
+                            <button onclick="deleteP('{{Product_ID}}')">Supprimer</button>
+                            <form name="f_popup">
+                                <p><input type="button" value="Modifier" 
+                                onclick="modifP('{{Product_ID}}','{{Manufacturer_ID}}','{{Product_Code}}','{{Purchase_Cost}}',
+                                            '{{Quantity_on_hand}}','{{markup}}','{{available}}','{{Description}}')">
+                            </form>
+                        </td>
                     </tr>
                 {{/records}}
             
@@ -207,10 +172,6 @@
             
         </script>
 
-        <form method="POST">
-            <input type="SUBMIT" name="action" value="Deconnexion">
-            <input type="SUBMIT" name="action" value="Vos informations">
-        </form> 
     </body>
 
 </html>

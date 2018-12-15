@@ -5,6 +5,8 @@
  */
 package Modele;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -61,5 +63,21 @@ public class Product {
     
     public String getDescription(){
         return Description;
+    }
+    
+    public Map<String, String> getAllAttributs() {
+        
+        Map<String, String> HM = new HashMap<String, String>();
+        
+        HM.put("Product_ID", Integer.toString(this.getProduct_Id()));
+        HM.put("Manufacturer_ID", Integer.toString(this.getManufacturer_Id()));
+        HM.put("Product_Code", this.getProduct_Code());
+        HM.put("Quantity_on_hand", Integer.toString(this.getQuantity_on_Hand()));
+        HM.put("markup", Float.toString(this.getMarkup()));
+        HM.put("available", Boolean.toString(this.getAvailable()));
+        HM.put("Description", this.getDescription());
+
+        return HM;
+
     }
 }
