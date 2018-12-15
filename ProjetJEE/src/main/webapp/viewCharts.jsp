@@ -28,6 +28,7 @@
             $.ajax({
                 url: "salesCustomer",
                 dataType: "json",
+                data: $("#guessForm").serialize(),
                 success: // La fonction qui traite les résultats
                         function (result) {
                             // On reformate le résultat comme un tableau
@@ -74,6 +75,7 @@
             $.ajax({
                 url: "salesState",
                 dataType: "json",
+                data: $("#guessForm").serialize(),
                 success: // La fonction qui traite les résultats
                         function (result) {
                             // On reformate le résultat comme un tableau
@@ -128,6 +130,7 @@
             $.ajax({
                 url: "salesProduct",
                 dataType: "json",
+                data: $("#guessForm").serialize(),
                 success: // La fonction qui traite les résultats
                         function (result) {
                             // On reformate le résultat comme un tableau
@@ -148,13 +151,19 @@
         function showError(xhr, status, message) {
             alert("Erreur: " + status + " : " + message);
         }
-
+        
     </script>
 </head>
 <body>
     <h1> Pages admin</h1>
-    <a href='ChartsAdmin' target="_blank">Voir les données brutes</a><br>
-    <!-- Le graphique apparaît ici -->
+    <form id="guessForm" name="guessForm" method="POST" accept-charset="UTF-8" >
+
+        Date de début : <input type="date" value = "2011-05-05" required name="deb">
+
+       Date de fin : <input type="date" value="2018-05-05" required name="fin">
+        <input type="SUBMIT" name="action" value="Valider">
+    </form>
+    <!-- Les graphiques apparaît ici -->
     <h1>Chiffres d'affaires des Clients</h1>
     <div id="table_div" style="width: 900px; height: 500px;"></div>
     <h1>Chiffres d'affaires par Etat</h1>

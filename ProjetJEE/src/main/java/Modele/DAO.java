@@ -316,6 +316,27 @@ public class DAO {
         }
     }
 
+    public int updateProduct(int id, double purchase, int quantity, double markup, String desc) throws SQLException {
+        String sql = "UPDATE PRODUCT SET PURCHASE_COST=?,QUANTITY_ON_HAND =?,MARKUP=?,DESCRIPTION=? WHERE PRODUCT_ID=?";
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            // Définir la valeur du paramètre
+            stmt.setDouble(1, purchase);
+            stmt.setInt(2, quantity);
+            stmt.setDouble(3, markup);
+            stmt.setString(4, desc);
+            stmt.setInt(5, id);
+
+            return stmt.executeUpdate();
+
+        } catch (SQLException ex) {
+            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
+            throw new SQLException(ex.getMessage());
+        }
+    }
+    
+    
+    
     public int deleteProduct(int id) throws Exception {
 
         // Une requête SQL paramétrée
@@ -486,14 +507,14 @@ public class DAO {
         }
     }
 
-    public int updateOrder(int product_id, int quantity) throws SQLException {
+    public int updateOrder(int ordernum, int quantity) throws SQLException {
         String sql = "UPDATE PURCHASE_ORDER SET QUANTITY=? WHERE ORDER_NUM=?";
         try (Connection connection = myDataSource.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
             // Définir la valeur du paramètre
 
             stmt.setInt(1, quantity);
-            stmt.setInt(2, product_id);
+            stmt.setInt(2, ordernum);
             return stmt.executeUpdate();
 
         } catch (SQLException ex) {

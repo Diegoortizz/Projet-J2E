@@ -125,6 +125,14 @@ public class DAOTest {
    }
    
     @Test
+    public void updateProductTest() throws SQLException{
+        Product p = myDAO.findProduct(1);
+        assertEquals(p.getDescription(),"Accounting Application");
+        myDAO.updateProduct(1, 45.0, 10, 20.0, "Computer");
+        Product p2 = myDAO.findProduct(1);
+        assertEquals(p2.getDescription(),"Computer");
+    }
+    @Test
     public void deleteProductTest() throws SQLException, Exception{
         myDAO.insertProduct(45, 666, "SW", 5.5, 20, 5.5, true, "Description en cours");
         myDAO.deleteProduct(45);
@@ -268,6 +276,14 @@ public class DAOTest {
         assertEquals(c2,c+1);
     }
     
+    @Test
+    public void updateOrderTest() throws Exception{
+        Order o = myDAO.findOrder(22112018);
+        assertEquals(o.getQuantity(),1);
+        myDAO.updateOrder(22112018, 10);
+        Order o2 = myDAO.findOrder(22112018);
+        assertEquals(o2.getQuantity(),10);
+    }
 
     @Test
     public void deleteOrderTest() throws Exception{
