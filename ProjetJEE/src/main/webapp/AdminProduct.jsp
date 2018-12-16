@@ -91,6 +91,10 @@
                 margin-bottom: 10px;
             }
             
+            #button:hover {
+                background: #109177;
+            }
+            
             p {
                 color: white;
             }
@@ -141,7 +145,7 @@
                 w.document.write("<body>");
                 w.document.write("<h1>Vous pouvez modifier le produit "+Product_ID+"</h1>");
                 
-                w.document.write("<form id='codeForm' onsubmit='event.preventDefault(); UpdateProduct()';>");
+                w.document.write("<form id='codeForm' action='event.preventDefault(); UpdateProduct()';>");
                     w.document.write("<input type='hidden' name='Product_ID' value=Product_ID>");
                     w.document.write("<p>Prix : "+Purchase_Cost+"</p>");
                         w.document.write("<input type='text' name='Purchase_Cost' id='Purchase_Cost'>");
@@ -218,7 +222,6 @@
 
             <form method="POST">
                 <input id="button" type="SUBMIT" name="action" value="Accéder aux statistiques">
-                <input id="button" type="SUBMIT" name="action" value="Ajouter un nouveau produit">
                 <input id="button" type="SUBMIT" name="action" value="Deconnexion">
             </form> 
             

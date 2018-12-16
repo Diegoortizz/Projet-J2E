@@ -324,6 +324,11 @@
                 </div>
         </form>
     </div>
+            
+    <form method="POST">
+        <input type="SUBMIT" name="action" value="Vos commandes">
+        <input type="SUBMIT" name="action" value="Deconnexion">
+    </form> 
 
 
 </body>

@@ -277,8 +277,8 @@
 
 
             <form method="POST">
-                <input type="SUBMIT" name="action" value="Deconnexion">
                 <input type="SUBMIT" name="action" value="Vos commandes">
+                <input type="SUBMIT" name="action" value="Deconnexion">
             </form> 
         </div>
     </body>
