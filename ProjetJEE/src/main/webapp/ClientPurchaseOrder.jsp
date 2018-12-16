@@ -11,10 +11,40 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.min.js"></script>
         
         <style>
+            
+            #main {
+                background: white;
+                margin: 0 auto;
+                padding: 60px;
+                max-width: 1000px;
+            }
+            
+            h1 {
+                color: #1abc9c;
+                font-family: 'Helvetica Neue', Helvetica, Arial;
+            }
+            
+            h2 {
+                color: #1abc9c;
+                font-family: 'Helvetica Neue', Helvetica, Arial;
+            }
+            
+            body {
+                font-family: 'Helvetica Neue', Helvetica, Arial;
+                font-size: 14px;
+                line-height: 20px;
+                font-weight: 400;
+                color: #3b3b3b;
+                -webkit-font-smoothing: antialiased;
+                font-smoothing: antialiased;
+                background: grey;
+            }
+
             #StyleTable {
                 font-family: 'Roboto', sans-serif;
-                border-collapse: collapse;
                 width: 100%;
+                margin: 0 0 40px 0;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.2);
             }
 
             #StyleTable td, #StyleTable th {
@@ -32,9 +62,39 @@
                 padding-top: 12px;
                 padding-bottom: 12px;
                 text-align: left;
-                background-color: #4CAF50;
+                background-color: #1abc9c;
                 color: white;
             }
+            
+            #codeForm {
+                width: 450px;
+                font-size: 16px;
+                background: #1abc9c;
+                margin: 10px auto;
+                padding: 30px 30px 15px 30px;
+                border: 5px solid #53687E;
+            }
+            
+            #button {
+                position: relative;
+                display: block;
+                padding: 19px 39px 18px 39px;
+                color: #FFF;
+                margin: 0 auto;
+                background: #1abc9c;
+                font-size: 18px;
+                text-align: center;
+                font-style: normal;
+                width: 100%;
+                border: 1px solid #16a085;
+                border-width: 1px 1px 3px;
+                margin-bottom: 10px;
+            }
+            
+            p {
+                color: white;
+            }
+            
         </style>
         
         <script>
@@ -42,6 +102,7 @@
             $(document).ready(
                     function () {
                         showCodesPO();
+                        showCodesP()
                     }
             );
 
@@ -124,19 +185,32 @@
     </head>
 
     <body>
-
-        <h1>Voici vos commandes, ${sessionScope.name}</h1>
-
-        <div id="affPO"></div>
         
-        <form id="codeForm" onsubmit="event.preventDefault(); modifCode();">
-            Numero de commande : <input id="order_num" name="order_num">
-            Quantite : <input id="quantity" name="quantity">
-            <input type="submit" value="Modifier">
-        </form>  
+        <div id="main">
+            
+            <br>
+
+            <h1>Voici vos commandes, ${sessionScope.name}</h1>
+
+            <div id="affPO"></div>
         
-        <a href='#' onclick='showCodesP()'>Passer une nouvelle commande</a>
-        <div id="affP"></div>
+            <form id="codeForm" onsubmit="event.preventDefault(); modifCode();">
+                <span><p>Numero de commande :</p></span><input id="order_num" name="order_num">
+                <span><p>Quantite :</p></span><input id="quantity" name="quantity">
+                <br>
+                <br>
+                <input type="submit" value="Modifier">
+            </form>  
+        
+            <h2>Passer une nouvelle commande</h2>
+            <div id="affP"></div>
+            
+            <form id="trans" method="POST">
+                <input id="button" type="SUBMIT" name="action" value="Vos informations">
+                <input id="button" type="SUBMIT" name="action" value="Deconnexion">
+            </form> 
+            
+        </div>
 
 
         <script id="codesTemplate1" type="text/template">
@@ -210,10 +284,6 @@
             
         </script>
 
-        <form method="POST">
-            <input type="SUBMIT" name="action" value="Deconnexion">
-            <input type="SUBMIT" name="action" value="Vos informations">
-        </form> 
     </body>
 
 </html>
