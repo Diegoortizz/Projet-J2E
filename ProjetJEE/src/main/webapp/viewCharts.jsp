@@ -6,6 +6,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <!-- On charge l'API Google -->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <script type="text/javascript">
         google.charts.load('current', {'packages': ['table']});
         google.charts.setOnLoadCallback(doAjax);
@@ -158,55 +159,171 @@
         }
 
     </script>
+
     <style type="text/css">
-        #guessForm {
+        .form-style-5{
+            max-width: 550px;
+            padding: 10px 20px;
+            margin: 10px auto;
+            padding: 20px;
+            background: #ccc;
+            border-radius: 8px;
             font-family: 'Roboto', sans-serif;
-            border-collapse: collapse;
+
+
+        }
+        .form-style-5 fieldset{
+            border: none;
+        }
+        .form-style-5 legend {
+            font-size: 1.4em;
+            margin-bottom: 10px;
+            margin-top: 35px;
+        }
+        .form-style-5 label {
+            display: block;
+            margin-bottom: 8px;
+        }
+        .form-style-5 input[type="text"],
+        .form-style-5 input[type="date"],
+        .form-style-5 input[type="datetime"],
+        .form-style-5 input[type="email"],
+        .form-style-5 input[type="number"],
+        .form-style-5 input[type="search"],
+        .form-style-5 input[type="time"],
+        .form-style-5 input[type="url"],
+        .form-style-5 textarea,
+        .form-style-5 select {
+            font-family: Georgia, 'Roboto', sans-serif;
+            background: rgba(255,255,255,.1);
+            border: none;
+            border-radius: 4px;
+            font-size: 15px;
+            margin: 0;
+            outline: 0;
+            padding: 10px;
             width: 100%;
-        }
-        body {
-            background: #DCDCDC;
-        }
-
-        th {
-            padding-top: 12px;
-            padding-bottom: 12px;
-            text-align: left;
-            background-color: #4CAF50;
-            color: white; 
+            box-sizing: border-box; 
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box; 
+            background-color: #e8eeef;
+            color:#8a97a0;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+            margin-bottom: 30px;
         }
 
+
+        .form-style-5 input[type="text"]:focus,
+        .form-style-5 input[type="date"]:focus,
+        .form-style-5 input[type="datetime"]:focus,
+        .form-style-5 input[type="email"]:focus,
+        .form-style-5 input[type="number"]:focus,
+        .form-style-5 input[type="search"]:focus,
+        .form-style-5 input[type="time"]:focus,
+        .form-style-5 input[type="url"]:focus,
+        .form-style-5 textarea:focus,
+        .form-style-5 select:focus{
+            background: #d2d9dd;
+        }
+        .form-style-5 select{
+            -webkit-appearance: menulist-button;
+            height:35px;
+        }
+        .form-style-5 .number {
+            background: #1abc9c;
+            color: #fff;
+            height: 30px;
+            width: 30px;
+            display: inline-block;
+            font-size: 0.8em;
+            margin-right: 4px;
+            line-height: 30px;
+            text-align: center;
+            text-shadow: 0 1px 0 rgba(255,255,255,0.2);
+            border-radius: 15px 15px 15px 0px;
+        }
+
+        .form-style-5 input[type="submit"],
+        .form-style-5 input[type="button"]
+        {
+            position: relative;
+            display: block;
+            padding: 19px 39px 18px 39px;
+            color: #FFF;
+            margin: 0 auto;
+            background: #1abc9c;
+            font-size: 18px;
+            text-align: center;
+            font-style: normal;
+            width: 100%;
+            border: 1px solid #16a085;
+            border-width: 1px 1px 3px;
+            margin-bottom: 10px;
+        }
+        .form-style-5 input[type="submit"]:hover,
+        .form-style-5 input[type="button"]:hover
+        {
+            background: #109177;
+        }
+
+        body{
+            background-color: #eee;
+            font-family: 'Roboto', sans-serif;
+        }
+        input:-moz-read-only { /* For Firefox */
+            background-color: yellow;
+        }
+
+        input:read-only {
+            background-color: yellow;
+        }
+
+        h1{
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .center, h1{
+            color: #1abc9c;
+            text-align: center;
+            padding-bottom: 25px;
+        }
 
     </style>
 </head>
 <body>
     <h1> Les statistiques </h1>
-    <form id="guessForm" method="POST" accept-charset="UTF-8" >
-        Date de début : 
-        <input type="date" id='debut' value="2010-05-06" name="debut">
-        Date de fin : 
-        <input type="date" id='fin' value="2018-05-06" name="fin">
-        <button type="button" onclick="allCharts()"> Vérifier </button>
-    </form>
 
+    <div class="center">
+        <form id="guessForm" method="POST" accept-charset="UTF-8" >
+            Date de début : 
+            <input type="date" id='debut' value="2010-05-06" name="debut">
+            Date de fin : 
+            <input type="date" id='fin' value="2018-05-06" name="fin">
+            <button type="button" onclick="allCharts()"> Vérifier </button>
+        </form>
+    </div>
 
     <!-- Les graphiques apparaît ici -->
-    <table border="2">
-        <TR>
 
-            <TH>Chiffres d'affaires des Clients</TH>
-            <th>Chiffres d'affaires par Etat</th>
-            <th>Chiffres d'affaires par catégorie de produits</th>
-        </TR>
-        <tr>
-            <TD><div id="table_div" style="width: 550px; height: 300px;"></div></td>
-            <td><div id="geochart-colors" style="width: 550px; height: 300px;"></div></td>
-            <td><div id="chart_div" style="width: 550px; height: 300px;"></div></td>
-        </tr>
-    </table>
+    <div class="form-style-5">
+        <form>
+            <div>
+                <legend style="margin-top:0px;"><span class="number">1</span>Chiffres d'affaires des Clients</legend>
+                <div>
+                    <div id="table_div" style="width: 550px; height: 300px;"></div>
+                </div>
+                <legend><span class="number">2</span>Chiffres d'affaires par Etat</legend>
+                <div>
+                    <div id="geochart-colors" style="width: 550px; height: 300px;"></div>
+                </div>
+                <legend><span class="number">3</span>Chiffres d'affaires par catégorie de produits</legend>
+                <div>
+                    <div id="chart_div" style="width: 550px; height: 300px;"></div>
+                </div>
+        </form>
+    </div>
 
-    <form method="POST">
-        <input type="SUBMIT" name="action" value="Vos Produits">
-        <input type="SUBMIT" name="action" value="Deconnexion">
-    </form> 
+
 </body>
