@@ -45,7 +45,7 @@ public class ApplicationListener implements ServletContextListener{
 
 		DAO dao = new DAO(DataSourceFactory.getDataSource());
 		try {
-			List<Discount> allCodes = dao.allCodes();
+			int allCodes = dao.numberCustomer();
 			Logger.getLogger("ProjetJEE").log(Level.INFO, "Database already exists");
 			result = true;
 		} catch (SQLException ex) {

@@ -54,7 +54,7 @@ public class ModifyInfosClient extends HttpServlet {
         DAO dao = new DAO(DataSourceFactory.getDataSource());
         Customer c = dao.Customer(email);
 //
-        dao.updateCustomerDgo(Integer.parseInt(id), name, adresse, city, state, telephone, email, Integer.parseInt(credit));
+        dao.updateCustomer(Integer.parseInt(id), name, adresse, city, state, telephone, email, Integer.parseInt(credit));
 //        System.out.println("-------------------------");
 //
 //        System.out.println("état du customer : " + " " + c.getState());

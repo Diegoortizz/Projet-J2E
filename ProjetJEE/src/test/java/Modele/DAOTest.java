@@ -58,13 +58,6 @@ public class DAOTest {
         Customer c = myDAO.Customer("apple@example.com");
         assertEquals("Apple",c.getName());
     }
-    
-    @Test
-    public void CustomerNameTest() throws SQLException {
-        String name = myDAO.nameOfCustomer(30);
-        assertEquals("IBM",name);
-    }
-    
     @Test
     public void NumberCustomerTest() throws SQLException {
         int n = myDAO.numberCustomer();
@@ -77,13 +70,10 @@ public class DAOTest {
         assertEquals(myDAO.numberCustomer(),email.size());
     }
     
-    @Test
-    public void UpdateNameTest() throws SQLException {
-        String name1 = myDAO.nameOfCustomer(10);
-        assertEquals("Apple",name1);
-        myDAO.updateName("Google", 10);
-        String name2 = myDAO.nameOfCustomer(10);
-        assertEquals("Google",name2);
+    @Test 
+    public void quantityByClientTest() throws Exception{
+        int c = myDAO.quantityByClient(30);
+        assertEquals(c,5);
     }
     
     @Test
@@ -91,18 +81,12 @@ public class DAOTest {
         List<Integer> id = myDAO.listCustomerID();
         assertEquals(myDAO.numberCustomer(),id.size());
     }
-    
     @Test
     public void NumberProductTest() throws SQLException {
         int n = myDAO.numberProduct();
         assertEquals(2,n);
     }
-    
-    @Test
-    public void NumberDiscountTest() throws SQLException {
-        int n = myDAO.numberDiscount();
-        assertEquals(2,n);
-    }
+   
     
     @Test
     public void findProductTest() throws SQLException{
@@ -138,26 +122,6 @@ public class DAOTest {
         myDAO.deleteProduct(45);
         assertEquals(myDAO.numberProduct(),2);
     }
-    
-    @Test
-    public void AllCodesTest() throws SQLException {
-        List<Discount> codes = myDAO.allCodes();
-        assertEquals(myDAO.numberDiscount(),codes.size());
-    }
-    
-    @Test
-    public void insertDiscountTest() throws Exception{
-        myDAO.addDiscount_Code("F", 45);
-        assertEquals(myDAO.numberDiscount(),3);
-    }
-    
-    @Test
-    public void deleteDiscountTest() throws Exception{
-        myDAO.addDiscount_Code("F", 45);
-        myDAO.deleteDiscount_Code("F");
-        assertEquals(myDAO.numberDiscount(),2);
-    }
-    
     @Test
     public void prodByClientTest() throws Exception{
         List<Order> l = myDAO.ProductByClient(10);
@@ -166,94 +130,38 @@ public class DAOTest {
         assertEquals(1,l.size());
     }
     
-    @Test 
-    public void costByClientTest() throws Exception{
-        double c = myDAO.costByClient(30);
-        assertEquals(13600*5, c,0.0);
-        
-    }
-    
-    @Test
-    public void updateAreaTest() throws Exception{
-        Customer c = myDAO.Customer("apple@example.com");
-        String address1 = c.getAddressLine1();
-        String address2 = c.getAddressLine2();
-        String city = c.getCity();
-        String State = c.getState();
-        assertEquals(address1,"1. Apple Park Way");
-        assertEquals(address2,"Apple Park");
-        assertEquals(city,"Cupertino");
-        assertEquals(State,"CA");
-        myDAO.updateArea(10,"Address 1","Address 2","Albi","FR");
-        Customer c2 = myDAO.Customer("apple@example.com");
-        String address1T = c2.getAddressLine1();
-        String address2T = c2.getAddressLine2();
-        String cityT = c2.getCity();
-        String StateT = c2.getState();
-        assertEquals(address1T,"Address 1");
-        assertEquals(address2T,"Address 2");
-        assertEquals(cityT,"Albi");
-        assertEquals(StateT,"FR");
-    }
-    
     @Test
     public void updateCustomerTest() throws Exception{
         Customer c = myDAO.Customer("apple@example.com");
         String name = c.getName();
-        String dc = c.getDiscoutCode();
-        int zip = c.getZip();
         String address1 = c.getAddressLine1();
-        String address2 = c.getAddressLine2();
         String city = c.getCity();
         String State = c.getState();
         String Phone = c.getPhone();
-        String Fax = c.getFax();
         String email = c.getEmail();
         int credit = c.getCreditLimit();
         assertEquals(name,"Apple");
-        assertEquals(dc,"N");
-        assertEquals(zip,95100);
         assertEquals(address1,"1. Apple Park Way");
-        assertEquals(address2,"Apple Park");
         assertEquals(city,"Cupertino");
         assertEquals(State,"CA");
         assertEquals(Phone,"305-555-0001");
-        
-        
-        assertEquals(Fax,"305-555-0011");
         assertEquals(email,"apple@example.com");
         assertEquals(credit,500);
 
-        myDAO.updateCustomer(10, "N", 95100, "Girafe", "adress1", "adress2", "City", "FR", "558-956-5854", "558-956-5855", "girafe@example.com", 500);
-        Customer c2 = myDAO.Customer("girafe@example.com");
+        myDAO.updateCustomer(10, "Girafe","adress1",  "City", "FR", "558-956-5854", "apple@example.com", 500);
+        Customer c2 = myDAO.Customer("apple@example.com");
         String nameT = c2.getName();
-        String dcT = c2.getDiscoutCode();
-        int zipT = c2.getZip();
         String address1T = c2.getAddressLine1();
-        String address2T = c2.getAddressLine2();
         String cityT = c2.getCity();
         String StateT = c2.getState();
         String PhoneT = c2.getPhone();
-        String FaxT = c2.getFax();
-        String emailT = c2.getEmail();
         int creditT = c2.getCreditLimit();
         assertEquals(nameT,"Girafe");
-        assertEquals(dcT,"N");
-        assertEquals(zipT,95100);
         assertEquals(address1T,"adress1");
-        assertEquals(address2T,"adress2");
         assertEquals(cityT,"City");
         assertEquals(StateT,"FR");
         assertEquals(PhoneT,"558-956-5854");
-        assertEquals(FaxT,"558-956-5855");
-        assertEquals(emailT,"girafe@example.com");
         assertEquals(creditT,500);
-    }
-    
-    @Test 
-    public void quantityByClientTest() throws Exception{
-        int c = myDAO.quantityByClient(30);
-        assertEquals(c,5);
     }
     
     @Test 

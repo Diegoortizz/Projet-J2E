@@ -47,118 +47,7 @@ public class DAO {
         }
         return c;
     }
-
-    public String nameOfCustomer(int id) throws SQLException {
-        String result = null;
-        String sql = "SELECT Name FROM Customer WHERE CUSTOMER_ID = ?";
-        try (Connection myConnection = myDataSource.getConnection();
-                PreparedStatement statement = myConnection.prepareStatement(sql)) {
-            statement.setInt(1, id); // On fixe le 1° paramètre de la requête
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    result = resultSet.getString("Name");
-                }
-            }
-        }
-        return result;
-    }
-
-    public int numberCustomer() throws SQLException {
-        int result = 0;
-        // Une requête SQL paramétrée
-        String sql = "SELECT COUNT(*) AS Number FROM Customer";
-        try (Connection connection = myDataSource.getConnection();
-                Statement stmt = connection.createStatement();
-                ResultSet rs = stmt.executeQuery(sql)) {
-            if (rs.next()) { // Tant qu'il y a des enregistrements
-                result = rs.getInt("NUMBER");
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
-            throw new SQLException(ex.getMessage());
-        }
-        return result;
-    }
-
-    public int updateName(String name, int id) throws SQLException {
-
-        // Une requête SQL paramétrée
-        String sql = "UPDATE CUSTOMER SET NAME=? WHERE CUSTOMER_ID=?";
-        try (Connection connection = myDataSource.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql)) {
-            // Définir la valeur du paramètre
-            stmt.setString(1, name);
-            stmt.setInt(2, id);
-
-            return stmt.executeUpdate();
-
-        } catch (SQLException ex) {
-            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
-            throw new SQLException(ex.getMessage());
-        }
-    }
-
-    public int updateArea(int id, String address1, String address2, String city, String State) throws SQLException {
-        String sql = "UPDATE CUSTOMER SET ADDRESSLINE1 = ?, ADDRESSLINE2 = ?, CITY = ?, STATE = ? WHERE CUSTOMER_ID=?";
-        try (Connection connection = myDataSource.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql)) {
-            // Définir la valeur du paramètre
-            stmt.setString(1, address1);
-            stmt.setString(2, address2);
-            stmt.setString(3, city);
-            stmt.setString(4, State);
-            stmt.setInt(5, id);
-
-            return stmt.executeUpdate();
-
-        } catch (SQLException ex) {
-            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
-            throw new SQLException(ex.getMessage());
-        }
-    }
-
-    public int updateCustomer(int id, String dc, int zip, String name, String address1, String address2, String city, String State, String Phone, String Fax, String Email, int credit) throws SQLException {
-        String sql = "UPDATE CUSTOMER SET DISCOUNT_CODE=?,ZIP=?,NAME=?, ADDRESSLINE1 = ?, ADDRESSLINE2 = ?, CITY = ?, STATE = ?, PHONE=?,FAX=?,EMAIL=?,CREDIT_LIMIT=? WHERE CUSTOMER_ID=?";
-        try (Connection connection = myDataSource.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql)) {
-            // Définir la valeur du paramètre
-            stmt.setString(1, dc);
-            stmt.setInt(2, zip);
-            stmt.setString(3, name);
-            stmt.setString(4, address1);
-            stmt.setString(5, address2);
-            stmt.setString(6, city);
-            stmt.setString(7, State);
-            stmt.setString(8, Phone);
-            stmt.setString(9, Fax);
-            stmt.setString(10, Email);
-            stmt.setInt(11, credit);
-            stmt.setInt(12, id);
-
-            return stmt.executeUpdate();
-
-        } catch (SQLException ex) {
-            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
-            throw new SQLException(ex.getMessage());
-        }
-    }
-
-    public List<String> allEmails() throws SQLException {
-        List<String> result = new LinkedList<>();
-        String sql = "SELECT EMAIL FROM Customer";
-        try (Connection connection = myDataSource.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql)) {
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                String email = rs.getString("EMAIL");
-
-                result.add(email);
-            }
-        }
-        return result;
-    }
-
+    
     public List<Integer> listCustomerID() throws SQLException {
         List<Integer> list = new LinkedList();
         String sql = "SELECT Customer_ID FROM Customer AS Liste";
@@ -202,6 +91,60 @@ public class DAO {
         }
         return res;
     }
+    
+    public List<String> allEmails() throws SQLException {
+        List<String> result = new LinkedList<>();
+        String sql = "SELECT EMAIL FROM Customer";
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                String email = rs.getString("EMAIL");
+
+                result.add(email);
+            }
+        }
+        return result;
+    }
+    
+    public int numberCustomer() throws SQLException {
+        int result = 0;
+        // Une requête SQL paramétrée
+        String sql = "SELECT COUNT(*) AS Number FROM Customer";
+        try (Connection connection = myDataSource.getConnection();
+                Statement stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next()) { // Tant qu'il y a des enregistrements
+                result = rs.getInt("NUMBER");
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
+            throw new SQLException(ex.getMessage());
+        }
+        return result;
+    }
+
+    public int updateCustomer(int id, String name, String address1, String city, String State, String Phone, String Email, int credit) throws SQLException {
+        String sql = "UPDATE CUSTOMER SET NAME=?, ADDRESSLINE1 = ?, CITY = ?, STATE = ?, PHONE=?,CREDIT_LIMIT=? WHERE EMAIL=?";
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            // Définir la valeur du paramètre
+            stmt.setString(1, name);
+            stmt.setString(2, address1);
+            stmt.setString(3, city);
+            stmt.setString(4, State);
+            stmt.setString(5, Phone);
+            stmt.setInt(6, credit);
+            stmt.setString(7, Email);
+
+            return stmt.executeUpdate();
+
+        } catch (SQLException ex) {
+            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
+            throw new SQLException(ex.getMessage());
+        }
+    }
 
     public List<Order> ProductByClient(int id) throws SQLException {
         List<Order> list = new LinkedList();
@@ -226,24 +169,6 @@ public class DAO {
     }
 
     //Requetes pour les produits
-    public int numberProduct() throws SQLException {
-        int result = 0;
-        // Une requête SQL paramétrée
-        String sql = "SELECT COUNT(*) AS Number FROM Product";
-        try (Connection connection = myDataSource.getConnection();
-                Statement stmt = connection.createStatement();
-                ResultSet rs = stmt.executeQuery(sql)) {
-            if (rs.next()) { // Tant qu'il y a des enregistrements
-                result = rs.getInt("NUMBER");
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
-            throw new SQLException(ex.getMessage());
-        }
-        return result;
-    }
-
     public List<Product> AllProduct() throws SQLException {
         List<Product> result = new LinkedList();
         // Une requête SQL paramétrée
@@ -261,6 +186,24 @@ public class DAO {
                         rs.getBoolean("AVAILABLE"),
                         rs.getString("Description"));
                 result.add(p);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
+            throw new SQLException(ex.getMessage());
+        }
+        return result;
+    }
+
+    public int numberProduct() throws SQLException {
+        int result = 0;
+        // Une requête SQL paramétrée
+        String sql = "SELECT COUNT(*) AS Number FROM Product";
+        try (Connection connection = myDataSource.getConnection();
+                Statement stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next()) { // Tant qu'il y a des enregistrements
+                result = rs.getInt("NUMBER");
             }
 
         } catch (SQLException ex) {
@@ -334,9 +277,7 @@ public class DAO {
             throw new SQLException(ex.getMessage());
         }
     }
-    
-    
-    
+
     public int deleteProduct(int id) throws Exception {
 
         // Une requête SQL paramétrée
@@ -361,14 +302,14 @@ public class DAO {
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                int id  = rs.getInt("MANUFACTURER_ID");
+                int id = rs.getInt("MANUFACTURER_ID");
 
                 result.add(id);
             }
         }
         return result;
     }
-    
+
     public List<String> allProd_Code() throws SQLException {
         List<String> result = new LinkedList<>();
         String sql = "SELECT PROD_CODE FROM PRODUCT_CODE";
@@ -376,106 +317,16 @@ public class DAO {
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                String code  = rs.getString("PROD_CODE");
+                String code = rs.getString("PROD_CODE");
 
                 result.add(code);
             }
         }
         return result;
     }
-    
-    //Méthodes pour les bons de commandes
-    public int numberDiscount() throws SQLException {
-        int result = 0;
-        // Une requête SQL paramétrée
-        String sql = "SELECT COUNT(*) AS Number FROM Discount_Code";
-        try (Connection connection = myDataSource.getConnection();
-                Statement stmt = connection.createStatement();
-                ResultSet rs = stmt.executeQuery(sql)) {
-            if (rs.next()) { // Tant qu'il y a des enregistrements
-                result = rs.getInt("NUMBER");
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
-            throw new SQLException(ex.getMessage());
-        }
-        return result;
-    }
-
-    public List<Discount> allCodes() throws SQLException {
-
-        List<Discount> result = new LinkedList<>();
-
-        String sql = "SELECT * FROM DISCOUNT_CODE ORDER BY DISCOUNT_CODE";
-        try (Connection connection = myDataSource.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql)) {
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                String id = rs.getString("DISCOUNT_CODE");
-                float rate = rs.getFloat("RATE");
-                Discount c = new Discount(id, rate);
-                result.add(c);
-            }
-        }
-        return result;
-    }
-
-    public int deleteDiscount_Code(String Code) throws Exception {
-
-        // Une requête SQL paramétrée
-        String sql = "DELETE FROM DISCOUNT_CODE AS AUX WHERE DISCOUNT_CODE= ?";
-        try (Connection connection = myDataSource.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql)) {
-            // Définir la valeur du paramètre
-            stmt.setString(1, Code);
-
-            return stmt.executeUpdate();
-
-        } catch (SQLException ex) {
-            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
-            throw new Exception(ex.getMessage());
-        }
-    }
-
-    public int updateDiscount_Code(String code, Float taux) throws Exception {
-
-        // Une requête SQL paramétrée
-        String sql = "UPDATE APP.DISCOUNT_CODE SET RATE = ? WHERE DISCOUNT_CODE = ?";
-        try (Connection connection = myDataSource.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql)) {
-            // Définir la valeur du paramètre
-            stmt.setFloat(1, taux);
-            stmt.setString(2, code);
-
-            return stmt.executeUpdate();
-
-        } catch (SQLException ex) {
-            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
-            throw new Exception(ex.getMessage());
-        }
-    }
-
-    public int addDiscount_Code(String Code, float Taux) throws Exception {
-
-        // Une requête SQL paramétrée
-        String sql = "INSERT INTO DISCOUNT_CODE VALUES (?,?)";
-        try (Connection connection = myDataSource.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql)) {
-            // Définir la valeur du paramètre
-            stmt.setString(1, Code);
-            stmt.setFloat(2, Taux);
-
-            return stmt.executeUpdate();
-
-        } catch (SQLException ex) {
-            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
-            throw new Exception(ex.getMessage());
-        }
-    }
 
     //Partie PURCHASE_ORDER
-    public Order findOrder(int ordernum) throws SQLException {
+     public Order findOrder(int ordernum) throws SQLException {
         Order result = null;
 
         String sql = "SELECT * FROM PURCHASE_ORDER WHERE ORDER_NUM = ?";
@@ -499,7 +350,24 @@ public class DAO {
         }
         return result;
     }
+    public int allOrder() throws SQLException {
 
+        int result = 0;
+
+        String sql = "SELECT COUNT(*) AS NUMBER FROM PURCHASE_ORDER";
+        try (Connection connection = myDataSource.getConnection();
+                Statement stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next()) { // Tant qu'il y a des enregistrements
+                result = rs.getInt("NUMBER");
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
+            throw new SQLException(ex.getMessage());
+        }
+        return result;
+    } 
     //c_id le customer ID doit déjà existé ainsi que le p_id qui est le product_ID
     public void insertOrder(int ordernum, int c_id, int p_id, int quantity, float shipping, String sale_d, String shipping_d, String Company) throws SQLException {
         // Une requête SQL paramétrée
@@ -551,25 +419,6 @@ public class DAO {
             Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
             throw new SQLException(ex.getMessage());
         }
-    }
-
-    public int allOrder() throws SQLException {
-
-        int result = 0;
-
-        String sql = "SELECT COUNT(*) AS NUMBER FROM PURCHASE_ORDER";
-        try (Connection connection = myDataSource.getConnection();
-                Statement stmt = connection.createStatement();
-                ResultSet rs = stmt.executeQuery(sql)) {
-            if (rs.next()) { // Tant qu'il y a des enregistrements
-                result = rs.getInt("NUMBER");
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
-            throw new SQLException(ex.getMessage());
-        }
-        return result;
     }
 
     public String ManbyProduct(int product) throws SQLException {
@@ -659,7 +508,8 @@ public class DAO {
             return result;
         }
     }
-        //Classer par ordre alphabétique des etats
+    //Classer par ordre alphabétique des etats
+
     public Map<String, Double> StateCA(String beg, String end) throws SQLException {
         Map<String, Double> result = new HashMap();
         // Une requête SQL paramétrée
@@ -685,7 +535,8 @@ public class DAO {
             return result;
         }
     }
-        //Classer par ordre alphabétique des description.
+    //Classer par ordre alphabétique des description.
+
     public Map<String, Double> ProductCA(String beg, String end) throws SQLException {
         Map<String, Double> result = new HashMap();
         // Une requête SQL paramétrée
@@ -711,27 +562,6 @@ public class DAO {
             return result;
         }
 
-    }
-
-    public int updateCustomerDgo(int id, String name, String address1, String city, String State, String Phone, String Email, int credit) throws SQLException {
-        String sql = "UPDATE CUSTOMER SET NAME=?, ADDRESSLINE1 = ?, CITY = ?, STATE = ?, PHONE=?,CREDIT_LIMIT=? WHERE EMAIL=?";
-        try (Connection connection = myDataSource.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql)) {
-            // Définir la valeur du paramètre
-            stmt.setString(1, name);
-            stmt.setString(2, address1);
-            stmt.setString(3, city);
-            stmt.setString(4, State);
-            stmt.setString(5, Phone);
-            stmt.setInt(6, credit);
-            stmt.setString(7, Email);
-
-            return stmt.executeUpdate();
-
-        } catch (SQLException ex) {
-            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
-            throw new SQLException(ex.getMessage());
-        }
     }
 
     public List<String> existingStates() throws DAOException {
