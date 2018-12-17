@@ -107,7 +107,9 @@
                 },
                 vAxis: {
                     title: 'Ventes en Euros'
-                }
+                },
+                height:290,
+                width:550,
             };
             var chart = new google.visualization.ColumnChart(
                     document.getElementById('chart_div'));
