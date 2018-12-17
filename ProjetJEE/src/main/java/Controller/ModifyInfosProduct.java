@@ -24,9 +24,9 @@ public class ModifyInfosProduct extends HttpServlet {
         DAO dao = new DAO(DataSourceFactory.getDataSource());
         
         int Product_ID = Integer.parseInt(request.getParameter("Product_ID"));
-        int Purchase_Cost = Integer.parseInt(request.getParameter("Purchase_Cost"));
+        float Purchase_Cost = Float.parseFloat(request.getParameter("Purchase_Cost"));
         int Quantity_on_hand = Integer.parseInt(request.getParameter("Quantity_on_hand"));
-        int markup = Integer.parseInt(request.getParameter("Quantity_on_hand"));
+        float markup = Float.parseFloat(request.getParameter("markup"));
         String Description = request.getParameter("Description");
         
         try {

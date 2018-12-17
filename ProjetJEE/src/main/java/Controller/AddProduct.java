@@ -28,8 +28,10 @@ public class AddProduct extends HttpServlet {
         String PRODUCT_CODE = request.getParameter("PRODUCT_CODE");
         float PURCHASE_COST = Float.parseFloat(request.getParameter("PURCHASE_COST"));
         int QUANTITY_ON_HAND = Integer.parseInt(request.getParameter("QUANTITY_ON_HAND"));
-        int MARKUP = Integer.parseInt(request.getParameter("MANUFACTURER_ID"));
+        float MARKUP = Float.parseFloat(request.getParameter("MARKUP"));
         String DESCRIPTION = request.getParameter("DESCRIPTION");
+        
+        System.out.println(PRODUCT_ID + " " + MANUFACTURER_ID + " " + PRODUCT_CODE + " " + PURCHASE_COST + " " + QUANTITY_ON_HAND + " " + MARKUP + " " + DESCRIPTION);
         
         try {
             dao.insertProduct(PRODUCT_ID, MANUFACTURER_ID, PRODUCT_CODE, PURCHASE_COST, QUANTITY_ON_HAND, MARKUP, true, DESCRIPTION);

@@ -137,31 +137,21 @@
                 return false;
             } 
             
-            function modifP(Product_ID,Manufacturer_ID,Product_Code,Purchase_Cost,Quantity_on_hand,markup,available,Description) {
-                
-                w = open("",'popup','width=600,height=500,toolbar=no,scrollbars=no,resizable=yes');
-                
-                w.document.write("<title>"+"Modifitation du produit "+Product_ID+"</title>");
-                w.document.write("<body>");
-                w.document.write("<h1>Vous pouvez modifier le produit "+Product_ID+"</h1>");
-                
-                w.document.write("<form id='codeForm' action='event.preventDefault(); UpdateProduct()';>");
-                    w.document.write("<input type='hidden' name='Product_ID' value=Product_ID>");
-                    w.document.write("<p>Prix : "+Purchase_Cost+"</p>");
-                        w.document.write("<input type='text' name='Purchase_Cost' id='Purchase_Cost'>");
-                    w.document.write("<p>Quantité disponible : "+Quantity_on_hand+"</p>");
-                        w.document.write("<input type='text' name='Quantity_on_hand' id='Quantity_on_hand'>");
-                    w.document.write("<p>Balisage : "+markup+"</p>");
-                        w.document.write("<input type='text' name='markup' id='markup'>");
-                    w.document.write("<p>Description : "+Description+"</p>");
-                        w.document.write("<input type='text' name='Description' id='Description'>");
-                    w.document.write("<br>");
-                    w.document.write("<br>");
-                    w.document.write("<input type='submit'>");
-                w.document.write("</form>");
-                
-                w.document.write("</body>");
-                w.document.close();  
+            function modifP(Product_ID) {
+               var Purchase_Cost = $('#'+Product_ID+'_Purchase_Cost').val();
+               var Quantity_on_hand = $('#'+Product_ID+'_Quantity_on_hand').val();
+               var markup = $('#'+Product_ID+'_markup').val();
+               var Description = $('#'+Product_ID+'_Description').val();
+               
+               $.ajax({
+                    url: "ModifyInfosProduct",
+                    data: {"Product_ID":Product_ID,"Purchase_Cost":Purchase_Cost,"Quantity_on_hand":Quantity_on_hand,"markup":markup,"Description":Description},
+                    success:
+                            function () {
+                                showCodesP();
+                            },
+                    error: showError
+                });
                 
             }
             
@@ -210,12 +200,34 @@
             <h2>Ajouter un nouveau produit</h2>
 
             <form id="codeForm" onsubmit="event.preventDefault(); addP();">
-                PRODUCT_ID : <input id="PRODUCT_ID" name="PRODUCT_ID"><br>
-                MANUFACTURER_ID : <input id="MANUFACTURER_ID" name="MANUFACTURER_ID"><br>
-                PRODUCT_CODE : <input id="PRODUCT_CODE" name="PRODUCT_CODE"><br>
-                PURCHASE_COST : <input id="PURCHASE_COST" name="PURCHASE_COST"><br>
-                QUANTITY_ON_HAND : <input id="QUANTITY_ON_HAND" name="QUANTITY_ON_HAND"><br>
-                MARKUP : <input id="MARKUP" name="MARKUP"><br>
+                PRODUCT_ID : <input id="PRODUCT_ID" name="PRODUCT_ID" type="number"><br>
+                MANUFACTURER_ID :
+                <select id="MANUFACTURER_ID" name="MANUFACTURER_ID">
+                    <option value="">--Choisissez le manufacturer--</option>
+                    <option value="19941212">19941212</option><option value="19948494">19948494</option><option value="19955564">19955564</option>
+                    <option value="19955565">19955565</option><option value="19955656">19955656</option><option value="19960022">19960022</option>
+                    <option value="19963322">19963322</option><option value="19963323">19963323</option><option value="19963324">19963324</option>
+                    <option value="19963325">19963325</option><option value="19965794">19965794</option><option value="19971233">19971233</option>
+                    <option value="19974892">19974892</option><option value="19977346">19977346</option><option value="19977347">19977347</option>
+                    <option value="19977348">19977348</option><option value="19977775">19977775</option><option value="19978451">19978451</option>
+                    <option value="19980198">19980198</option><option value="19982461">19982461</option><option value="19984681">19984681</option>
+                    <option value="19984682">19984682</option><option value="19984899">19984899</option><option value="19985590">19985590</option>
+                    <option value="19985678">19985678</option><option value="19986196">19986196</option><option value="19986542">19986542</option>
+                    <option value="19986982">19986982</option><option value="19987296">19987296</option><option value="19989719">19989719</option>
+                </select>
+                PRODUCT_CODE : 
+                <select id="PRODUCT_CODE" name="PRODUCT_CODE">
+                    <option value="">--Choisissez le code de produit--</option>
+                    <option value="BK">BK</option>
+                    <option value="CB">CB</option>
+                    <option value="FW">FW</option>
+                    <option value="HW">HW</option>
+                    <option value="MS">MS</option>
+                    <option value="SW">SW</option>
+                </select>
+                PURCHASE_COST : <input id="PURCHASE_COST" name="PURCHASE_COST" type="number" step="0.01"><br>
+                QUANTITY_ON_HAND : <input id="QUANTITY_ON_HAND" name="QUANTITY_ON_HAND" type="number"><br>
+                MARKUP : <input id="MARKUP" name="MARKUP" type="number" step="0.01"><br>
                 DESCRIPTION : <input id="DESCRIPTION" name="DESCRIPTION"><br>
                 <input type="submit" value="Ajouter">
             </form>
@@ -248,17 +260,15 @@
                         <td>{{Product_ID}}</td>
                         <td>{{Manufacturer_ID}}</td>
                         <td>{{Product_Code}}</td>
-                        <td>{{Purchase_Cost}}</td>
-                        <td>{{Quantity_on_hand}}</td>
-                        <td>{{markup}}</td>
+                        <td><input id="{{Product_ID}}_Purchase_Cost" type="number" value="{{Purchase_Cost}}"></td>
+                        <td><input id="{{Product_ID}}_Quantity_on_hand" type="number" value="{{Quantity_on_hand}}"></td>
+                        <td><input id="{{Product_ID}}_markup" type="number" value="{{markup}}"></td>
                         <td>{{available}}</td>
-                        <td>{{Description}}</td>
+                        <td><input id="{{Product_ID}}_Description" type="text" value="{{Description}}"></td>
                         <td>
                             <button onclick="deleteP('{{Product_ID}}')">Supprimer</button>
                             <form name="f_popup">
-                                <p><input type="button" value="Modifier" 
-                                onclick="modifP('{{Product_ID}}','{{Manufacturer_ID}}','{{Product_Code}}','{{Purchase_Cost}}',
-                                            '{{Quantity_on_hand}}','{{markup}}','{{available}}','{{Description}}')">
+                                <p><input type="button" value="Modifier" onclick="modifP('{{Product_ID}}')">
                             </form>
                         </td>
                     </tr>
