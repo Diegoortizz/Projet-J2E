@@ -70,27 +70,30 @@ public class LoginServlet extends HttpServlet {
             Customer c = null;
             try {
                 c = dao.Customer(log);
+                String email = c.getEmail();
+                String id = Integer.toString(c.getCustomerId());
+                session.setAttribute("id", c.getCustomerId());
+                session.setAttribute("name", c.getName());
+                session.setAttribute("email", c.getEmail());
+                session.setAttribute("adresse", c.getAddressLine1());
+                session.setAttribute("telephone", c.getPhone());
+                session.setAttribute("state", c.getState());
+                session.setAttribute("city", c.getCity());
+                session.setAttribute("credit", c.getCreditLimit());
+
+                if ((log == null ? email == null : log.equals(email)) && (mdp == null ? id == null : mdp.equals(id))) {
+                    request.setAttribute("correct", true);
+                    showView("client_side_view.jsp", request, response);
+                } else {
+                    request.setAttribute("correct", false);
+                }
             } catch (SQLException ex) {
                 Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (NullPointerException ex) {
+                showView("login_test.jsp", request, response);
+
             }
 
-            String email = c.getEmail();
-            String id = Integer.toString(c.getCustomerId());
-            session.setAttribute("id", c.getCustomerId());
-            session.setAttribute("name", c.getName());
-            session.setAttribute("email", c.getEmail());
-            session.setAttribute("adresse", c.getAddressLine1());
-            session.setAttribute("telephone", c.getPhone());
-            session.setAttribute("state", c.getState());
-            session.setAttribute("city", c.getCity());
-            session.setAttribute("credit", c.getCreditLimit());
-
-            if ((log == null ? email == null : log.equals(email)) && (mdp == null ? id == null : mdp.equals(id))) {
-                request.setAttribute("correct", true);
-                showView("client_side_view.jsp", request, response);
-            } else {
-                request.setAttribute("correct", false);
-            }
         }
     }
 
