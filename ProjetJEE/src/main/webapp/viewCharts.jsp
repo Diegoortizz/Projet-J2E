@@ -70,7 +70,7 @@
             chart.draw(data, options);
         }
 
-        // Afficher les ventes par client
+        // Afficher les ventes par Etat
         function ChartsState() {
             $.ajax({
                 url: "salesState",
@@ -125,7 +125,7 @@
             chart.draw(data, options);
         }
 
-        // Afficher les ventes par client
+        // Afficher les ventes par catégorie de produits
         function ChartsProducts() {
             $.ajax({
                 url: "salesProduct",
@@ -152,6 +152,7 @@
             alert("Erreur: " + status + " : " + message);
         }
 
+        //Fonctions qui appelle les 3 charts en même temps
         function allCharts() {
             ChartsCustomer();
             ChartsState();
