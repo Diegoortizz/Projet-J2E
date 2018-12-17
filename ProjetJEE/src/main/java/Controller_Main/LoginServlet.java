@@ -1,7 +1,7 @@
-package Controller;
+package Controller_Main;
 
 import Modele.DataSourceFactory;
-import Modele.Customer;
+import Object.Customer;
 import Modele.DAO;
 import java.io.IOException;
 import java.sql.SQLException;

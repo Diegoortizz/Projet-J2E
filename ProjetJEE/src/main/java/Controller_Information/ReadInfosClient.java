@@ -1,39 +1,45 @@
-package Controller;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Controller_Information;
 
-import Modele.Customer;
-import Modele.DAO;
-import Modele.DataSourceFactory;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ *
+ * @author Utilisateur
+ */
+@WebServlet(name = "ReadInfosClient", urlPatterns = {"/ReadInfosClient"})
+public class ReadInfosClient extends HttpServlet {
 
-public class ControllerTableClientTesting extends HttpServlet {
-
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
-        
-        DAO myDAO = new DAO(DataSourceFactory.getDataSource());
-        List<Customer> CustomerList = new LinkedList<>();
-        Customer c1 = myDAO.Customer("jumboeagle@example.com");
-        CustomerList.add(c1);
-        Customer c2 = myDAO.Customer("www.new.example.com");
-        CustomerList.add(c2);
-        Customer c3 = myDAO.Customer("www.wrencomp.example.com");
-        CustomerList.add(c3);
-        
-        request.setAttribute("CustomerList",CustomerList);
-        
-        request.getRequestDispatcher("TableClientTesting.jsp").forward(request, response);
-        
+            throws ServletException, IOException {
+
+        String mail = request.getParameter("email");
+        String id = request.getParameter("id");
+        String name = request.getParameter("name");
+        String adresse = request.getParameter("adresse");
+        String telephone = request.getParameter("telephone");
+        String state = request.getParameter("state");
+        String city = request.getParameter("city");
+        System.out.println("PUTE? " + mail + " " + id + " " + name + " " + adresse + " " + telephone + " " + state + " " + city + " ");
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -48,11 +54,7 @@ public class ControllerTableClientTesting extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(ControllerTableClientTesting.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -66,11 +68,7 @@ public class ControllerTableClientTesting extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(ControllerTableClientTesting.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**

@@ -1,4 +1,4 @@
-package Controller;
+package Controller_Charts;
 
 import Modele.DataSourceFactory;
 import Modele.DAO;
@@ -19,9 +19,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Matthias
  */
-@WebServlet(name = "salesCustomer", urlPatterns = {"/salesCustomer"})
-public class SalesByCustomer extends HttpServlet {
-
+@WebServlet(name = "salesState", urlPatterns = {"/salesState"})
+public class SalesByState extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -29,9 +28,9 @@ public class SalesByCustomer extends HttpServlet {
         Properties resultat = new Properties();
         String dateDebut = request.getParameter("debut");
         String dateFin = request.getParameter("fin");
-
+        
         try {
-            resultat.put("records", dao.CustomerCA(dateDebut, dateFin));
+            resultat.put("records", dao.StateCA(dateDebut, dateFin));
         } catch (SQLException ex) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             resultat.put("records", Collections.EMPTY_LIST);
@@ -46,7 +45,7 @@ public class SalesByCustomer extends HttpServlet {
         }
     }
 
-    @Override
+   @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);

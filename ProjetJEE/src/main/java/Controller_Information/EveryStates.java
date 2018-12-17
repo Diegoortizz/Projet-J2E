@@ -3,13 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Controller;
+package Controller_Information;
 
 import Modele.DataSourceFactory;
-import Modele.Customer;
 import Modele.DAO;
+import Modele.DAOException;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -17,14 +25,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Utilisateur
  */
-@WebServlet(name = "ModifyInfosClient", urlPatterns = {"/ModifyInfosClient"})
-public class ModifyInfosClient extends HttpServlet {
+@WebServlet(name = "EveryStates", urlPatterns = {"/EveryStates"})
+public class EveryStates extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,37 +43,28 @@ public class ModifyInfosClient extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
-
-        HttpSession session = request.getSession(false);
-
-        String id = request.getParameter("id");
-        String name = request.getParameter("name");
-        String telephone = request.getParameter("telephone");
-        String email = request.getParameter("email");
-        String adresse = request.getParameter("adresse");
-        String state = request.getParameter("state");
-        String city = request.getParameter("city");
-        String credit = request.getParameter("credit");
-
-        System.out.println(id + " " + name + " " + telephone + " " + email + " " + adresse + " " + state + " " + city + " " + credit);
+            throws ServletException, IOException {
 
         DAO dao = new DAO(DataSourceFactory.getDataSource());
-        Customer c = dao.Customer(email);
-//
-        dao.updateCustomer(Integer.parseInt(id), name, adresse, city, state, telephone, email, Integer.parseInt(credit));
-//        System.out.println("-------------------------");
-//
-//        System.out.println("état du customer : " + " " + c.getState());
-//
-//        session.setAttribute("id", id);
-//        session.setAttribute("name", name);
-//        session.setAttribute("telephone", telephone);
-//        session.setAttribute("email", email);
-//        session.setAttribute("adresse", adresse);
-//        session.setAttribute("state", state);
-//        session.setAttribute("city", city);
-//        session.setAttribute("credit", credit);
+        List<String> L = new ArrayList<>() ;
+        try {
+            L = dao.existingStates();
+        } catch (DAOException ex) {
+            Logger.getLogger(EveryStates.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        System.out.println(L);
+         Properties resultat = new Properties();
+        
+        resultat.put("records", L);
+        
+        try (PrintWriter out = response.getWriter()) {
+            response.setContentType("application/json;charset=UTF-8");
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            out.println(gson.toJson(resultat));
+        }
+        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -81,11 +79,7 @@ public class ModifyInfosClient extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(ModifyInfosClient.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -99,11 +93,7 @@ public class ModifyInfosClient extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(ModifyInfosClient.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**

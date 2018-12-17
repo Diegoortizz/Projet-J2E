@@ -1,4 +1,4 @@
-package Controller;
+package Controller_Charts;
 
 import Modele.DataSourceFactory;
 import Modele.DAO;

@@ -1,5 +1,8 @@
 package Modele;
 
+import Object.Customer;
+import Object.Order;
+import Object.Product;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

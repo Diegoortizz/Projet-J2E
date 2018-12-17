@@ -2,35 +2,35 @@
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <servlet>
         <servlet-name>Servlet1</servlet-name>
-        <servlet-class>Controller.LoginServlet</servlet-class>
+        <servlet-class>Controller_Main.LoginServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>InfoPurchaseOrder</servlet-name>
-        <servlet-class>Controller.InfoPurchaseOrder</servlet-class>
+        <servlet-class>Controller_PurchaseOrder.InfoPurchaseOrder</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>DeletePurchaseOrder</servlet-name>
-        <servlet-class>Controller.DeletePurchaseOrder</servlet-class>
+        <servlet-class>Controller_PurchaseOrder.DeletePurchaseOrder</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>InfoProduct</servlet-name>
-        <servlet-class>Controller.InfoProduct</servlet-class>
+        <servlet-class>Controller_Product.InfoProduct</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AddPurchaseOrderServlet</servlet-name>
-        <servlet-class>Controller.AddPurchaseOrderServlet</servlet-class>
+        <servlet-class>Controller_PurchaseOrder.AddPurchaseOrderServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SalesByCustomer</servlet-name>
-        <servlet-class>Controller.SalesByCustomer</servlet-class>
+        <servlet-class>Controller_Charts.SalesByCustomer</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SalesByState</servlet-name>
-        <servlet-class>Controller.SalesByState</servlet-class>
+        <servlet-class>Controller_Charts.SalesByState</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SalesByProduct</servlet-name>
-        <servlet-class>Controller.SalesByProduct</servlet-class>
+        <servlet-class>Controller_Charts.SalesByProduct</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ChartsServlet</servlet-name>

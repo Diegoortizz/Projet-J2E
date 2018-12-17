@@ -1,4 +1,4 @@
-package Controller;
+package Controller_PurchaseOrder;
 
 import Modele.DataSourceFactory;
 import Modele.DAO;
@@ -6,10 +6,7 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.Collections;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,25 +14,28 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-@WebServlet(name = "DeletePO_InJSON", urlPatterns = {"/deletePO"})
-public class DeletePurchaseOrder extends HttpServlet {
+@WebServlet(name = "ModifPurchaseOrder", urlPatterns = {"/modifPO"})
+public class ModifPurchaseOrder extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, Exception {
+            throws ServletException, IOException {
         
         DAO dao = new DAO(DataSourceFactory.getDataSource());
         Properties resultat = new Properties();
         
-        String id = request.getParameter("order_num");
+        int order_num = Integer.parseInt(request.getParameter("order_num"));
+        int quantity = Integer.parseInt(request.getParameter("quantity"));
+        
+        System.out.println(order_num + " " + quantity);
         
         try {
-            dao.deleteOrder(Integer.parseInt(id));
-        } catch (SQLException ex) {
+            dao.updateOrder(order_num,quantity);
+        } catch (NumberFormatException | SQLException ex) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            resultat.put("message",ex.getMessage());
-        }
-        
-        try (PrintWriter out = response.getWriter()) {
+            resultat.put("message", ex.getMessage());
+	}
+
+	try (PrintWriter out = response.getWriter()) {
             response.setContentType("application/json;charset=UTF-8");
             Gson gson = new Gson();
             out.println(gson.toJson(resultat));
@@ -55,11 +55,7 @@ public class DeletePurchaseOrder extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (Exception ex) {
-            Logger.getLogger(DeletePurchaseOrder.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -73,11 +69,7 @@ public class DeletePurchaseOrder extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (Exception ex) {
-            Logger.getLogger(DeletePurchaseOrder.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**

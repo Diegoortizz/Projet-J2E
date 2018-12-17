@@ -1,6 +1,9 @@
 package Modele;
 
 
+import Object.Customer;
+import Object.Order;
+import Object.Product;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;

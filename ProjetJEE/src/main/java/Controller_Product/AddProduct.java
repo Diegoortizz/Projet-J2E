@@ -1,48 +1,50 @@
-package Controller;
+package Controller_Product;
 
-import Modele.DataSourceFactory;
 import Modele.DAO;
+import Modele.DataSourceFactory;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.Collections;
 import java.util.Properties;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 
-@WebServlet(name = "InfoPO_InJSON", urlPatterns = {"/allPO"})
-public class InfoPurchaseOrder extends HttpServlet {
+@WebServlet(name = "AddProduct", urlPatterns = {"/AddP"})
+public class AddProduct extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        HttpSession session = request.getSession(false);
-        String email = (String) session.getAttribute("email");
-        
         DAO dao = new DAO(DataSourceFactory.getDataSource());
         Properties resultat = new Properties();
         
-        try {
-            int id = dao.Customer(email).getCustomerId();
-            resultat.put("records", dao.ProductByClient(id));
-        } catch (SQLException ex) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            resultat.put("records", Collections.EMPTY_LIST);
-            resultat.put("message", ex.getMessage());
-        }
+	int PRODUCT_ID = Integer.parseInt(request.getParameter("PRODUCT_ID"));
+        int MANUFACTURER_ID = Integer.parseInt(request.getParameter("MANUFACTURER_ID"));
+        String PRODUCT_CODE = request.getParameter("PRODUCT_CODE");
+        float PURCHASE_COST = Float.parseFloat(request.getParameter("PURCHASE_COST"));
+        int QUANTITY_ON_HAND = Integer.parseInt(request.getParameter("QUANTITY_ON_HAND"));
+        float MARKUP = Float.parseFloat(request.getParameter("MARKUP"));
+        String DESCRIPTION = request.getParameter("DESCRIPTION");
         
-        try (PrintWriter out = response.getWriter()) {
+        System.out.println(PRODUCT_ID + " " + MANUFACTURER_ID + " " + PRODUCT_CODE + " " + PURCHASE_COST + " " + QUANTITY_ON_HAND + " " + MARKUP + " " + DESCRIPTION);
+        
+        try {
+            dao.insertProduct(PRODUCT_ID, MANUFACTURER_ID, PRODUCT_CODE, PURCHASE_COST, QUANTITY_ON_HAND, MARKUP, true, DESCRIPTION);
+        } catch (NumberFormatException | SQLException ex) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            resultat.put("message", ex.getMessage());
+	}
+
+	try (PrintWriter out = response.getWriter()) {
             response.setContentType("application/json;charset=UTF-8");
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            Gson gson = new Gson();
             out.println(gson.toJson(resultat));
-        }
+	}
         
     }
 
