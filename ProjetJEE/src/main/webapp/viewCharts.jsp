@@ -10,7 +10,6 @@
     <script type="text/javascript">
         google.charts.load('current', {'packages': ['table']});
         google.charts.setOnLoadCallback(ChartsCustomer);
-
         function drawTable(dataArray) {
             var data = new google.visualization.DataTable(dataArray);
             data.addColumn('string', 'Name');
@@ -20,7 +19,6 @@
             }
 
             var table = new google.visualization.Table(document.getElementById('table_div'));
-
             table.draw(data, {showRowNumber: true, width: '100%', height: '100%'});
         }
 
@@ -35,7 +33,7 @@
                             // On reformate le résultat comme un tableau
                             var chartData = [];
                             // On met le descriptif des données
-                            chartData.push(["Client", "Ventes"]);
+                            chartData.push(["Client", "Ventes en €"]);
                             for (var client in result.records) {
                                 chartData.push([client, result.records[client]]);
                             }
@@ -53,10 +51,8 @@
             'mapsApiKey': 'AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY'
         });
         google.charts.setOnLoadCallback(ChartsState);
-
         function drawRegionsMap(dataArray) {
             var data = google.visualization.arrayToDataTable(dataArray);
-
             var options = {
                 region: 'US',
                 colorAxis: {colors: ['#00853f', 'black', '#e31b23']},
@@ -64,8 +60,9 @@
                 backgroundColor: '#81d4fa',
                 datalessRegionColor: '#f8bbd0',
                 defaultColor: '#f5f5f5',
+                height:290,
+                width:550,
             };
-
             var chart = new google.visualization.GeoChart(document.getElementById('geochart-colors'));
             chart.draw(data, options);
         }
@@ -81,7 +78,7 @@
                             // On reformate le résultat comme un tableau
                             var chartData = [];
                             // On met le descriptif des données
-                            chartData.push(["Etats", "Ventes"]);
+                            chartData.push(["Etats", "Ventes en € "]);
                             for (var client in result.records) {
                                 chartData.push([client, result.records[client]]);
                             }
@@ -94,13 +91,11 @@
 
         google.charts.load('current', {packages: ['corechart', 'bar']});
         google.charts.setOnLoadCallback(ChartsProducts);
-
         function drawBasic(dataArray) {
 
             var data = new google.visualization.DataTable(dataArray);
             data.addColumn('string', 'Produits');
             data.addColumn('number', 'Ventes');
-
             for (var i = 1; i < dataArray.length; i++) {
                 data.addRows([[dataArray[i][0], dataArray[i][1]]]);
             }
@@ -109,19 +104,13 @@
                 title: "Chiffre d'affaires par produits",
                 hAxis: {
                     title: 'Produits',
-                    viewWindow: {
-                        min: [7, 30, 0],
-                        max: [17, 30, 0]
-                    }
                 },
                 vAxis: {
                     title: 'Ventes en Euros'
                 }
             };
-
             var chart = new google.visualization.ColumnChart(
                     document.getElementById('chart_div'));
-
             chart.draw(data, options);
         }
 
@@ -136,7 +125,7 @@
                             // On reformate le résultat comme un tableau
                             var chartData = [];
                             // On met le descriptif des données
-                            chartData.push(["Produits", "Ventes"]);
+                            chartData.push(["Produits", "Ventes en €"]);
                             for (var client in result.records) {
                                 chartData.push([client, result.records[client]]);
                             }
@@ -157,6 +146,36 @@
             ChartsCustomer();
             ChartsState();
             ChartsProducts();
+        }
+
+        function CustoCA() {
+            if (document.getElementById('client').style.display == 'none') {
+                document.getElementById('client').style.display = 'block';
+                document.getElementById('etat').style.display = 'none';
+                document.getElementById('produit').style.display = 'none';
+            } else {
+                document.getElementById('client').style.display = 'none';
+            }
+        }
+
+        function StateCA() {
+            if (document.getElementById('etat').style.display == 'none') {
+                document.getElementById('etat').style.display = 'block';
+                document.getElementById('client').style.display = 'none';
+                document.getElementById('produit').style.display = 'none';
+            } else {
+                document.getElementById('etat').style.display = 'none';
+            }
+        }
+
+        function ProductCA() {
+            if (document.getElementById('produit').style.display == 'none') {
+                document.getElementById('produit').style.display = 'block';
+                document.getElementById('etat').style.display = 'none';
+                document.getElementById('client').style.display = 'none';
+            } else {
+                document.getElementById('produit').style.display = 'none';
+            }
         }
 
     </script>
@@ -213,8 +232,8 @@
             box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
             margin-bottom: 30px;
         }
-
-
+        
+        
         .form-style-5 input[type="text"]:focus,
         .form-style-5 input[type="date"]:focus,
         .form-style-5 input[type="datetime"]:focus,
@@ -262,12 +281,31 @@
             border-width: 1px 1px 3px;
             margin-bottom: 10px;
         }
+        
+        .form-style-5 button
+        {
+            position: relative;
+            display: inline-block;
+            padding: 19px 39px 18px 39px;
+            color: #FFF;
+            margin: 0 auto;
+            background: #1abc9c;
+            text-align: center;
+            font-style: normal;
+            width: 30%;
+            border: 1px solid #16a085;
+            border-width: 1px 1px 3px;
+            margin-bottom: 10px;
+        }
+        
         .form-style-5 input[type="submit"]:hover,
-        .form-style-5 input[type="button"]:hover
+        .form-style-5 input[type="button"]:hover,
+        .form-style-5 button
         {
             background: #109177;
         }
 
+        
         body{
             background-color: #eee;
             font-family: 'Roboto', sans-serif;
@@ -290,7 +328,7 @@
             text-align: center;
             padding-bottom: 25px;
         }
-
+        
     </style>
 </head>
 <body>
@@ -304,32 +342,49 @@
             <input type="date" id='fin' value="2018-05-06" name="fin">
             <button type="button" onclick="allCharts()"> Vérifier </button>
         </form>
+        <div class="form-style-5">
+            <h2>Quelle statistique voulez-vous sélectionner ?</h2>
+            <button type="button" onclick="CustoCA()"> Les clients </button>
+            <button type="button" onclick="StateCA()"> Les Etats </button>
+            <button type="button" onclick="ProductCA()"> Les Produits </button>
+        </div>
     </div>
 
     <!-- Les graphiques apparaît ici -->
 
     <div class="form-style-5">
+    <div>    
         <form>
-            <div>
-                <legend style="margin-top:0px;"><span class="number">1</span>Chiffres d'affaires des Clients</legend>
-                <div>
-                    <div id="table_div" style="width: 550px; height: 300px;"></div>
+            
+                
+                <div id="client" style="display:none;">
+                    <legend style="margin-top:0px;"><span class="number">1</span>Chiffres d'affaires des Clients</legend>
+                    <div>
+                        <div id="table_div" style="width: 550px; height: 284px;"></div>
+                    </div>
                 </div>
-                <legend><span class="number">2</span>Chiffres d'affaires par Etat</legend>
-                <div>
-                    <div id="geochart-colors" style="width: 550px; height: 300px;"></div>
+                
+                <div id="etat"  style="display:none;">
+                    <legend style="margin-top:0px;"><span class="number">1</span>Chiffres d'affaires par Etat</legend>
+                    <div>
+                        <div id="geochart-colors" style="width: 550px; height: 284px;"></div>
+                    </div>
                 </div>
-                <legend><span class="number">3</span>Chiffres d'affaires par catégorie de produits</legend>
-                <div>
-                    <div id="chart_div" style="width: 550px; height: 300px;"></div>
+                
+                <div id="produit" style="display:none;">
+                    <legend style="margin-top:0px;"><span class="number">1</span>Chiffres d'affaires par catégorie de produits</legend>
+                    <div>
+                        <div id="chart_div" style="width: 550px; height: 284px;"></div>
+                    </div>
                 </div>
         </form>
     </div>
-            
+         
+    
     <form method="POST">
         <input type="SUBMIT" name="action" value="Vos Produits">
         <input type="SUBMIT" name="action" value="Deconnexion">
     </form> 
-
+    </div>
 
 </body>

@@ -310,7 +310,7 @@ public class DAO {
         return result;
     }
 
-    public List<String> allProd_Code() throws SQLException {
+    public List<String> allProd_Code() {
         List<String> result = new LinkedList<>();
         String sql = "SELECT PROD_CODE FROM PRODUCT_CODE";
         try (Connection connection = myDataSource.getConnection();
@@ -321,6 +321,8 @@ public class DAO {
 
                 result.add(code);
             }
+        } catch (SQLException ex) {
+            Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
