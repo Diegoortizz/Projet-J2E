@@ -31,7 +31,7 @@ public class InfoPurchaseOrder extends HttpServlet {
         
         try {
             int id = dao.Customer(email).getCustomerId();
-            resultat.put("records", dao.ProductByClient(id));
+            resultat.put("records", dao.OrderByClient(id));
         } catch (SQLException ex) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             resultat.put("records", Collections.EMPTY_LIST);

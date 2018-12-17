@@ -127,7 +127,7 @@ public class DAOTest {
     }
     @Test
     public void prodByClientTest() throws Exception{
-        List<Order> l = myDAO.ProductByClient(10);
+        List<Order> l = myDAO.OrderByClient(10);
         int p = l.get(0).getProductID();
         assertEquals(1,p);
         assertEquals(1,l.size());

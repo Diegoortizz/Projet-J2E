@@ -60,7 +60,7 @@
                 backgroundColor: '#81d4fa',
                 datalessRegionColor: '#f8bbd0',
                 defaultColor: '#f5f5f5',
-                height:290,
+                height:300,
                 width:550,
             };
             var chart = new google.visualization.GeoChart(document.getElementById('geochart-colors'));
@@ -108,7 +108,7 @@
                 vAxis: {
                     title: 'Ventes en Euros'
                 },
-                height:290,
+                height:300,
                 width:550,
             };
             var chart = new google.visualization.ColumnChart(
@@ -149,7 +149,8 @@
             ChartsState();
             ChartsProducts();
         }
-
+        
+        //Fonction qui affiche/enlève la charts des clients
         function CustoCA() {
             if (document.getElementById('client').style.display == 'none') {
                 document.getElementById('client').style.display = 'block';
@@ -160,6 +161,7 @@
             }
         }
 
+        //Fonction qui affiche/enlève la charts des états
         function StateCA() {
             if (document.getElementById('etat').style.display == 'none') {
                 document.getElementById('etat').style.display = 'block';
@@ -170,6 +172,7 @@
             }
         }
 
+        //Fonction qui affiche/enlève la charts des produits
         function ProductCA() {
             if (document.getElementById('produit').style.display == 'none') {
                 document.getElementById('produit').style.display = 'block';
@@ -344,7 +347,7 @@
         </form>
         <div class="form-style-5">
             <h2>Quelle statistique voulez-vous sélectionner ?</h2>
-            <button type="button" onclick="CustoCA()"> Les clients </button>
+            <button type="button" onclick="CustoCA()"> Les Clients </button>
             <button type="button" onclick="StateCA()"> Les Etats </button>
             <button type="button" onclick="ProductCA()"> Les Produits </button>
         </div>
@@ -360,21 +363,21 @@
                 <div id="client" style="display:none;">
                     <legend style="margin-top:0px;"><span class="number">1</span>Chiffres d'affaires des Clients</legend>
                     <div>
-                        <div id="table_div" style="width: 550px; height: 284px;"></div>
+                        <div id="table_div" style="width: 550px; height: 300px;"></div>
                     </div>
                 </div>
                 
                 <div id="etat"  style="display:none;">
                     <legend style="margin-top:0px;"><span class="number">1</span>Chiffres d'affaires par Etat</legend>
                     <div>
-                        <div id="geochart-colors" style="width: 550px; height: 284px;"></div>
+                        <div id="geochart-colors" style="width: 550px; height: 300px;"></div>
                     </div>
                 </div>
                 
                 <div id="produit" style="display:none;">
-                    <legend style="margin-top:0px;"><span class="number">1</span>Chiffres d'affaires par catégorie de produits</legend>
+                    <legend style="margin-top:0px;"><span class="number">1</span>Chiffres d'affaires par Catégorie de Produits</legend>
                     <div>
-                        <div id="chart_div" style="width: 550px; height: 284px;"></div>
+                        <div id="chart_div" style="width: 550px; height: 300px;"></div>
                     </div>
                 </div>
         </form>
