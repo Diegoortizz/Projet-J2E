@@ -2,7 +2,7 @@
 
 Participants :
 
-ORTIZ Diégo (Diegoortizz)
+ORTIZ Diégo (Diegoortizz && Utilisateur authored and Utilisateur)
 CRY Pierre (crypi && pedago && Atractive)
 AMBROISE Matthias (Matt8198)
 
