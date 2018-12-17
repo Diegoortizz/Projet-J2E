@@ -23,9 +23,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
 /**
  *
- * @author Utilisateur
+ * @author Diego
  */
 @WebServlet(name = "EveryStates", urlPatterns = {"/EveryStates"})
 public class EveryStates extends HttpServlet {
@@ -50,7 +51,6 @@ public class EveryStates extends HttpServlet {
             Logger.getLogger(EveryStates.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        System.out.println(L);
          Properties resultat = new Properties();
         
         resultat.put("records", L);

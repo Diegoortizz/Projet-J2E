@@ -20,6 +20,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
 
+/**
+ *
+ * @author Diego
+ */
 @WebServlet(name = "AllPersoInfo", urlPatterns = {"/AllPersoInfo"})
 public class AllPersoInfo extends HttpServlet {
 

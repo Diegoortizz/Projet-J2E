@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Utilisateur
+ * @author Diego
  */
 @WebServlet(name = "ReadInfosClient", urlPatterns = {"/ReadInfosClient"})
 public class ReadInfosClient extends HttpServlet {

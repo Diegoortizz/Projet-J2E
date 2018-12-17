@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <servlet>
-        <servlet-name>Servlet1</servlet-name>
+        <servlet-name>app</servlet-name>
         <servlet-class>Controller_Main.LoginServlet</servlet-class>
     </servlet>
     <servlet>
@@ -37,8 +37,8 @@
         <servlet-class>Controller.ChartsServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>Servlet1</servlet-name>
-        <url-pattern>/Servlet1</url-pattern>
+        <servlet-name>app</servlet-name>
+        <url-pattern>/app</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>InfoPurchaseOrder</servlet-name>

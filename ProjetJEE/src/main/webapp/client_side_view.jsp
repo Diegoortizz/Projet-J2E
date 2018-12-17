@@ -1,7 +1,9 @@
+<%-- 
+    Document   : login_view
+    Author     : Diego
+--%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
-
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -12,14 +14,13 @@
 
         <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
 
-        <title>JSP Page</title>
+        <title>Page Client</title>
         <script>
 
             var selectedState;
 
             $(document).ready(
                     function () {
-
                         fillInput();
                         appendSelect();
                     }
@@ -274,7 +275,6 @@
                 </div>
                 <input type="submit" value="Modifier">
             </form>
-
 
             <form method="POST">
                 <input type="SUBMIT" name="action" value="Vos commandes">

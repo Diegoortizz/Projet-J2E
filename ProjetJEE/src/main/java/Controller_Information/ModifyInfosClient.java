@@ -6,7 +6,6 @@
 package Controller_Information;
 
 import Modele.DataSourceFactory;
-import Object.Customer;
 import Modele.DAO;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -17,28 +16,16 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author Utilisateur
+ * @author Diego
  */
 @WebServlet(name = "ModifyInfosClient", urlPatterns = {"/ModifyInfosClient"})
 public class ModifyInfosClient extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
-
-        HttpSession session = request.getSession(false);
 
         String id = request.getParameter("id");
         String name = request.getParameter("name");
@@ -49,24 +36,8 @@ public class ModifyInfosClient extends HttpServlet {
         String city = request.getParameter("city");
         String credit = request.getParameter("credit");
 
-        System.out.println(id + " " + name + " " + telephone + " " + email + " " + adresse + " " + state + " " + city + " " + credit);
-
         DAO dao = new DAO(DataSourceFactory.getDataSource());
-        Customer c = dao.Customer(email);
-//
         dao.updateCustomer(Integer.parseInt(id), name, adresse, city, state, telephone, email, Integer.parseInt(credit));
-//        System.out.println("-------------------------");
-//
-//        System.out.println("état du customer : " + " " + c.getState());
-//
-//        session.setAttribute("id", id);
-//        session.setAttribute("name", name);
-//        session.setAttribute("telephone", telephone);
-//        session.setAttribute("email", email);
-//        session.setAttribute("adresse", adresse);
-//        session.setAttribute("state", state);
-//        session.setAttribute("city", city);
-//        session.setAttribute("credit", credit);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
