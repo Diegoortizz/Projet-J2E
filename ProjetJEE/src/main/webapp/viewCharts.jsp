@@ -1,7 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <head>
-    <title>Chiffre d'affaire</title>
+    <title>Les Statistiques</title>
     <!-- On charge JQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <!-- On charge l'API Google -->
@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <script type="text/javascript">
         google.charts.load('current', {'packages': ['table']});
-        google.charts.setOnLoadCallback(doAjax);
+        google.charts.setOnLoadCallback(ChartsCustomer);
 
         function drawTable(dataArray) {
             var data = new google.visualization.DataTable(dataArray);
@@ -25,7 +25,7 @@
         }
 
         // Afficher les ventes par client
-        function doAjax() {
+        function ChartsCustomer() {
             $.ajax({
                 url: "salesCustomer",
                 data: $("#guessForm").serialize(),
@@ -52,7 +52,7 @@
             // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
             'mapsApiKey': 'AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY'
         });
-        google.charts.setOnLoadCallback(doAjax2);
+        google.charts.setOnLoadCallback(ChartsState);
 
         function drawRegionsMap(dataArray) {
             var data = google.visualization.arrayToDataTable(dataArray);
@@ -71,7 +71,7 @@
         }
 
         // Afficher les ventes par client
-        function doAjax2() {
+        function ChartsState() {
             $.ajax({
                 url: "salesState",
                 data: $("#guessForm").serialize(),
@@ -93,7 +93,7 @@
         }
 
         google.charts.load('current', {packages: ['corechart', 'bar']});
-        google.charts.setOnLoadCallback(doAjax3);
+        google.charts.setOnLoadCallback(ChartsProducts);
 
         function drawBasic(dataArray) {
 
@@ -126,7 +126,7 @@
         }
 
         // Afficher les ventes par client
-        function doAjax3() {
+        function ChartsProducts() {
             $.ajax({
                 url: "salesProduct",
                 data: $("#guessForm").serialize(),
@@ -153,9 +153,9 @@
         }
 
         function allCharts() {
-            doAjax();
-            doAjax2();
-            doAjax3();
+            ChartsCustomer();
+            ChartsState();
+            ChartsProducts();
         }
 
     </script>
