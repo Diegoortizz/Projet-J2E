@@ -37,7 +37,7 @@ public class ApplicationListener implements ServletContextListener{
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
        
     private boolean databaseExists() {
@@ -45,7 +45,7 @@ public class ApplicationListener implements ServletContextListener{
 
 		DAO dao = new DAO(DataSourceFactory.getDataSource());
 		try {
-			int allCodes = dao.numberCustomer();
+			int nbCusto = dao.numberCustomer();
 			Logger.getLogger("ProjetJEE").log(Level.INFO, "Database already exists");
 			result = true;
 		} catch (SQLException ex) {
