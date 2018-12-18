@@ -13,7 +13,19 @@
         <link rel="stylesheet" type="text/css" href="css/main.css">
         <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     </head>
+    <script>
 
+        function myFunction() {
+            var x = document.getElementById("myInput");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+
+
+    </script>
     <body>
         <div class="limiter">
             <div class="container-login100">
@@ -26,7 +38,7 @@
                             Adresse mail
                         </span>
                         <div class="wrap-input100 validate-input m-b-36" data-validate = "Username is required">
-                            <input class="input100" type="text" name="log" value="jumboeagle@example.com" >
+                            <input class="input100" type="text" name="log" >
                             <span class="focus-input100"></span>
                         </div>
                         <span class="txt1 p-b-11" style="color:white;">
@@ -36,13 +48,16 @@
                             <span class="btn-show-pass">
                                 <i class="fa fa-eye"></i>
                             </span>
-                            <input class="input100" type="password" name="mdp" value="1" >
+                            <input class="input100" type="password" name="mdp" id="myInput">
                             <span class="focus-input100"></span>
                         </div>
                         <div class="flex-sb-m w-full p-b-48">
                             <div>
-                                <a href="#" class="txt3">
-                                </a>
+                                <span class="txt3 p-b-11" style="color:white;">
+                                    Montrer le mot de passe
+                                    <input type="checkbox" onclick="myFunction()">
+                                </span>
+
                             </div>
                         </div>
                         <div class="container-login100-form-btn">

@@ -5,8 +5,6 @@ import Object.Customer;
 import Modele.DAO;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -80,7 +78,7 @@ public class LoginServlet extends HttpServlet {
                 session.setAttribute("state", c.getState());
                 session.setAttribute("city", c.getCity());
                 session.setAttribute("credit", c.getCreditLimit());
-
+                
                 if ((log == null ? email == null : log.equals(email)) && (mdp == null ? id == null : mdp.equals(id))) {
                     request.setAttribute("correct", true);
                     showView("client_side_view.jsp", request, response);
