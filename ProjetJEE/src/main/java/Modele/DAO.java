@@ -129,12 +129,12 @@ public class DAO {
     }
 
     //Requête qui met à jour une commande
-    public int updateOrder(int ordernum, int quantity, float price) throws SQLException {
+    public int updateOrder(int ordernum, int quantity, double price) throws SQLException {
         String sql = "UPDATE PURCHASE_ORDER SET QUANTITY=?, SHIPPING_COST = ? WHERE ORDER_NUM=?";
         try (Connection connection = myDataSource.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, quantity);
-            stmt.setFloat(2, price);
+            stmt.setDouble(2, price);
             stmt.setInt(3, ordernum);
             return stmt.executeUpdate();
 
@@ -144,6 +144,7 @@ public class DAO {
         }
     }
     
+    //Requête qui récupère le prix d'une commande
     public float Po_Price(int ordernum) throws SQLException {
         float result = 0;
         String sql = "SELECT SHIPPING_COST AS COST FROM PURCHASE_ORDER WHERE ORDER_NUM=?";
