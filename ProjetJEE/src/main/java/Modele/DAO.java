@@ -25,9 +25,7 @@ public class DAO {
     }
 
     //CLIENT
-    
     //Partie Login Client
-    
     //Requête permettant de retrouver les infos d'un client via son email
     public Customer Customer(String email) throws SQLException {
         Customer c = null;
@@ -70,15 +68,11 @@ public class DAO {
             stmt.setString(7, Email);
 
             return stmt.executeUpdate();
-
-        } catch (SQLException ex) {
-            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
-            throw new SQLException(ex.getMessage());
         }
     }
 
-     //Requête renvoyant une liste de tous les états
-    public List<String> existingStates() throws DAOException {
+    //Requête renvoyant une liste de tous les états
+    public List<String> existingStates() throws Exception {
         List<String> result = new LinkedList<>();
         String sql = "SELECT DISTINCT STATE FROM CUSTOMER";
         try (Connection connection = myDataSource.getConnection();
@@ -89,14 +83,12 @@ public class DAO {
                 result.add(state);
             }
         } catch (SQLException e) {
-            throw new DAOException(e.getMessage());
+            throw new Exception(e.getMessage());
         }
         return result;
     }
-    
-    
+
     //Partie Commande
-    
     //Requête qui insère une commande
     //c_id le customer ID doit déjà existé ainsi que le p_id qui est le product_ID
     public void insertOrder(int ordernum, int c_id, int p_id, int quantity, float shipping, String sale_d, String shipping_d, String Company) throws SQLException {
@@ -114,7 +106,7 @@ public class DAO {
             stmt.executeUpdate();
         }
     }
-    
+
     //Requête qui supprimer une commande
     public int deleteOrder(int ordernum) throws Exception {
         String sql = "DELETE FROM PURCHASE_ORDER WHERE ORDER_NUM=?";
@@ -138,12 +130,9 @@ public class DAO {
             stmt.setInt(3, ordernum);
             return stmt.executeUpdate();
 
-        } catch (SQLException ex) {
-            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
-            throw new SQLException(ex.getMessage());
         }
     }
-    
+
     //Requête qui récupère le prix d'une commande
     public float Po_Price(int ordernum) throws SQLException {
         float result = 0;
@@ -157,22 +146,17 @@ public class DAO {
                 }
             }
 
-        } catch (SQLException ex) {
-            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
-            throw new SQLException(ex.getMessage());
         }
         return result;
     }
-    
-    
-    
+
     //Requête qui renvoie les commandes par clients
     public List<Order> OrderByClient(int id) throws SQLException {
         List<Order> list = new LinkedList();
         String sql = "SELECT * FROM Purchase_Order WHERE Customer_ID=?";
         try (Connection myConnection = myDataSource.getConnection();
                 PreparedStatement statement = myConnection.prepareStatement(sql)) {
-            statement.setInt(1, id); 
+            statement.setInt(1, id);
             try (ResultSet rs = statement.executeQuery()) {
                 while (rs.next()) {
                     int ordernum = rs.getInt("ORDER_NUM");
@@ -188,12 +172,9 @@ public class DAO {
         }
         return list;
     }
-    
-    
-    //ADMINISTRATEUR
-    
-    //Partie Produit
 
+    //ADMINISTRATEUR
+    //Partie Produit
     //Requête qui permet d'insérer un produit
     //Faut que le man_id soit dans MANUFACTURER et que le code soit dans PRODUCT_CODE
     public void insertProduct(int id, int man_id, String code, double Purchase, int quantity, double markup, boolean available, String Description) throws SQLException {
@@ -223,9 +204,6 @@ public class DAO {
             stmt.setString(4, desc);
             stmt.setInt(5, id);
             return stmt.executeUpdate();
-        } catch (SQLException ex) {
-            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
-            throw new SQLException(ex.getMessage());
         }
     }
 
@@ -273,8 +251,7 @@ public class DAO {
         }
         return result;
     }
-    
-    
+
     //Requête qui renvoie le manufacturer pour un produit donnée
     public String ManbyProduct(int product) throws SQLException {
         String result = null;
@@ -300,7 +277,7 @@ public class DAO {
         String sql = "SELECT PURCHASE_COST AS COST FROM PRODUCT WHERE PRODUCT_ID = ?";
         try (Connection myConnection = myDataSource.getConnection();
                 PreparedStatement statement = myConnection.prepareStatement(sql)) {
-            statement.setInt(1, product); 
+            statement.setInt(1, product);
             try (ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {
                     result = rs.getInt("COST");
@@ -309,7 +286,7 @@ public class DAO {
         }
         return result;
     }
-    
+
     //Requete qui donne le numéro maximale de l'OrderNum d'une commande
     public int maxOrderNum() throws SQLException {
         int result = 0;
@@ -317,20 +294,14 @@ public class DAO {
         try (Connection connection = myDataSource.getConnection();
                 Statement stmt = connection.createStatement();
                 ResultSet rs = stmt.executeQuery(sql)) {
-            if (rs.next()) { 
+            if (rs.next()) {
                 result = rs.getInt("MAXI");
             }
-        } catch (SQLException ex) {
-            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
-            throw new SQLException(ex.getMessage());
         }
         return result;
     }
-    
-    
-    
+
     //PARTIE CHARTS 
-    
     //Requête qui renvoie le chiffre d'affaire par clients
     //Classer par ordre alphabétique des noms des clients
     public Map<String, Double> CustomerCA(String beg, String end) throws SQLException {
@@ -345,17 +316,14 @@ public class DAO {
             statement.setString(1, beg);
             statement.setString(2, end);
             try (ResultSet rs = statement.executeQuery()) {
-                while (rs.next()) { 
+                while (rs.next()) {
                     result.put(rs.getString("NAME"), rs.getDouble("COUT"));
                 }
-            } catch (SQLException ex) {
-                Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
-                throw new SQLException(ex.getMessage());
             }
             return result;
         }
     }
-    
+
     //Requête qui renvoie le chiffre d'affaire par états
     //Classer par ordre alphabétique des etats
     public Map<String, Double> StateCA(String beg, String end) throws SQLException {
@@ -372,14 +340,11 @@ public class DAO {
                 while (rs.next()) {
                     result.put(rs.getString("STATE"), rs.getDouble("COUT"));
                 }
-            } catch (SQLException ex) {
-                Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
-                throw new SQLException(ex.getMessage());
             }
             return result;
         }
     }
-    
+
     //Requête qui renvoie le chiffre d'affaire par catégorie de produits
     //Classer par ordre alphabétique des description.
     public Map<String, Double> ProductCA(String beg, String end) throws SQLException {
@@ -393,30 +358,23 @@ public class DAO {
             statement.setString(1, beg);
             statement.setString(2, end);
             try (ResultSet rs = statement.executeQuery()) {
-                while (rs.next()) { 
+                while (rs.next()) {
                     result.put(rs.getString("DESCRIPTION"), rs.getDouble("COUT"));
                 }
-            } catch (SQLException ex) {
-                Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
-                throw new SQLException(ex.getMessage());
             }
             return result;
         }
     }
-    
-   
-    
-    
+
     //REQUETES PAS UTILISE DANS L'APPLICATION MAIS LAISSE ICI POUR 
     //MONTRER LES RECHERCHES...
-    
     //Requête permettant d'envoyer les informations sur une commande
     public Order findOrder(int ordernum) throws SQLException {
         Order result = null;
         String sql = "SELECT * FROM PURCHASE_ORDER WHERE ORDER_NUM = ?";
         try (Connection myConnection = myDataSource.getConnection();
                 PreparedStatement statement = myConnection.prepareStatement(sql)) {
-            statement.setInt(1, ordernum); 
+            statement.setInt(1, ordernum);
             try (ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {
                     int c_id = rs.getInt("CUSTOMER_ID");
@@ -431,7 +389,7 @@ public class DAO {
         }
         return result;
     }
-    
+
     //Requête qui renvoie le nombre de commandes
     public int allOrder() throws SQLException {
         int result = 0;
@@ -442,13 +400,10 @@ public class DAO {
             if (rs.next()) { // Tant qu'il y a des enregistrements
                 result = rs.getInt("NUMBER");
             }
-        } catch (SQLException ex) {
-            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
-            throw new SQLException(ex.getMessage());
         }
         return result;
-    } 
-    
+    }
+
     //Requête récupérant tout les ID des Customer
     public List<Integer> listCustomerID() throws SQLException {
         List<Integer> list = new LinkedList();
@@ -495,7 +450,7 @@ public class DAO {
         }
         return res;
     }
-    
+
     //Requête récupérant toutes les adresses mails des clients
     public List<String> allEmails() throws SQLException {
         List<String> result = new LinkedList<>();
@@ -511,7 +466,7 @@ public class DAO {
         }
         return result;
     }
-    
+
     //Requête qui compte le nombre de clients
     public int numberCustomer() throws SQLException {
         int result = 0;
@@ -519,13 +474,10 @@ public class DAO {
         try (Connection connection = myDataSource.getConnection();
                 Statement stmt = connection.createStatement();
                 ResultSet rs = stmt.executeQuery(sql)) {
-            if (rs.next()) { 
+            if (rs.next()) {
                 result = rs.getInt("NUMBER");
             }
 
-        } catch (SQLException ex) {
-            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
-            throw new SQLException(ex.getMessage());
         }
         return result;
     }
@@ -548,9 +500,6 @@ public class DAO {
                         rs.getString("Description"));
                 result.add(p);
             }
-        } catch (SQLException ex) {
-            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
-            throw new SQLException(ex.getMessage());
         }
         return result;
     }
@@ -562,12 +511,9 @@ public class DAO {
         try (Connection connection = myDataSource.getConnection();
                 Statement stmt = connection.createStatement();
                 ResultSet rs = stmt.executeQuery(sql)) {
-            if (rs.next()) { 
+            if (rs.next()) {
                 result = rs.getInt("NUMBER");
             }
-        } catch (SQLException ex) {
-            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
-            throw new SQLException(ex.getMessage());
         }
         return result;
     }
@@ -578,7 +524,7 @@ public class DAO {
         String sql = "SELECT * FROM PRODUCT WHERE PRODUCT_ID = ?";
         try (Connection myConnection = myDataSource.getConnection();
                 PreparedStatement statement = myConnection.prepareStatement(sql)) {
-            statement.setInt(1, productId); 
+            statement.setInt(1, productId);
             try (ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {
                     result = new Product(productId,
