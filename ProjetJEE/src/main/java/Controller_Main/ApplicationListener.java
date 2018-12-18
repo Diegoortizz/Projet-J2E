@@ -7,12 +7,10 @@ package Controller_Main;
 
 import Modele.DataSourceFactory;
 import Modele.DAO;
-import Object.Discount;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletContextEvent;
