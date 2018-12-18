@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-@WebServlet(name = "DeleteProduct", urlPatterns = {"/deleteP"})
+@WebServlet(name = "DeleteP_InJSON", urlPatterns = {"/delP"})
 public class DeleteProduct extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)

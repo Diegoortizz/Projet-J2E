@@ -15,8 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
 
-@WebServlet(name = "ModifyInfosProduct", urlPatterns = {"/ModifyInfosProduct"})
-public class ModifyInfosProduct extends HttpServlet {
+@WebServlet(name = "ModifP_InJSON", urlPatterns = {"/modifP"})
+public class ModifProduct extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -32,7 +32,7 @@ public class ModifyInfosProduct extends HttpServlet {
         try {
             dao.updateProduct(Product_ID, Purchase_Cost, Quantity_on_hand, markup, Description);
         } catch (SQLException ex) {
-            Logger.getLogger(ModifyInfosProduct.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ModifProduct.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }

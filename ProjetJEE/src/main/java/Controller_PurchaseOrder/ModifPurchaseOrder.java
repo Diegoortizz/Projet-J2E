@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-@WebServlet(name = "ModifPurchaseOrder", urlPatterns = {"/modifPO"})
+@WebServlet(name = "ModifPO_InJSON", urlPatterns = {"/modifPO"})
 public class ModifPurchaseOrder extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -25,11 +25,9 @@ public class ModifPurchaseOrder extends HttpServlet {
         
         int order_num = Integer.parseInt(request.getParameter("order_num"));
         int quantity = Integer.parseInt(request.getParameter("quantity"));
-        
-        System.out.println(order_num + " " + quantity);
-        
+                
         try {
-            dao.updateOrder(order_num,quantity);
+            dao.updateOrder(order_num,quantity, (float) dao.Po_Price(order_num)*quantity);
         } catch (NumberFormatException | SQLException ex) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             resultat.put("message", ex.getMessage());

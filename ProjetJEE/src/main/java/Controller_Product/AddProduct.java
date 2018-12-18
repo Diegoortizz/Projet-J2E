@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-@WebServlet(name = "AddProduct", urlPatterns = {"/AddP"})
+@WebServlet(name = "AddP_InJSON", urlPatterns = {"/addP"})
 public class AddProduct extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -30,8 +30,6 @@ public class AddProduct extends HttpServlet {
         int QUANTITY_ON_HAND = Integer.parseInt(request.getParameter("QUANTITY_ON_HAND"));
         float MARKUP = Float.parseFloat(request.getParameter("MARKUP"));
         String DESCRIPTION = request.getParameter("DESCRIPTION");
-        
-        System.out.println(PRODUCT_ID + " " + MANUFACTURER_ID + " " + PRODUCT_CODE + " " + PURCHASE_COST + " " + QUANTITY_ON_HAND + " " + MARKUP + " " + DESCRIPTION);
         
         try {
             dao.insertProduct(PRODUCT_ID, MANUFACTURER_ID, PRODUCT_CODE, PURCHASE_COST, QUANTITY_ON_HAND, MARKUP, true, DESCRIPTION);

@@ -13,8 +13,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
 @WebServlet(name = "AddPO_InJSON", urlPatterns = {"/addPO"})
-public class AddPurchaseOrderServlet extends HttpServlet {
+public class AddPurchaseOrder extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -24,9 +25,10 @@ public class AddPurchaseOrderServlet extends HttpServlet {
         
 	int Product_ID = Integer.parseInt(request.getParameter("Product_ID"));
         int id = Integer.parseInt(request.getParameter("id"));
+        int quantity = Integer.parseInt(request.getParameter("quantity"));
         
         try {
-            dao.insertOrder(dao.maxOrderNum()+1, id, Product_ID, 1, (float) dao.ProductPrice(Product_ID), "2018-11-29","2018-12-01",dao.ManbyProduct(Product_ID));
+            dao.insertOrder(dao.maxOrderNum()+1, id, Product_ID, quantity, (float) dao.ProductPrice(Product_ID) * quantity, "2018-11-29","2018-12-01",dao.ManbyProduct(Product_ID));
         } catch (NumberFormatException | SQLException ex) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             resultat.put("message", ex.getMessage());

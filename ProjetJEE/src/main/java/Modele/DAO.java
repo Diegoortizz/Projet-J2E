@@ -129,12 +129,13 @@ public class DAO {
     }
 
     //Requête qui met à jour une commande
-    public int updateOrder(int ordernum, int quantity) throws SQLException {
-        String sql = "UPDATE PURCHASE_ORDER SET QUANTITY=? WHERE ORDER_NUM=?";
+    public int updateOrder(int ordernum, int quantity, float price) throws SQLException {
+        String sql = "UPDATE PURCHASE_ORDER SET QUANTITY=?, SHIPPING_COST = ? WHERE ORDER_NUM=?";
         try (Connection connection = myDataSource.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, quantity);
-            stmt.setInt(2, ordernum);
+            stmt.setFloat(2, price);
+            stmt.setInt(3, ordernum);
             return stmt.executeUpdate();
 
         } catch (SQLException ex) {
@@ -142,6 +143,27 @@ public class DAO {
             throw new SQLException(ex.getMessage());
         }
     }
+    
+    public float Po_Price(int ordernum) throws SQLException {
+        float result = 0;
+        String sql = "SELECT SHIPPING_COST AS COST FROM PURCHASE_ORDER WHERE ORDER_NUM=?";
+        try (Connection myConnection = myDataSource.getConnection();
+                PreparedStatement statement = myConnection.prepareStatement(sql)) {
+            statement.setInt(1, ordernum);
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    result = rs.getFloat("COST");
+                }
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
+            throw new SQLException(ex.getMessage());
+        }
+        return result;
+    }
+    
+    
     
     //Requête qui renvoie les commandes par clients
     public List<Order> OrderByClient(int id) throws SQLException {

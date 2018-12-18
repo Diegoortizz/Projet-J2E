@@ -257,9 +257,12 @@
             }
 
             function addPO(Product_ID) {
+                
+                var quantity = $('#'+Product_ID+'_quantity').val();
+                
                 $.ajax({
                     url: "addPO",
-                    data: {"Product_ID": Product_ID, "id": '${sessionScope.id}'},
+                    data: {"Product_ID":Product_ID,"quantity":quantity,"id":'${sessionScope.id}'},
                     dataType: "json",
                     success:
                         function () {
@@ -268,9 +271,10 @@
                     error: showError
                 });
                 return false;
+                
             }
 
-            function deletePO(order_num) {
+            function delPO(order_num) {
                 $.ajax({
                     url: "delPO",
                     data: {"order_num": order_num},
@@ -362,7 +366,7 @@
                         <td>{{sales_date}}</td>
                         <td>{{shipping_date}}</td>
                         <th>
-                            <button onclick="deletePO('{{order_num}}')">Supprimer</button>
+                            <button onclick="delPO('{{order_num}}')">Supprimer</button>
                         </th>
                     </tr>
                 {{/records}}
@@ -399,6 +403,7 @@
                         <td>{{Description}}</td>
                         <th>
                             <button onclick="addPO('{{Product_ID}}')">Commander</button>
+                            <input id="{{Product_ID}}_quantity" type="number">
                         </th>
                     </tr>
                 {{/records}}

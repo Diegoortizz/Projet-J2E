@@ -187,14 +187,14 @@ public class DAOTest {
         assertEquals(c2,c+1);
     }
     
-    @Test
+    /*@Test
     public void updateOrderTest() throws Exception{
         Order o = myDAO.findOrder(22112018);
         assertEquals(o.getQuantity(),1);
         myDAO.updateOrder(22112018, 10);
         Order o2 = myDAO.findOrder(22112018);
         assertEquals(o2.getQuantity(),10);
-    }
+    }*/
 
     @Test
     public void deleteOrderTest() throws Exception{

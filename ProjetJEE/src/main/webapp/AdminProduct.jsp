@@ -238,9 +238,9 @@
                 document.getElementById('codeForm').style.display = 'block';
             }
             
-            function deleteP(Product_ID) {
+            function delP(Product_ID) {
                 $.ajax({
-                    url: "deleteP",
+                    url: "delP",
                     data: {"Product_ID": Product_ID},
                     dataType: "json",
                     success:
@@ -260,7 +260,7 @@
                 var Description = $('#'+Product_ID+'_Description').val();
                
                 $.ajax({
-                    url: "ModifyInfosProduct",
+                    url: "modifP",
                     data: {"Product_ID":Product_ID,"Purchase_Cost":Purchase_Cost,"Quantity_on_hand":Quantity_on_hand,"markup":markup,"Description":Description},
                     success:
                         function () {
@@ -271,21 +271,9 @@
                 
             }
             
-            function UpdateProduct() {
-                $.ajax({
-                    url: "ModifyInfosProduct",
-                    data: $("#codeForm").serialize(),
-                    success:
-                        function () {
-                            showCodesP();
-                        },
-                    error: showError
-                });
-            }
-            
             function addP() {
                 $.ajax({
-                    url: "AddP",
+                    url: "addP",
                     data: $("#codeForm").serialize(),
                     dataType: "json",
                     success:
@@ -385,7 +373,7 @@
                         <td>{{available}}</td>
                         <td><input id="{{Product_ID}}_Description" type="text" value="{{Description}}"></td>
                         <td>
-                            <button onclick="deleteP('{{Product_ID}}')">Supprimer</button>
+                            <button onclick="delP('{{Product_ID}}')">Supprimer</button>
                             <button onclick="modifP('{{Product_ID}}')">Modifier</button>
                         </td>
                     </tr>
